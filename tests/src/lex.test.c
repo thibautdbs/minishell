@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 20:38:34 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/04 21:42:29 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,51 @@ TEST ASSERT_TOKENS_MATCH(t_token const *ref, t_token const *mine)
 ////////////////////////////////////////////////////////////////////////////////
 /// TESTS
 
-TEST test_same_token_repetition()
+TEST	test_smiley_cochon()
+{
+	t_token	tok7 = {WORD, "O", NULL};
+	t_token	tok6 = {SPACES, " ", &tok7};
+	t_token	tok5 = {RIGHTPAR, ")", &tok6};
+	t_token	tok4 = {WORD, "oo", &tok5};
+	t_token	tok3 = {LEFTPAR, "(", &tok4};
+	t_token	tok2 = {SPACES, " ", &tok3};
+	t_token	tok1 = {WORD, "O", &tok2};
+
+	mine = my_lex("O (oo) O");
+	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok1, mine));
+	PASS();
+}
+
+TEST	test_two_distinct_alternate_token2()
+{
+	t_token	tok7 = {RIGHTPAR, ")", NULL};
+	t_token	tok6 = {RIGHTPAR, ")", &tok7};
+	t_token	tok5 = {LEFTAGBRACKET, "<", &tok6};
+	t_token	tok4 = {RIGHTPAR, ")", &tok5};
+	t_token	tok3 = {LEFTAGBRACKET, "<", &tok4};
+	t_token	tok2 = {RIGHTPAR, ")", &tok3};
+	t_token	tok1 = {LEFTAGBRACKET, "<", &tok2};
+
+	mine = my_lex("<)<)<))");
+	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok1, mine));
+	PASS();
+}
+
+TEST	test_two_distinct_alternate_token()
+{
+	t_token	tok6 = {WORD, "333", NULL};
+	t_token	tok5 = {SPACES, "   ", &tok6};
+	t_token	tok4 = {WORD, "22", &tok5};
+	t_token	tok3 = {SPACES, "  ", &tok4};
+	t_token	tok2 = {WORD, "1", &tok3};
+	t_token	tok1 = {SPACES, " ", &tok2};
+
+	mine = my_lex(" 1  22   333");
+	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok1, mine));
+	PASS();
+}
+
+TEST	test_same_token_repetition()
 {
 	t_token	tok5 = {RIGHTPAR, ")", NULL};
 	t_token	tok4 = {RIGHTPAR, ")", &tok5};
@@ -60,7 +104,7 @@ TEST test_same_token_repetition()
 	PASS();
 }
 
-TEST test_all_token_types()
+TEST	test_all_token_types()
 {
 	t_token	tok10 = {WORD, "ya5spacesjusteavant", NULL};
 	t_token	tok9 = {SPACES, "     ", &tok10};
@@ -83,5 +127,7 @@ SUITE (lex)
 	SET_TEARDOWN(teardown, NULL);
 	RUN_TEST(test_all_token_types);
 	RUN_TEST(test_same_token_repetition);
-//	RUN_TEST(test_two_distinct_alternate_token);
+	RUN_TEST(test_two_distinct_alternate_token);
+	RUN_TEST(test_two_distinct_alternate_token2);
+	RUN_TEST(test_smiley_cochon);
 }

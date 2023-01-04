@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 19:47:16 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/04 20:38:34 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,33 @@ TEST ASSERT_TOKENS_MATCH(t_token const *ref, t_token const *mine)
 ////////////////////////////////////////////////////////////////////////////////
 /// TESTS
 
-TEST basic1()
+TEST test_same_token_repetition()
 {
 	t_token	tok5 = {RIGHTPAR, ")", NULL};
-	t_token	tok4 = {LEFTPAR, "(", &tok5};
-	t_token	tok3 = {AND, "&", &tok4};
-	t_token	tok2 = {PIPE, "|", &tok3};
-	t_token	tok1 = {WORD, "bzzz", &tok2};
+	t_token	tok4 = {RIGHTPAR, ")", &tok5};
+	t_token	tok3 = {RIGHTPAR, ")", &tok4};
+	t_token	tok2 = {RIGHTPAR, ")", &tok3};
+	t_token	tok1 = {RIGHTPAR, ")", &tok2};
 
-	mine = my_lex("bzzz|&()");
+	mine = my_lex(")))))");
+	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok1, mine));
+	PASS();
+}
+
+TEST test_all_token_types()
+{
+	t_token	tok10 = {WORD, "ya5spacesjusteavant", NULL};
+	t_token	tok9 = {SPACES, "     ", &tok10};
+	t_token	tok8 = {RIGHTAGBRACKET, ">", &tok9};
+	t_token	tok7 = {LEFTAGBRACKET, "<", &tok8};
+	t_token	tok6 = {SINGLEQUOTE, "\'", &tok7};
+	t_token	tok5 = {DOUBLEQUOTE, "\"", &tok6};
+	t_token	tok4 = {RIGHTPAR, ")", &tok5};
+	t_token	tok3 = {LEFTPAR, "(", &tok4};
+	t_token	tok2 = {AND, "&", &tok3};
+	t_token	tok1 = {PIPE, "|", &tok2};
+
+	mine = my_lex("|&()\"\'<>     ya5spacesjusteavant");
 	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok1, mine));
 	PASS();
 }
@@ -63,5 +81,7 @@ TEST basic1()
 SUITE (lex)
 {
 	SET_TEARDOWN(teardown, NULL);
-	RUN_TEST(basic1);
+	RUN_TEST(test_all_token_types);
+	RUN_TEST(test_same_token_repetition);
+//	RUN_TEST(test_two_distinct_alternate_token);
 }

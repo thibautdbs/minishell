@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:58:10 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 19:32:58 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/04 20:22:00 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,10 @@ t_token	*my_lex_pipe(char const *input);
 t_token *my_lex_and(char const *input);
 t_token *my_lex_leftpar(char const *input);
 t_token *my_lex_rightpar(char const *input);
+t_token *my_lex_doublequote(char const *input);
+t_token *my_lex_singlequote(char const *input);
+t_token *my_lex_leftagbracket(char const *input);
+t_token *my_lex_rightagbracket(char const *input);
+t_token *my_lex_spaces(char const *input);
 
 #endif //LEXER_H

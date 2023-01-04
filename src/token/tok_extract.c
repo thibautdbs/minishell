@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 15:06:08 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 15:19:09 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/04 18:43:27 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "libft.h"
 #include "minishell/lexer.h"
 
-t_token	*my_tok_extract(char const *input, size_t len)
+t_token	*my_tok_extract(char const *input, size_t len, t_token_type type)
 {
 	t_token	*token;
 
@@ -30,6 +30,7 @@ t_token	*my_tok_extract(char const *input, size_t len)
 		ft_memdel(&token);
 		return (NULL);
 	}
+	token->type = type;
 	token->next = my_lex(input + len);
 	return (token);
 }

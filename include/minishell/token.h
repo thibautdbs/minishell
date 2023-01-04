@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:23:51 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 15:29:09 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/04 19:27:32 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_token
 	t_token			*next;
 }	t_token;
 
-t_token	*my_tok_extract(char const *input, size_t len);
+t_token	*my_tok_extract(char const *input, size_t len, t_token_type type);
+void    my_tok_destroy(t_token *tok);
 
 #endif //TOKEN_H

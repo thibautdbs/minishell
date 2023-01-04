@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/04 11:54:16 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/04 15:17:33 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@
 
 NAME		:=	minishell
 
+LIBFT		:=	libft/libft.a
+
 ################################################################################
 ### DIRECTORIES
 
@@ -29,10 +31,11 @@ INCLUDE		:=	include
 ################################################################################
 ### FLAGS
 
-CC			=	clang
-CFLAGS		=	-Wall -Werror -Wextra -O3
-CPPFLAGS	=	-MMD -MP -I $(INCLUDE)
-LDLIBS      =
+CC			:=	clang
+CFLAGS		:=	-Wall -Werror -Wextra -O3
+CPPFLAGS	:=	-MMD -MP -I $(INCLUDE) -I $(dir $(LIBFT))/include
+LDFLAGS     :=	-L $(dir $(LIBFT))
+LDLIBS		:=	-l:$(notdir $(LIBFT))
 
 ################################################################################
 ### FILES
@@ -47,6 +50,8 @@ DEPS		=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.d)
 # ##############################################################################
 
 all:
+	@$(ECHO) "$(MAGENTA)Building $(LIBFT)!$(NC)"
+	@$(MAKE)  $(LIBFT)
 	@$(ECHO) "$(MAGENTA)Building objects files!$(NC)"
 	@$(MAKE) -j $(OBJS)
 	@$(ECHO)
@@ -59,11 +64,17 @@ all:
 
 $(NAME): $(OBJS)
 	@$(DIRDUP)
-	$(CC) $(OBJS) $(LDLIBS) -o $(NAME)
+	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
 
 $(BUILD)/%.o: $(SRC)/%.c
 	@$(DIRDUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+################################################################################
+### libft
+
+$(LIBFT):
+	$(MAKE) -C $(dir $(LIBFT))
 
 -include $(DEPS)
 
@@ -76,11 +87,13 @@ $(BUILD)/%.o: $(SRC)/%.c
 
 clean:
 	@$(ECHO) "$(MAGENTA)removing build files!$(NC)"
+	$(MAKE) -C $(dir $(LIBFT)) clean
 	$(RM) -r $(BUILD)
 .PHONY: clean
 
 fclean:
 	@$(ECHO) "$(MAGENTA)cleaning everything!$(NC)"
+	$(MAKE) -C $(dir $(LIBFT)) fclean
 	$(RM) -r $(BUILD)
 	$(RM) $(NAME)
 .PHONY: fclean

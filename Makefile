@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/04 15:17:33 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/05 09:23:33 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ INCLUDE		:=	include
 CC			:=	clang
 CFLAGS		:=	-Wall -Werror -Wextra -O3
 CPPFLAGS	:=	-MMD -MP -I $(INCLUDE) -I $(dir $(LIBFT))/include
-LDFLAGS     :=	-L $(dir $(LIBFT))
+LDFLAGS     :=	-L$(dir $(LIBFT))
 LDLIBS		:=	-l:$(notdir $(LIBFT))
 
 ################################################################################
@@ -42,8 +42,8 @@ LDLIBS		:=	-l:$(notdir $(LIBFT))
 
 SRCS		:=
 
-OBJS		=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.o)
-DEPS		=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.d)
+OBJS		=	$(SRCS:%.c=$(BUILD)/%.o)
+DEPS		=	$(SRCS:%.c=$(BUILD)/%.d)
 	
 # ##############################################################################
 # ## RULES                                                                     #
@@ -66,7 +66,7 @@ $(NAME): $(OBJS)
 	@$(DIRDUP)
 	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
 
-$(BUILD)/%.o: $(SRC)/%.c
+$(BUILD)/%.o: %.c
 	@$(DIRDUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
@@ -118,4 +118,4 @@ MAKEFLAGS	:=	--no-builtin-rules			\
 NC			:=	\\e[0m
 MAGENTA		:=	\\e[95m
 
--include dev.mk
+-include dev.mk test.mk

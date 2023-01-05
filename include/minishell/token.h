@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:23:51 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 08:09:29 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/05 09:23:59 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum e_token_type
 	SINGLEQUOTE,
 	LEFTAGBRACKET,
 	RIGHTAGBRACKET,
+	DOLLAR,
+	QMARK,
 	SPACES,
 	WORD,
 }	t_token_type;

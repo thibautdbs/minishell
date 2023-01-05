@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 08:09:47 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/05 09:26:22 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ TEST	test_same_token_repetition()
 
 TEST	test_all_token_types()
 {
-	t_token	tok10 = {WORD, "ya5spacesjusteavant", NULL};
-	t_token	tok9 = {SPACES, "     ", &tok10};
+	t_token	tok12 = {WORD, "ya5spacesjusteavant", NULL};
+	t_token	tok11 = {SPACES, "     ", &tok12};
+	t_token	tok10 = {QMARK, "?", &tok11};
+	t_token	tok9 = {DOLLAR, "$", &tok10};
 	t_token	tok8 = {RIGHTAGBRACKET, ">", &tok9};
 	t_token	tok7 = {LEFTAGBRACKET, "<", &tok8};
 	t_token	tok6 = {SINGLEQUOTE, "\'", &tok7};
@@ -117,7 +119,7 @@ TEST	test_all_token_types()
 	t_token	tok2 = {AND, "&", &tok3};
 	t_token	tok1 = {PIPE, "|", &tok2};
 
-	mine = my_lex("|&()\"\'<>     ya5spacesjusteavant");
+	mine = my_lex("|&()\"\'<>$?     ya5spacesjusteavant");
 	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok1, mine));
 	PASS();
 }

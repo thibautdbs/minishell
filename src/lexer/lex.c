@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:57:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 20:26:03 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/05 09:23:20 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "libft.h"
 #include "minishell/token.h"
 
-#define NTOKENIZERS 10
+#define NTOKENIZERS 12
 
 static void	loc_init_tokenizers(t_tokenizer **tokenizers);
 
@@ -51,6 +51,8 @@ static void	loc_init_tokenizers(t_tokenizer **tokenizers)
 	tokenizers[5] = my_lex_singlequote;
 	tokenizers[6] = my_lex_leftagbracket;
 	tokenizers[7] = my_lex_rightagbracket;
-	tokenizers[8] = my_lex_spaces;
-	tokenizers[9] = my_lex_word;
+	tokenizers[8] = my_lex_dollar;
+	tokenizers[9] = my_lex_qmark;
+	tokenizers[10] = my_lex_spaces;
+	tokenizers[11] = my_lex_word;
 }

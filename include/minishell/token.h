@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:23:51 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 09:23:59 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/05 13:59:41 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define TOKEN_H
 
 # include <stddef.h>//size_t
+
+////////////////////////////////////////////////////////////////////////////////
+/// TYPES
 
 typedef struct s_token	t_token;
 
@@ -40,7 +43,13 @@ typedef struct s_token
 	t_token			*next;
 }	t_token;
 
+////////////////////////////////////////////////////////////////////////////////
+/// FCTS
+
 t_token	*my_tok_extract(char const *input, size_t len, t_token_type type);
 void	my_tok_destroy(t_token **tok);
+
+size_t	my_tok_size(t_token const *toks);
+t_token	*my_tok_at(t_token *toks, int idx);
 
 #endif //TOKEN_H

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_at.c                                           :+:      :+:    :+:   */
+/*   tok_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 13:37:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 13:58:34 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/05 13:55:40 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/05 13:57:45 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,15 @@
 
 #include <stddef.h>//NULL,size_t
 
-t_token	*my_tok_at(t_token *toks, int idx)
+size_t	my_tok_size(t_token const *toks)
 {
-	size_t const	size = my_tok_size(toks);
-	int				i;
+	size_t	i;
 
-	if (idx < 0)
-		idx = size + idx;
 	i = 0;
 	while (toks != NULL)
 	{
-		if (i == idx)
-			return (toks);
-		i++;
 		toks = toks->next;
+		i++;
 	}
-	return (NULL);
+	return (i);
 }

@@ -6,11 +6,11 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 10:31:43 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 13:42:57 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/05 14:12:28 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/parse.h"
+#include "minishell/parser.h"
 
 #include <errno.h>
 
@@ -27,7 +27,7 @@ t_cmd	*my_parse(t_token *toks)
 
 	if (my_parse_is_exec(toks))
 		return (my_parse_exec(toks));
-	res = my_tok_split(toks, &left, &right);
+	res = my_tok_split(toks, &cmd->left, &right);
 	if (res == success)
 	{
 		cmd.type = ...;
@@ -35,9 +35,9 @@ t_cmd	*my_parse(t_token *toks)
 		cmd.right = my_parse(right);
 		return (cmd);
 	}
-	else if (my_tok_at(toks, 0)->type == LEFTPAR && my_tok_at(toks, -1) == RIGHTPAR)
+	else if (my_tok_at(toks, 0)->type == LEFTPAR && my_tok_at(toks, -1)->type == RIGHTPAR)
 	{
-		return (my_parse(my_tok_slice(toks, 1, -1));
+		return (my_parse(my_tok_slice(toks, 1, -1)));
 	}
 	errno = MY_ENOPARSE;
 	return (NULL);

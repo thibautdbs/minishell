@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:23:51 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 14:33:11 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/05 16:33:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKEN_H
 
 # include <stddef.h>//size_t
+# include <stdbool.h>//bool
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TYPES
@@ -53,5 +54,6 @@ t_token	**my_tok_2arr(t_token *toks);
 
 size_t	my_tok_size(t_token const *toks);
 t_token	*my_tok_at(t_token *toks, int idx);
+bool	my_tok_contains(t_token const *toks, t_token_type const *refs, size_t size);
 
 #endif //TOKEN_H

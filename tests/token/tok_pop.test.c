@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 17:00:33 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/05 20:38:04 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 /// HELPERS
-
-/*
-static	t_token	*mine;
-
-static void	teardown(void *data)
-{
-	(void) data;
-	my_tok_destroy(&mine);
-}
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 /// ASSERTIONS
@@ -49,7 +39,7 @@ TEST ASSERT_TOKENS_MATCH(t_token const *ref, t_token const *mine)
 ////////////////////////////////////////////////////////////////////////////////
 /// TESTS
 
-TEST	test_basic1()
+TEST	test_pop_front_basic1()
 {
 	t_token	tok5 = {SPACES, " ", NULL};
 	t_token	tok4 = {RIGHTPAR, ")", &tok5};
@@ -60,14 +50,27 @@ TEST	test_basic1()
 	t_token *tok;
 	tok = &tok1;
 	my_tok_pop_front(&tok);
-//	my_tok_pop_back(&tok);
-//	tok4.next = &tok5;
 	CHECK_CALL(ASSERT_TOKENS_MATCH(&tok2, tok));
+	PASS();
+}
+
+TEST	test_pop_back_basic1()
+{
+	t_token	tok5 = {SPACES, " ", NULL};
+	t_token	tok4 = {RIGHTPAR, ")", &tok5};
+	t_token	tok3 = {WORD, "oo", &tok4};
+	t_token	tok2 = {LEFTPAR, "(", &tok3};
+	t_token	tok1 = {SPACES, " ", &tok2};
+
+	t_token *tok;
+	tok = &tok1;
+	my_tok_pop_back(&tok);
+	ASSERT_EQ_FMT(NULL, tok4.next, "%p");
 	PASS();
 }
 
 SUITE (tok_pop)
 {
-//	SET_TEARDOWN(teardown, NULL);
-	RUN_TEST(test_basic1);
+	RUN_TEST(test_pop_front_basic1);
+	RUN_TEST(test_pop_back_basic1);
 }

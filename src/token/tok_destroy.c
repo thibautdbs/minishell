@@ -6,22 +6,28 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 17:49:20 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/04 18:03:21 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/05 08:08:49 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/token.h"
-#include <stdlib.h>
 
-void	my_tok_destroy(t_token *tok)
+#include <stddef.h>//NULL
+
+#include "libft.h"//memdel
+
+void	my_tok_destroy(t_token **tok)
 {
-	t_token *tmp;
+	t_token	*curr;
+	t_token	*next;
 
-	while (tok)
+	curr = *tok;
+	while (curr != NULL)
 	{
-		tmp = tok;
-		tok = tok->next;
-		free((void *) tmp->content);
-		free(tmp);
+		next = curr->next;
+		ft_memdel(&curr->content);
+		ft_memdel(&curr);
+		curr = next;
 	}
+	*tok = NULL;
 }

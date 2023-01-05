@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/04 21:42:29 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/05 08:09:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	t_token	*mine;
 static void	teardown(void *data)
 {
 	(void) data;
-	my_tok_destroy(mine);
+	my_tok_destroy(&mine);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

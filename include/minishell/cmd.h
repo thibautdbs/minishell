@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 09:56:33 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 13:36:51 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/06 11:27:45 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ typedef struct s_cmd
 /// FCTS
 
 t_cmd	*my_parse(t_token *toks);
+
+void	my_cmd_destroy(t_cmd **cmd);
 
 #endif //CMD_H

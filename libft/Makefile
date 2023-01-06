@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2022/12/26 23:39:45 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/06 11:23:18 by ffeaugas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ SRCS	+=	ft_strjoin.c		\
 			ft_strndup.c		\
 			ft_substr.c			\
 			ft_split.c			\
+			ft_strsdel.c		\
 
 SRCS	+=	ft_search_str.c		\
 	

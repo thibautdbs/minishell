@@ -6,14 +6,21 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:37:23 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/04 12:43:16 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:32:06 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEBUG_H
 # define DEBUG_H
 
-#include "minishell/token.h"
+# include "minishell/token.h"
+
+# define RED	"\033[0;31m"
+# define GREEN	"\033[0;32m"
+# define YELLOW	"\033[0;33m"
+# define BLUE	"\033[0;34m"
+# define PURPLE "\033[0;35m"
+# define NC		"\033[0m"
 
 //---Print Token functions-----------------------------------------------------
 void    dev_print_one_token(t_token const *tok);

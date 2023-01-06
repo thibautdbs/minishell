@@ -6,7 +6,7 @@
 /*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:32:38 by tdubois           #+#    #+#             */
-/*   Updated: 2022/12/26 23:31:22 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/06 11:22:40 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
+void    ft_strsdel(char ***strs);
 
 char	*ft_search_str(char const *str, char **strs, size_t size);
 

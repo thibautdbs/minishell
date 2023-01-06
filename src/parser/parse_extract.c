@@ -6,7 +6,7 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:49:36 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/06 16:51:51 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:18:59 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ t_success	*my_parse_extract(t_token *toks, t_arg **args, t_redir **redir)
 	t_parse_cb 	parse_cbs[NCBS];
 
 	loc_init_parse_cbs(parse_cbs);
+	while (toks != NULL && toks->type == SPACES)
+		toks = toks->next;
+	if (toks == NULL)
+		return (success);
 	i = 0;
 	while (i < NCBS)
 	{

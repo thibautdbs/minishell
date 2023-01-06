@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/06 11:23:18 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/06 11:31:58 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,6 +114,7 @@ SRCS	+=	ft_mtrx2_new.c		\
 
 SRCS	+=	ft_putchar_fd.c		\
 			ft_putstr_fd.c		\
+			ft_putstr_rpt_fd.c	\
 			ft_putendl_fd.c		\
 			ft_putnbr_fd.c		\
 			ft_puterr.c			\

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:11:04 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/06 11:26:51 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:12:17 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	my_cmd_destroy(t_cmd **cmd)
 		my_cmd_destroy(&(*cmd)->left);
 		my_cmd_destroy(&(*cmd)->right);
 	}
-	else 
+	else
 		ft_strsdel(&(*cmd)->args);
 	ft_memdel(cmd);
 }

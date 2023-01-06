@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:41:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 14:51:55 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/06 15:10:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_success	loc_parse_singlequote(t_token *toks);
 /**
  *	switch types tokens surrounded by quotes to word
  */
-t_success			my_parse_quote(t_token *toks)
+t_success	my_parse_quote(t_token *toks)
 {
 	while (toks != NULL)
 	{

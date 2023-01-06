@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:23:51 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 20:26:02 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/06 10:46:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	t_token_type	type;
-	char const		*content;
+	char			*content;
 	t_token			*next;
 }	t_token;
 

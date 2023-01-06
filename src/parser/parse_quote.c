@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 13:41:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/06 15:10:59 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/06 17:07:37 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static t_success	loc_parse_doublequote(t_token *toks)
 	{
 		if (toks->type == DOUBLEQUOTE)
 			return (my_parse_quote(toks->next));
-		toks->type = WORD;
+		if (toks->type == DOLLAR || toks->type == QMARK)
+			toks->type = WORD;
 		toks = toks->next;
 	}
 	return (failure);

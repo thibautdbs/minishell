@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 09:56:33 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/06 15:20:51 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:35:42 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_cmd
 	t_cmd			*left;
 	t_cmd			*right;
 	char			**args;
-	t_redir			*redir;
+	t_redir			*redirs;
 }	t_cmd;
 
 ////////////////////////////////////////////////////////////////////////////////

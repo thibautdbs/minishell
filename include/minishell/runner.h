@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.h                                              :+:      :+:    :+:   */
+/*   runner.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/09 16:48:14 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/09 16:46:18 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/09 16:51:17 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENV_H
-# define ENV_H
+#ifndef RUNNER_H
+# define RUNNER_H
 
-typedef struct s_env t_env;
+#include "minishell/redir.h"
 
-typedef struct s_env
-{
-	char	*name;
-	char	*content;
-	t_env	*next;
-}	t_env;
+////////////////////////////////////////////////////////////////////////////////
+/// PRIVATE
 
-#endif //ENV_H
+typedef t_success t_opener(t_redirs const *);
+
+#endif//RUNNER_H

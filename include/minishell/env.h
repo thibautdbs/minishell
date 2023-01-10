@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_singlequote.c                                  :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 19:31:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:39 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/09 16:48:14 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
+#ifndef ENV_H
+# define ENV_H
 
-#include <stddef.h>
+typedef struct s_env t_env;
 
-#include "minishell/token.h"
-
-t_tok	*my_lex_singlequote(char const *input)
+typedef struct s_env
 {
-	if (input[0] == '\'')
-		return (my_tok_extract(input, 1, TOK_SGLQT));
-	return (NULL);
-}
+	char	*name;
+	char	*content;
+	t_env	*next;
+}	t_env;
+
+#endif //ENV_H

@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_spaces.c                                       :+:      :+:    :+:   */
+/*   ft_strsdel.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 14:57:36 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:52 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/06 11:18:29 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/06 11:21:50 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
-
 #include "libft.h"
-#include "minishell/token.h"
 
-t_tok	*my_lex_spaces(char const *input)
+void	ft_strsdel(char ***strs)
 {
-	size_t	len;
+	int	i;
 
-	len = ft_strspn(input, " ");
-	if (len == 0)
-		return (NULL);
-	return (my_tok_extract(input, len, TOK_SPACES));
+	if (*strs == NULL)
+		return ;
+	i = 0;
+	while ((*strs)[i] != NULL)
+	{
+		ft_memdel(&(*strs)[i]);
+		i++;
+	}
+	ft_memdel(strs);
 }

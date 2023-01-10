@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_spaces.c                                       :+:      :+:    :+:   */
+/*   runner.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 14:57:36 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:52 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 16:46:18 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/10 11:29:16 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
+#ifndef RUNNER_H
+# define RUNNER_H
 
 #include "libft.h"
-#include "minishell/token.h"
 
-t_tok	*my_lex_spaces(char const *input)
-{
-	size_t	len;
+#include "minishell/redir.h"
 
-	len = ft_strspn(input, " ");
-	if (len == 0)
-		return (NULL);
-	return (my_tok_extract(input, len, TOK_SPACES));
-}
+////////////////////////////////////////////////////////////////////////////////
+/// PRIVATE
+
+typedef t_success t_opener(t_redir const *);
+
+#endif//RUNNER_H

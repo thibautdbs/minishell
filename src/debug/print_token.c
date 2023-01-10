@@ -6,7 +6,7 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:32:33 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/04 19:11:28 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #define DEBUG
 
-void	dev_print_one_token(t_token const *tok)
+void	dev_print_one_token(t_tok const *tok)
 {
 	char const	*token_types[] = {"PIPE", "AND", "LEFTPAR", "RIGHTPAR",
 		"DOUBLEQUOTE", "SINGLEQUOTE", "LEFTAGBRACKET", "RIGHTAGBRACKET",
@@ -27,10 +27,10 @@ void	dev_print_one_token(t_token const *tok)
 	printf("Token next : %p\n\n", tok->next);
 }
 
-void	dev_print_token(t_token const *tok)
+void	dev_print_token(t_tok const *tok)
 {
 #ifdef DEBUG
-	t_token const	*current;
+	t_tok const	*current;
 	int				index;
 
 	current = tok;

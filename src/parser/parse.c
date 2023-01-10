@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_spaces.c                                       :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 14:57:36 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:52 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 13:33:57 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
+#include "minishell/parser.h"
 
 #include "libft.h"
+#include "minishell/cmd.h"
 #include "minishell/token.h"
 
-t_tok	*my_lex_spaces(char const *input)
+t_cmd	*my_parse(t_tok *toks)
 {
-	size_t	len;
+	t_cmd	*cmd;
 
-	len = ft_strspn(input, " ");
-	if (len == 0)
+	if (my_parse_cmd(&cmd, &toks) == FAILURE)
+	{
+		my_cmd_destroy(&cmd);
 		return (NULL);
-	return (my_tok_extract(input, len, TOK_SPACES));
+	}
+	my_parse_skip_spaces(&toks);
+	if (toks != NULL)//perror
+	{
+		my_cmd_destroy(&cmd);
+		return (NULL);
+	}
+	return (cmd);
 }
+

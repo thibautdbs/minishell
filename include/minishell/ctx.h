@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_singlequote.c                                  :+:      :+:    :+:   */
+/*   ctx.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 19:31:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:39 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 14:25:06 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/09 16:48:04 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
+#ifndef CTX_H
+# define CTX_H
 
-#include <stddef.h>
+# include "minishell/env.h"
 
-#include "minishell/token.h"
-
-t_tok	*my_lex_singlequote(char const *input)
+typedef struct s_ctx
 {
-	if (input[0] == '\'')
-		return (my_tok_extract(input, 1, TOK_SGLQT));
-	return (NULL);
-}
+	t_env	*env;
+}	t_ctx;
+
+#endif //CTX_H

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:57:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 09:23:20 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 
 static void	loc_init_tokenizers(t_tokenizer **tokenizers);
 
-t_token	*my_lex(char const *input)
+t_tok	*my_lex(char const *input)
 {
 	int			i;
-	t_token		*token;
+	t_tok		*token;
 	t_tokenizer	*tokenizers[NTOKENIZERS];
 
 	loc_init_tokenizers(tokenizers);

@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_spaces.c                                       :+:      :+:    :+:   */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 14:57:36 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:52 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 17:40:48 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/09 17:41:45 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
+#include "minishell/parser.h"
 
 #include "libft.h"
+#include "minishell/cmd.h"
 #include "minishell/token.h"
 
-t_tok	*my_lex_spaces(char const *input)
+t_success	my_parse_cmd(t_cmd **cmd, t_token **toks)
 {
-	size_t	len;
-
-	len = ft_strspn(input, " ");
-	if (len == 0)
-		return (NULL);
-	return (my_tok_extract(input, len, TOK_SPACES));
+	t_success	res;
+ 
+	my_parse_skip_spaces(toks);
+	if ((*toks)->type == LEFTPAR)
+		res = my_parse_cmd_group(cmd, toks);
+	else
+	 	res = my_parse_args(cmd, toks);
+	if (res == failure)
+		return (failure);
+	my_parse_skip_spaces(toks);
+	if (*toks == NULL)
+		return (success);
+	return (my_parse_split(cmd, toks));
 }

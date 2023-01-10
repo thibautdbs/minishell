@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_spaces.c                                       :+:      :+:    :+:   */
+/*   tok_at.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 14:57:36 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:52 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/05 13:37:29 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
-
-#include "libft.h"
 #include "minishell/token.h"
 
-t_tok	*my_lex_spaces(char const *input)
-{
-	size_t	len;
+#include <stddef.h>//NULL,size_t
 
-	len = ft_strspn(input, " ");
-	if (len == 0)
-		return (NULL);
-	return (my_tok_extract(input, len, TOK_SPACES));
+t_tok	*my_tok_at(t_tok *toks, int idx)
+{
+	size_t const	size = my_tok_size(toks);
+	int				i;
+
+	if (idx < 0)
+		idx = size + idx;
+	i = 0;
+	while (toks != NULL)
+	{
+		if (i == idx)
+			return (toks);
+		i++;
+		toks = toks->next;
+	}
+	return (NULL);
 }

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_singlequote.c                                  :+:      :+:    :+:   */
+/*   tok_pop_front.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 19:31:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:48:39 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/05 15:50:44 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/05 16:58:00 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
-
 #include "minishell/token.h"
 
-t_tok	*my_lex_singlequote(char const *input)
+#include <stddef.h>//NULL
+
+#include "libft.h"//memdel
+
+void	my_tok_pop_front(t_token **toks)
 {
-	if (input[0] == '\'')
-		return (my_tok_extract(input, 1, TOK_SGLQT));
-	return (NULL);
+	if (*toks == NULL)
+		return ;
+	*toks = (*toks)->next;
 }

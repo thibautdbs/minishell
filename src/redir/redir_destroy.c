@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_destroy.c                                      :+:      :+:    :+:   */
+/*   redir_destroy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 17:49:20 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 15:02:13 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/09 15:17:45 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/token.h"
+#include "minishell/redir.h"
 
 #include <stddef.h>//NULL
 
 #include "libft.h"//memdel
+#include "minishell/arg.h"//my_arg_destroy
 
-void	my_tok_destroy(t_tok **tok)
+void	my_redir_destroy(t_token **redir)
 {
-	t_tok	*curr;
-	t_tok	*next;
+	t_token	*curr;
+	t_token	*next;
 
-	curr = *tok;
+	curr = *redir;
 	while (curr != NULL)
 	{
 		next = curr->next;
-		ft_memdel(&curr->content);
+		my_arg_destroy(&(*redir)->arg);
 		ft_memdel(&curr);
 		curr = next;
 	}
-	*tok = NULL;
+	*redir = NULL;
 }

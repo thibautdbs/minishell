@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:24:50 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/09 16:52:17 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/10 10:52:05 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@
 
 static t_success	loc_openers(t_opener **opener);
 
-t_success	my_run_open_redirs(const t_redir	*redirs)
+t_success	my_run_open_redirs(const t_redir	*redir)
 {
-	int			i;
 	t_opener	*opener[NOPENER];
 
-	if (redirs == NULL)
+	if (redir == NULL)
 		return (success);
-	i = 0;
-	while (i < NOPENER)
-	{
-		(if opener[i](redirs) == success)
-			return 
-		i++;
-	}
+	if (opener[redir->type](redir) == failure)
+		return (failure);
+	my_run_open_redirs(redir->next);
 }
 
 static void loc_openers(t_opener **opener)
-{}
+{
+	opener[INPUT] = my_open_input;
+//	opener[HEREDOC] = my_open_heredoc;
+//	opener[OUTPUT] = my_open_output;
+//	opener[APPEND] = my_open_append;
+}

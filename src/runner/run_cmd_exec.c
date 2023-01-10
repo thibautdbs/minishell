@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:42:42 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/09 16:25:56 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:56:12 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_success	ft_run_exec_cmd(t_cmd	**root, t_cmd *cmd)
 		return (failure);
 //	if (my_run_built-in(cmd->args))
 //		return (success);
-	path = my_run_get_path(cmd->args, ctx->env)
+	path = my_get_path(cmd->args, ctx->env)
 	if (path == NULL) //2 cas : commande invalide ou calloc fail
 		return (failure);
-	my_cmd_destroy(root);
+//	my_cmd_destroy(root);
 	execve(path, args, ft_env_build(ctx->env));
 }

@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   runner.h                                           :+:      :+:    :+:   */
+/*   run_open_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 16:46:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:16 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/10 11:32:24 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RUNNER_H
-# define RUNNER_H
+#include "minishell/runner.h"
 
 #include "libft.h"
 
-#include "minishell/redir.h"
+#include <unistd.h> //unlink, dup2
 
-////////////////////////////////////////////////////////////////////////////////
-/// PRIVATE
+t_success	my_open_input(t_redir *redir)
+{
+	int	fd_input;
 
-typedef t_success t_opener(t_redir const *);
-
-#endif//RUNNER_H
+//	if (my_check_redir_label(redir->name) == failure)
+//		return (failure); //Invalid label
+	fd_input = open(redir->name, O_RDONLY);
+	if (fd_input < 0)
+		return (failure); //Error when open : doesn't exist, no perm, etc
+	dup2(fd_input, STDIN);
+	unlink(redir->name);
+	return (success);
+}

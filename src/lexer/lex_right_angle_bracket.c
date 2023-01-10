@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_pipe.c                                         :+:      :+:    :+:   */
+/*   lex_right_angle_bracket.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/06 16:14:48 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 17:50:43 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/10 16:41:27 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/10 17:48:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 #include "minishell/ctx.h"
 #include "minishell/token.h"
 
-t_tok	*my_lex_pipe(char const **input)
+t_tok	*my_lex_right_angle_bracket(char const **input)
 {
-	int const	npipe = ft_strspn(*input, "|");
+	int const	nchar = ft_strspn(*input, ">");
 
-	if (npipe == 1)
+	if (nchar == 1)
 	{
 		*input += 1;
-		return (my_tok_create(TOK_PIPE, "|", 1));
+		return (my_tok_create(TOK_OUTPT, ">", 1));
 	}
-	if (npipe == 2)
+	if (nchar == 2)
 	{
 		*input += 2;
-		return (my_tok_create(TOK_OR, "||", 2));
+		return (my_tok_create(TOK_APPND, ">>", 2));
 	}
-	ft_puterr_endl("minishell: syntax error near token `|'");
+	ft_puterr_endl("minishell: syntax error near token `>'");
 	g_ctx->exitcode = 2;
 	return (NULL);
 }

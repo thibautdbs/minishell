@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_extract.c                                      :+:      :+:    :+:   */
+/*   lex_left_angle_bracket.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 15:06:08 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:46 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/10 16:41:27 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/10 17:46:34 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/token.h"
-
-#include <stddef.h>//size_t,NULL
-
-#include "libft.h"
 #include "minishell/lexer.h"
 
-t_tok	*my_tok_extract(char const *input, size_t len, t_token_t type)
-{
-	t_tok	*token;
+#include "libft.h"
+#include "minishell/ctx.h"
+#include "minishell/token.h"
 
-	token = ft_calloc(1, sizeof(t_tok));
-	if (token == NULL)
-		return (NULL);
-	token->content = ft_strndup(input, len);
-	if (token->content == NULL)
+t_tok	*my_lex_left_angle_bracket(char const **input)
+{
+	int const	nchar = ft_strspn(*input, "<");
+
+	if (nchar == 1)
 	{
-		ft_memdel(&token);
-		return (NULL);
+		*input += 1;
+		return (my_tok_create(TOK_INPT, "<", 1));
 	}
-	token->type = type;
-	token->next = my_lex(input + len);
-	return (token);
+	if (nchar == 2)
+	{
+		*input += 2;
+		return (my_tok_create(TOK_HRDOC, "<<", 2));
+	}
+	ft_puterr_endl("minishell: syntax error near token `<'");
+	g_ctx->exitcode = 2;
+	return (NULL);
 }

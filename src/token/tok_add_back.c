@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_leftagbracket.c                                :+:      :+:    :+:   */
+/*   tok_add_back.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 19:31:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:47:22 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/10 15:16:16 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/10 15:20:54 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
-
-#include <stddef.h>
-
 #include "minishell/token.h"
 
-t_tok	*my_lex_leftagbracket(char const *input)
+void	my_tok_add_back(t_tok **toks, t_tok *tok)
 {
-	if (input[0] == '<')
-		return (my_tok_extract(input, 1, TOK_LANGL));
-	return (NULL);
+	my_tok_at(*toks, -1)->next = tok;
 }

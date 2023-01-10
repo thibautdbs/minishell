@@ -6,7 +6,7 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 17:49:20 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/05 08:08:49 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 #include "libft.h"//memdel
 
-void	my_tok_destroy(t_token **tok)
+void	my_tok_destroy(t_tok **tok)
 {
-	t_token	*curr;
-	t_token	*next;
+	t_tok	*curr;
+	t_tok	*next;
 
 	curr = *tok;
 	while (curr != NULL)

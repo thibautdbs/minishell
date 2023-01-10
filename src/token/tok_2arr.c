@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:15:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 14:29:29 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 #include "libft.h"//calloc
 
-t_token	**my_tok_2arr(t_token *toks)
+t_tok	**my_tok_2arr(t_tok *toks)
 {
-	t_token	**arr;
+	t_tok	**arr;
 	size_t	i;
 
-	arr = ft_calloc(my_tok_size(toks), sizeof(t_token *));
+	arr = ft_calloc(my_tok_size(toks), sizeof(t_tok *));
 	if (arr == NULL)
 		return (NULL);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 12:37:23 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/06 11:46:35 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define NC		"\033[0m"
 
 //---Print Token functions------------------------------------------------------
-void    dev_print_one_token(t_token const *tok);
-void    dev_print_token(t_token const *tok);
+void    dev_print_one_token(t_tok const *tok);
+void    dev_print_token(t_tok const *tok);
 
 //---Print Cmd functions--------------------------------------------------------
 void	dev_print_one_cmd(t_cmd *cmd, int depth);

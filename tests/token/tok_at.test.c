@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:42:21 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/05 14:58:50 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 TEST positive_idxs()
 {
-	t_token	tok4 = {AND, "&", NULL};
-	t_token	tok3 = {WORD, "salut", &tok4};
-	t_token	tok2 = {SPACES, "   ", &tok3};
-	t_token	tok1 = {LEFTPAR, "(", &tok2};
+	t_tok	tok4 = {AND, "&", NULL};
+	t_tok	tok3 = {WORD, "salut", &tok4};
+	t_tok	tok2 = {SPACES, "   ", &tok3};
+	t_tok	tok1 = {LEFTPAR, "(", &tok2};
 
 	ASSERT_EQ(&tok1, my_tok_at(&tok1, 0));
 	ASSERT_EQ(&tok2, my_tok_at(&tok1, 1));
@@ -30,10 +30,10 @@ TEST positive_idxs()
 
 TEST negative_idxs()
 {
-	t_token	tok4 = {AND, "&", NULL};
-	t_token	tok3 = {WORD, "salut", &tok4};
-	t_token	tok2 = {SPACES, "   ", &tok3};
-	t_token	tok1 = {LEFTPAR, "(", &tok2};
+	t_tok	tok4 = {AND, "&", NULL};
+	t_tok	tok3 = {WORD, "salut", &tok4};
+	t_tok	tok2 = {SPACES, "   ", &tok3};
+	t_tok	tok1 = {LEFTPAR, "(", &tok2};
 
 	ASSERT_EQ(&tok1, my_tok_at(&tok1, -4));
 	ASSERT_EQ(&tok2, my_tok_at(&tok1, -3));

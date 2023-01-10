@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_exec.c                                       :+:      :+:    :+:   */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/06 13:28:44 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/06 17:39:38 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/09 17:40:48 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/09 17:41:45 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,21 @@
 
 #include "libft.h"
 #include "minishell/cmd.h"
-#include "minishell/arg.h"
+#include "minishell/token.h"
 
-t_cmd	*my_parse_exec(t_token *toks)
+t_success	my_parse_cmd(t_cmd **cmd, t_token **toks)
 {
-	t_cmd		*cmd;
-	t_arg		*args;	
 	t_success	res;
-
-	cmd = ft_calloc(sizeof(t_cmd), 1);
-	if (cmd == NULL)
-		return (NULL);
-	res = my_parse_extract(toks, &args, &cmd->redirs);
+ 
+	my_parse_skip_spaces(toks);
+	if ((*toks)->type == LEFTPAR)
+		res = my_parse_cmd_group(cmd, toks);
+	else
+	 	res = my_parse_args(cmd, toks);
 	if (res == failure)
-	{
-		ft_memdel(&cmd);
-		return (NULL);
-	}
-	// fill args
-	// free args	
+		return (failure);
+	my_parse_skip_spaces(toks);
+	if (*toks == NULL)
+		return (success);
+	return (my_parse_split(cmd, toks));
 }

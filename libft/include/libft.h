@@ -6,7 +6,7 @@
 /*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:32:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/06 11:22:40 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/10 11:54:32 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef enum e_bool
 
 typedef enum e_success
 {
-	failure,
-	success
+	FAILURE,
+	SUCCESS
 }	t_success;
 
 typedef struct s_list
@@ -41,6 +41,12 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
+typedef struct s_strlst
+{
+	char			*content;
+	struct s_strlst	*next;
+}	t_strlst;
 
 typedef struct s_buf
 {
@@ -102,7 +108,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
-void    ft_strsdel(char ***strs);
+void	ft_strsdel(char ***strs);
 
 char	*ft_search_str(char const *str, char **strs, size_t size);
 

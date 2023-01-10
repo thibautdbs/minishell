@@ -6,7 +6,7 @@
 /*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:32:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:54:32 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/10 13:25:17 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ char	*ft_strndup(char const *s, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_sep(char const *s1, char const *s2, char const *sep);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 void	ft_strsdel(char ***strs);

@@ -5,20 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 19:31:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:41:08 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/06 16:14:48 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/10 17:12:33 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/lexer.h"
 
-#include <stddef.h>
-
+#include "libft.h"
+#include "minishell/ctx.h"
 #include "minishell/token.h"
 
-t_tok	*my_lex_dollar(char const *input)
+t_tok	*my_lex_dollar(char const **input)
 {
-	if (input[0] == '$')
-		return (my_tok_extract(input, 1, TOK_DOLLAR));
-	return (NULL);
+	int 	nchar;
+	t_tok	*tok;
+
+	*input += 1;
+	if (*input[0] == '?')
+		nchar = 1;
+	else
+		nchar = ft_strcspn(*input, "()<>*'? &|$\"");
+	if (nchar > 0)
+	{
+		*input += nchar;
+		tok = my_tok_create(TOK_VAR, *input, nchar);
+		return (tok);
+	}
+	return (my_tok_create(TOK_WORD, "$", 1));
 }

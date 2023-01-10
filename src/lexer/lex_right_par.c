@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_doublequote.c                                  :+:      :+:    :+:   */
+/*   lex_right_par.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 19:31:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:47:09 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/10 16:41:27 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/10 17:50:25 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/lexer.h"
 
-#include <stddef.h>
-
+#include "libft.h"
+#include "minishell/ctx.h"
 #include "minishell/token.h"
 
-t_tok	*my_lex_doublequote(char const *input)
+t_tok	*my_lex_right_par(char const **input)
 {
-	if (input[0] == '\"')
-		return (my_tok_extract(input, 1, TOK_DBLQT));
-	return (NULL);
+	*input += 1;
+	return (my_tok_create(TOK_RPAR, ")", 1));
 }

@@ -5,79 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 11:57:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 17:52:22 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/11 22:14:02 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/12 00:41:42 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/lexer.h"
 
-#include <stddef.h>//NULL
-#include <errno.h>
-#include <stdio.h>
+#include <stddef.h>
 
 #include "libft.h"
-#include "minishell/ctx.h"
-#include "minishell/token.h"
+#include "minishell/toks.h"
 
-#define NLEXERS 10
+static t_toks	*loc_extract_tok(char const **str);
 
-static void		loc_register_lexers(t_lexer **lexers);
-static t_tok	*loc_extract_token(char const **input);
-
-t_tok	*my_lex(char const *input)
+t_toks	*my_lex(char const *str)
 {
-	t_tok	*toks;
-	t_tok	*curr;
+	t_toks	*toks;
+	t_toks	*tok;
 
-	while (*input != '\0')
+	toks = NULL;
+	while (*str != '\0')
 	{
-		errno = 0;
-		curr = loc_extract_token(&input);
-		if (curr != NULL)
+		tok = loc_extract_tok(&str);
+		if (tok == NULL)
 		{
-			my_tok_add_back(&toks, curr);
-			continue ;
+			my_toks_destroy(&toks);
+			return (NULL);
 		}
-		if (errno != 0)
-		{
-			perror("minishell: lexer:");
-			g_ctx->exitcode = ENOMEM;
-		}
-		my_tok_destroy(&toks);
-		return (NULL);
+		my_toks_add_back(&toks, tok);
 	}
 	return (toks);
 }
 
-static t_tok	*loc_extract_token(char const **input)
+static t_toks	*loc_extract_tok(char const **str)
 {
-	int			i;
-	char const	*keys = "&|()$\'\"<> ";
-	t_lexer		*lexers[NLEXERS];
-
-	loc_register_lexers(lexers);
-	i = 0;
-	while (i < NLEXERS - 1)
-	{
-		if (*input[0] == keys[i])
-			return (lexers[i](input));
-		i++;
-	}
-	return (lexers[NLEXERS - 1](input));
-}
-
-static void	loc_register_lexers(t_lexer **lexers)
-{
-	lexers[0] = my_lex_amp;
-	lexers[1] = my_lex_pipe;
-	lexers[2] = my_lex_left_par;
-	lexers[3] = my_lex_right_par;
-	lexers[4] = my_lex_dollar;
-	lexers[5] = my_lex_single_quote;
-	lexers[6] = my_lex_double_quote;
-	lexers[7] = my_lex_left_angle_bracket;
-	lexers[8] = my_lex_right_angle_bracket;
-	lexers[9] = my_lex_spaces;
-	lexers[10] = my_lex_word;
+	*str += ft_strspn(*str, " \t");
+	if (ft_strncmp("(", *str, 1) == 0)
+		return (my_lex_extract_metachars(str, LPAR, 1));
+	if (ft_strncmp(")", *str, 1) == 0)
+		return (my_lex_extract_metachars(str, RPAR, 1));
+	if (ft_strncmp("<<", *str, 2) == 0)
+		return (my_lex_extract_metachars(str, LESSLESS, 2));
+	if (ft_strncmp("<", *str, 1) == 0)
+		return (my_lex_extract_metachars(str, LESS, 1));
+	if (ft_strncmp(">>", *str, 2) == 0)
+		return (my_lex_extract_metachars(str, GREATGREAT, 2));
+	if (ft_strncmp(">", *str, 1) == 0)
+		return (my_lex_extract_metachars(str, GREAT, 1));
+	if (ft_strncmp("&&", *str, 2) == 0)
+		return (my_lex_extract_metachars(str, ANDAND, 2));
+	if (ft_strncmp("||", *str, 2) == 0)
+		return (my_lex_extract_metachars(str, BARBAR, 2));
+	if (ft_strncmp("|", *str, 1) == 0)
+		return (my_lex_extract_metachars(str, BAR, 1));
+	return (my_lex_extract_word(str));
 }

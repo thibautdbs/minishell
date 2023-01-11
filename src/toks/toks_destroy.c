@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_left_angle_bracket.c                           :+:      :+:    :+:   */
+/*   toks_destroy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 16:41:27 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 17:46:34 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/11 23:38:11 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/11 23:51:21 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
+#include "minishell/toks.h"
 
 #include "libft.h"
-#include "minishell/ctx.h"
-#include "minishell/token.h"
 
-t_tok	*my_lex_left_angle_bracket(char const **input)
+static void	loc_del_tok(t_toks **tok);
+
+void	my_toks_destroy(t_toks	**toks)
 {
-	int const	nchar = ft_strspn(*input, "<");
+	t_toks	**curr;
+	t_toks	**next;
 
-	if (nchar == 1)
+	curr = toks;
+	while (*curr != NULL)
 	{
-		*input += 1;
-		return (my_tok_create(TOK_INPT, "<", 1));
+		next = &(*curr)->next;
+		loc_del_tok(curr);
+		curr = next;
 	}
-	if (nchar == 2)
-	{
-		*input += 2;
-		return (my_tok_create(TOK_HRDOC, "<<", 2));
-	}
-	ft_puterr_endl("minishell: syntax error near token `<'");
-	g_ctx->exitcode = 2;
-	return (NULL);
+}
+
+static void	loc_del_tok(t_toks **tok)
+{
+	if ((*tok)->type == WORD)
+		ft_memdel(&(*tok)->content);
+	ft_memdel(tok);
 }

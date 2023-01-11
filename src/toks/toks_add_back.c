@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   toks_add_back.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 13:33:57 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/11 23:15:55 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/11 23:28:30 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/parser.h"
+#include "minishell/toks.h"
 
-#include "libft.h"
-#include "minishell/cmd.h"
-#include "minishell/token.h"
+#include <stddef.h>//NULL
 
-t_cmd	*my_parse(t_tok *toks)
+void	my_toks_add_back(t_toks **toks, t_toks *new_tok)
 {
-	t_cmd	*cmd;
-
-	if (my_parse_cmd(&cmd, &toks) == FAILURE)
-	{
-		my_cmd_destroy(&cmd);
-		return (NULL);
-	}
-	my_parse_skip_spaces(&toks);
-	if (toks != NULL)//perror
-	{
-		my_cmd_destroy(&cmd);
-		return (NULL);
-	}
-	return (cmd);
+	if (*toks == NULL)
+		*toks = new_tok;
+	my_toks_last(*toks)->next = new_tok;
 }
-

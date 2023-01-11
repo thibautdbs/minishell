@@ -1,40 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 13:44:19 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/11 16:22:58 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/11 17:27:44 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
-
-# include "libft.h"
-# include "token.h"
-# include "cmd.h"
+#ifndef TOKEN_H
+# define TOKEN_H
 
 ////////////////////////////////////////////////////////////////////////////////
-/// PUBLIC
+/// TYPE DECLARATIONS
 
-t_cmd		*my_parse(t_tok *toks);
+typedef enum e_tok_t	t_tok_t;
+typedef struct s_tok	t_tok;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// PRIVATE
+/// TYPE DEFINITIONS
 
-/**
- *	Constructs command tree.
- *	Consumes *toks.
- */
-t_success	my_parse_cmd(t_cmd **cmd, t_tok **toks);
+typedef enum e_tok_t
+{
+	LPAR,
+	RPAR,
+	LESS,
+	LESSLESS,
+	GREAT,
+	GREATGREAT,
+	ANDAND,
+	BAR,
+	BARBAR,
+	WORD
+}	t_tok_t;
 
-t_success	my_parse_cmd_group(t_cmd **cmd, t_tok **toks);
-t_success	my_parse_split(t_cmd **cmd, t_tok **toks);
-t_success	my_parse_args(t_cmd	**cmd, t_tok **toks);
+typedef struct s_tok
+{
+	t_tok_t	type;
+	char	*content;
+	t_tok	*next;
+}	t_tok;
 
-void		my_parse_skip_spaces(t_tok **toks);
-
-#endif //PARSER_H
+#endif //TOKEN_H

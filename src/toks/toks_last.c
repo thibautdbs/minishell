@@ -1,34 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_contains.c                                     :+:      :+:    :+:   */
+/*   toks_last.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 15:41:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:52:20 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/11 23:21:42 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/11 23:26:56 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/token.h"
+#include "minishell/toks.h"
 
-#include <stdbool.h>//bool
 #include <stddef.h>//NULL
 
-bool	my_tok_contains(t_tok const *toks, t_token_t const *refs, size_t size)
+t_toks	*my_toks_last(t_toks *toks)
 {
-	size_t	i;
-
-	while (toks != NULL)
-	{
-		i = 0;
-		while (i < size)
-		{
-			if (toks->type == refs[i])
-				return (true);
-			i++;
-		}
+	while (toks->next != NULL)
 		toks = toks->next;
-	}
-	return (false);
+	return (toks);
 }

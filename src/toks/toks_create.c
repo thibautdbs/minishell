@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   toks_del_one.c                                     :+:      :+:    :+:   */
+/*   toks_create.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 13:02:17 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 14:02:10 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/12 15:03:57 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/12 17:41:46 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/toks.h"
 
-#include "libft.h"
 #include <stddef.h>//NULL
 
-void	my_toks_del_one(t_toks **toks)
+#include "libft.h"
+
+t_toks	*my_toks_create(t_tok_t type, char const *str, int len)
 {
-	if (*toks == NULL)
-		return ;
-	ft_memdel(&(*toks)->content);
-	ft_memdel(toks);
+	t_toks	*tok;
+
+	tok = ft_calloc(1, sizeof(t_toks));
+	if (tok == NULL)
+		return (NULL);
+	tok->content = ft_strndup(str, len);
+	if (tok->content == NULL)
+	{
+		ft_memdel(&tok);
+		return (NULL);
+	}
+	tok->type = type;
+	tok->next = NULL;
+	return (tok);
 }

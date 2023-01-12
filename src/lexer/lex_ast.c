@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   toks_del_one.c                                     :+:      :+:    :+:   */
+/*   lex_ast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 13:02:17 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 14:02:10 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/12 15:31:07 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/12 17:47:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/toks.h"
+#include "minishell/lexer.h"
+
+#include <stddef.h>
 
 #include "libft.h"
-#include <stddef.h>//NULL
+#include "minishell/toks.h"
 
-void	my_toks_del_one(t_toks **toks)
+t_maybe_toks	my_lex_ast(char const **str)
 {
-	if (*toks == NULL)
-		return ;
-	ft_memdel(&(*toks)->content);
-	ft_memdel(toks);
+	t_toks	*tok;
+	int		len;
+
+	len = ft_strspn(*str, "*");
+	*str += len;
+	tok = my_toks_create(WILDCARD, "*", 1);
+	if (tok == NULL)
+		return ((t_maybe_toks){.err = MEM_ERR, .toks = NULL});
+	return ((t_maybe_toks){.err = NO_ERR, .toks = tok});
 }

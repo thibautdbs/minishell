@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 08:53:25 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 13:21:30 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/12 15:16:55 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,17 @@ typedef enum e_tok_t
 	WORD
 }	t_tok_t;
 
-typedef union u_tok_v
-{
-	char	*as_str;
-	t_toks	*as_toks;
-}	t_tok_v;
-
 typedef struct s_toks
 {
 	t_tok_t	type;
-	t_tok_v	val;
+	char	*content;
 	t_toks	*next;
 }	t_toks;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// FUNCTIONS
+
+t_toks	*my_toks_create(t_tok_t type, char const *str, int len);
 
 void	my_toks_del(t_toks **toks);
 void	my_toks_del_one(t_toks **toks);

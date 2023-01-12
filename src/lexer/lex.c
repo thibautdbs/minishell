@@ -6,13 +6,14 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:31:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 13:11:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/12 16:16:45 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/lexer.h"
 
 #include <stddef.h>//NULL
+#include <limits.h>//CHAR_MAX
 
 #include "libft.h"
 #include "minishell/toks.h"
@@ -43,7 +44,7 @@ t_maybe_toks	my_lex(char const *str)
 static t_maybe_toks	loc_extract_tok(char const **str)
 {
 	char const	*meta_chars = "()<>&|$* \t\"\'";
-	t_lexer		*meta_chars_lexers[sizeof(char)];
+	t_lexer		*meta_chars_lexers[CHAR_MAX];
 
 	loc_register_meta_chars_lexers(meta_chars_lexers);
 	if (ft_strchr(meta_chars, **str) != NULL)

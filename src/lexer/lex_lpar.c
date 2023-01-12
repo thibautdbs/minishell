@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   toks_del_one.c                                     :+:      :+:    :+:   */
+/*   lex_lpar.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 13:02:17 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 14:02:10 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/12 13:37:33 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/12 17:49:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/toks.h"
+#include "minishell/lexer.h"
 
-#include "libft.h"
 #include <stddef.h>//NULL
 
-void	my_toks_del_one(t_toks **toks)
-{
-	if (*toks == NULL)
-		return ;
-	ft_memdel(&(*toks)->content);
-	ft_memdel(toks);
+#include "minishell/toks.h"
+
+t_maybe_toks	my_lex_lpar(char const **str)
+{	
+	t_toks	*tok;
+
+	*str += 1;
+	tok = my_toks_create(LPAR, "(", 1);
+	if (tok == NULL)
+		return ((t_maybe_toks){.err = MEM_ERR, .toks = NULL});
+	return ((t_maybe_toks){.err = NO_ERR, .toks = tok});
 }

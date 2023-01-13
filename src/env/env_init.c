@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_destroy.c                                    :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 15:02:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 10:12:05 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 13:03:48 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/13 14:54:51 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/redir.h"
+#include "minishell/env.h"
 
-#include <stddef.h>//NULL
+#include <stddef.h> //NULL
 
-#include "libft.h"//memdel
-
-void	my_redir_destroy(t_redir **redir)
+t_env	*my_env_init(char	**envp)
 {
-	t_redir	*curr;
-	t_redir	*next;
+	t_env	*env;
+	t_env	*curr;
+	int		i;
 
-	curr = *redir;
-	while (curr != NULL)
+	i = 0;
+	env = NULL;
+	while (envp[i] != NULL)
 	{
-		next = curr->next;
-		ft_memdel(&curr->label);
-		ft_memdel(&curr);
-		curr = next;
+		curr = my_env_create(envp[i]);
+		if (curr == NULL)
+		{
+			my_env_destroy(&env);
+			return (NULL);
+		}
+		my_env_addback(&env, curr);
+		i++;
 	}
-	*redir = NULL;
+	return (env);
 }

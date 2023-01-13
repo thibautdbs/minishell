@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tok_size.c                                         :+:      :+:    :+:   */
+/*   env_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 13:55:40 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/13 11:18:45 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/13 11:21:26 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/token.h"
+#include "minishell/env.h"
 
-#include <stddef.h>//NULL,size_t
+#include <stddef.h> //NULL
 
-size_t	my_tok_size(t_tok const *toks)
+int	my_env_size(t_env *env)
 {
-	size_t	i;
-
+	int	i;
+	t_env	*curr;
+	
 	i = 0;
-	while (toks != NULL)
+	curr = env;
+	while (curr != NULL)
 	{
-		toks = toks->next;
 		i++;
+		curr = curr->next;
 	}
 	return (i);
 }

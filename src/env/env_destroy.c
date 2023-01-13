@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_word.c                                       :+:      :+:    :+:   */
+/*   env_destroy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 09:41:07 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/09 10:03:05 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 14:02:15 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/13 14:54:26 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/parser.h"
+#include "minishell/env.h"
 
-#include <stddef.h>
+#include <libft.h> //ft_memset
 
-#include "minishell/arg.h"
-
-t_arg *my_parse_word(t_token *toks)
+void	my_env_destroy(t_env **env)
 {
-	t_arg	*arg;
-	char	*content;
+	t_env	*curr;
+	t_env	*next;
 
-	content = ft_strdup(toks->content);
-	if (content == NULL)
-		return (NULL);
-	arg = my_arg_create();
-	if (arg == NULL)
+	curr = *env;
+	while (curr != NULL)
 	{
-		ft_memdel(&content);
-		return (NULL);
+		ft_memdel(&curr->content);
+		next = curr->next;
+		ft_memdel(&curr);
+		curr = next;
 	}
-	my_arg_addback(my_parse_expansion(toks->next));
-	return (arg);
+	*env = NULL;
 }

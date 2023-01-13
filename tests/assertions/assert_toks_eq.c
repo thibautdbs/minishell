@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_blanks.c                                       :+:      :+:    :+:   */
+/*   assert_toks_eq.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 15:31:07 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/13 19:06:12 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/13 16:17:49 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/13 16:52:26 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/lexer.h"
+#include "greatest.h"
 
-#include <stddef.h>
-
-#include "libft.h"
 #include "minishell/toks.h"
 
-t_maybe_toks	my_lex_blanks(char const **str)
+TEST	ASSERT_TOKS_EQ(t_toks *ref, t_toks *yours)
 {
-	t_toks	*tok;
-	int		len;
-
-	len = ft_strspn(*str, " \t");
-	*str += len;
-	tok = my_toks_create(BLANKS, " ", 1);
-	if (tok == NULL)
-		return ((t_maybe_toks){.err = MEM_ERR, .toks = NULL});
-	return ((t_maybe_toks){.err = NO_ERR, .toks = tok});
+	while (ref != NULL)
+	{
+		ASSERT_NEQ(NULL, yours);
+		ASSERT_EQ(ref->type, yours->type);
+		ASSERT_NEQ(NULL, yours->content);
+		ASSERT_STR_EQ(ref->content, yours->content);
+		ref = ref->next;
+		yours = yours->next;
+	}
+	ASSERT_EQ(NULL, yours);
+	PASS();
 }

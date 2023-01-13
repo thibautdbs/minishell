@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 15:35:41 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/05 09:36:54 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/13 16:54:05 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ test:
 ################################################################################
 ### TESTS
 
-$(RUNNERS): CFLAGS		+=	-ggdb3
+$(RUNNERS): CFLAGS		+=	-ggdb3 -Wno-unused-function
 $(RUNNERS): CPPFLAGS	+=	-I tests -I src
 $(RUNNERS): LDFLAGS		+=	-L$(dir $(ARCHIVE))
 $(RUNNERS): LDLIBS		:=	-l:$(notdir $(ARCHIVE)) -l:$(notdir $(LIBFT))

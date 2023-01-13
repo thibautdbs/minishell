@@ -6,41 +6,53 @@
 /*   By: ffeaugas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 11:32:33 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/13 13:37:49 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
-#include "minishell/token.h"
+
 #include <stdio.h>
 
-#define DEBUG
+#include "minishell/toks.h"
 
-void	dev_print_one_token(t_tok const *tok)
+static char const	*token_types[] = {
+	"LPAR",
+	"RPAR", 
+	"AND", 
+	"OR",
+	"PIPE", 
+	"VAR", 
+	"QTD_VAR",
+	"INFILE",
+	"OUTFILE", 
+	"APPNDFILE",
+	"WILDCARD",
+	"HEREDOC",
+	"BLANKS",
+	"WORD"
+};
+
+
+void	dev_print_one_token(t_toks const *tok)
 {
-	char const	*token_types[] = {"PIPE", "AND", "LEFTPAR", "RIGHTPAR",
-		"DOUBLEQUOTE", "SINGLEQUOTE", "LEFTAGBRACKET", "RIGHTAGBRACKET",
-		"SPACES", "WORD"};
-
 	printf("Token type : %s\n", token_types[tok->type]);
 	printf("Token content : \"%s\"\n", tok->content);
 	printf("Token next : %p\n\n", tok->next);
 }
 
-void	dev_print_token(t_tok const *tok)
+void	dev_print_token(t_toks const *toks)
 {
 #ifdef DEBUG
-	t_tok const	*current;
-	int				index;
+	int	index;
 
-	current = tok;
 	index = 0;
-	while (current)
+	while (toks != NULL)
 	{
-		printf("\033[0;33m----TOKEN %d----\033[0m\n", index);
-		dev_print_one_token(current);
+		printf(YELLOW"----TOKEN %d----"NC, index);
+		dev_print_one_token(toks);
 		index++;
-		current = current->next;
+		toks = toks->next;
 	}
 #else
 	(void) tok;

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:31:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 20:05:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/13 20:10:26 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static t_maybe_toks	loc_extract_tok(char const **str)
 	t_lexer		*lexer;
 
 	loc_register_meta_chars_lexers(meta_chars_lexers);
-	if (ft_strchr(meta_chars, *str[0]) != NULL)
-		lexer = meta_chars_lexers[(int)*str[0]];
+	if (ft_strchr(meta_chars, (*str)[0]) != NULL)
+		lexer = meta_chars_lexers[(int)((*str)[0])];
 	else
 		lexer = my_lex_word;
 	return (lexer(str));

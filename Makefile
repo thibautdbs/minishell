@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/16 15:45:46 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/16 17:09:14 by ffeaugas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,7 @@ $(NAME): $(OBJS)
 	@$(DIRDUP)
 	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
 
-$(BUILD)/%.o: %.c
+$(BUILD)/src/%.o: src/%.c
 	@$(DIRDUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 

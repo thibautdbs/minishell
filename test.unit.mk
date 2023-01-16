@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 15:35:41 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/16 15:47:33 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/16 17:06:52 by ffeaugas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ $(BUILD)/tests/%.test.out: tests/%.test.c
 	@$(DIRDUP)
 	-$(MKRUNNER) $< | $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $< -xc - $(LDLIBS) -o $@
 
-%.test.tap: %.test.out
+$(BUILD)/tests/%.test.tap: $(BUILD)/tests/%.test.out
 	@$(DIRDUP)
 	-valgrind --leak-check=full --show-reachable=yes -q $< >$@ 2>&1
 

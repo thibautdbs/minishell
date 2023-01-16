@@ -6,7 +6,7 @@
 #    By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 14:03:36 by ffeaugas          #+#    #+#              #
-#    Updated: 2023/01/16 15:59:48 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/16 17:11:29 by ffeaugas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ BUILTINS_SUITES :=	$(shell find test_builtins -name '*.test.sh')
 
 BUILTINS_RUNNER_SRC	:=	test_builtins/main.c
 BUILTINS_RUNNER		:=	$(BUILD)/tests.builtins/runner
-BUILTINS_TAPFILES	:=	$(SUITES:test_builtins/%.test.sh=$(BUILD)/tests.builtins/%.test.tap)
+BUILTINS_TAPFILES	:=	$(BUILTINS_SUITES:test_builtins/%.test.sh=$(BUILD)/tests.builtins/%.test.tap)
 
 ARCHIVE		:=	$(BUILD)/minishell.a
 
@@ -44,7 +44,7 @@ test.builtins:
 	@$(ECHO)
 	@$(ECHO) "$(MAGENTA)Running tests!$(NC)"
 	@$(MAKE) -j $(BUILTINS_TAPFILES)
-	cat $(TAPFILES)
+	cat $(BUILTINS_TAPFILES)
 .PHONY: test
 
 ################################################################################
@@ -55,12 +55,13 @@ $(BUILTINS_RUNNER): CPPFLAGS	+=	-I tests -I src
 $(BUILTINS_RUNNER): LDFLAGS		+=	-L$(dir $(ARCHIVE))
 $(BUILTINS_RUNNER): LDLIBS		:=	-l:$(notdir $(ARCHIVE)) -l:$(notdir $(LIBFT))
 
-$(BUILTINS_RUNNER): $(BUILTINS_RUNNER_SRC) $(LIBFT) $(ARCHIVE) 
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $< $(LDLIBS) -o $@
-
-$(BUILD)/tests.builtins/%.test.tap: test_builtins/%.test.sh $(BUILTINS_RUNNER)
+$(BUILTINS_RUNNER):
 	@$(DIRDUP)
-	bash $< $(BUILTINS_RUNNER) >$@ 2>&1
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(BUILTINS_RUNNER_SRC) $(LDLIBS) -o $@
+
+$(BUILD)/tests.builtins/%.test.tap: test_builtins/%.test.sh
+	@$(DIRDUP)
+	-bash $< $(BUILTINS_RUNNER) >$@ 2>&1
 
 ################################################################################
 ### ARCHIVE

@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/16 17:09:14 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/16 23:35:31 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,4 +118,4 @@ MAKEFLAGS	:=	--no-builtin-rules			\
 NC			:=	\\e[0m
 MAGENTA		:=	\\e[95m
 
--include dev.mk test.unit.mk test.builtins.mk
+-include dev.mk tests/test.mk

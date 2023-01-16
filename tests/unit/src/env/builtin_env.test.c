@@ -6,11 +6,11 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 13:39:04 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/16 13:46:59 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/17 00:23:14 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "greatest.c"
+#include "greatest.h"
 
 static int	fd;
 

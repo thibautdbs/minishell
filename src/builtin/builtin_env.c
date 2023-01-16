@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 18:32:45 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/16 13:36:19 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,48 +15,16 @@
 #include <stddef.h> //NULL
 #include "libft.h" //t_status, ft_strncmp, ft_strlen
 
-static int	loc_envp_len(char **envp)
-{
-	int i;
-
-	while (envp[i] != NULL)
-		i++;
-	return (i);
-}
-
-static void	loc_sort_env(char **envp)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*tmp;
-	
-	len = loc_envp_len(envp);
-	i = 0;
-	while (i < len - 2)
-	{
-		j = 0;
-		while (j < len - 1)
-		{
-			if (ft_strncmp(envp[j], envp[j + 1]) > 0)
-			{
-				tmp = envp[j];
-				envp[j] = envp[j + 1];
-				envp[j + 1] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-static void my_print_env(char **envp)
+static void loc_print_env(char **envp)
 {
 	int	i;
 
+	i = 0;
 	while (envp[i] != NULL)
 	{
-		
+		if (ft_strchr(envp[i], '=') != NULL)
+			ft_putstr_fd(envp[i], STDOUT);
+		i++;
 	}
 }
 
@@ -66,12 +34,24 @@ void	my_builtin_env(t_env *env, char **argv)
 
 	if (argv[1] != NULL)
 	{
-		perror("Invalid env arg");
+		ft_puterr("env : No such file or directory");
 		return ;
 	}
 	envp = my_get_envp(env);
 	if (envp == NULL)
 		return ;
-	loc_sort_env(envp);
+	my_sort_env(envp);
 	loc_print_env(envp);
+	ft_strsdel(&envp);
 }
+/*
+int	main(int argc, char **argv, char **envp)
+{
+	t_env	*env;
+
+	(void) argc;
+	(void) argv;
+	env = my_env_init(envp);
+	my_builtin_env(t_env *env, {"env", ""});
+}
+*/

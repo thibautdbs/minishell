@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 20:29:11 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/13 23:30:25 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/16 17:27:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,14 @@ typedef struct s_cmd_lst
 	t_cmd		*cmd;
 	t_cmd_lst	*next;
 }	t_cmd_lst;
+
+////////////////////////////////////////////////////////////////////////////////
+/// FUNCTIONS
+
+t_cmd	*my_cmd_create(t_cmd_t type);
+
+t_cmd_lst	*my_cmd_lst_create(t_cmd *cmd);
+void		my_cmd_lst_add_back(t_cmd_lst **cmd_lst, t_cmd_lst *new_cmd);
+t_cmd_lst	*my_cmd_lst_last(t_cmd_lst *cmd_lst);
 
 #endif //CMD_H

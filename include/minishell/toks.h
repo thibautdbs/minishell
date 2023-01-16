@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 08:53:25 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 15:16:55 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/16 08:28:58 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ void	my_toks_add_back(t_toks **toks, t_toks *new_tok);
 
 t_toks	*my_toks_last(t_toks *toks);
 
-bool	my_toks_type_match(t_toks const *tok, t_tok_t const *types, int size);
+bool	my_toks_has_type(t_toks const *tok, t_tok_t *types, int nmemb);
 
 #endif //TOKS_H

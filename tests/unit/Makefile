@@ -6,18 +6,56 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 15:35:41 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/17 00:41:31 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/17 15:18:06 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-all: run
+SHELL			:=	/usr/bin/bash
+
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory 
+.DEFAULT_GOAL	:=	all
+
+################################################################################
+### TOOLS
+
+RM				:=	rm -rf
+
+MAGENTA			:=	$(shell echo -e "\033[0;35m")
+NC				:=	$(shell echo -e "\033[0m")
+
+define log
+    $(info $(MAGENTA)$(1)$(NC))
+endef
+
+.SECONDEXPANSION:
+DIRDUP	=	$$(@D)_dir
+%_dir:
+	mkdir -p $(@:%_dir=%);
+
+################################################################################
+### DIRECTORIES
+
+SRC			:=	src
+INCLUDE		:=	include
+
+BUILD		:=	.build
+
+################################################################################
+### STANDARD TARGETS
+
+all:
+	$(call log,all:)
+	$(MAKE) --jobs=8 --output-sync=recurse $(RUNNERS);
 .PHONY: all
 
-SHELL	:=	/usr/bin/bash
-DIRDUP	=	mkdir -p $(@D)
+clean:
+	$(call log,clean:)
+	$(MAKE) -C $(dir $(LIBFT)) clean;
+	$(RM) $(BUILD);
+.PHONY: clean
 
-ROOT	:=	$(shell git rev-parse --show-cdup)
-BUILD	:=	.build
+re: fclean all
+.PHONY: re
 
 ################################################################################
 ### LIBFT
@@ -25,36 +63,36 @@ BUILD	:=	.build
 LIBFT	:=	$(ROOT)/libft/libft.a
 
 $(LIBFT):
-	$(MAKE) -C $(dir $(LIBFT))
+	$(MAKE) -C $(dir $(LIBFT));
 
 ################################################################################
 ### ARCHIVE
 
 SRCS	:=	$(shell find $(ROOT)/src -name '*.c')
-OBJS	:=	$(SRCS:$(ROOT)/src/%.c=$(BUILD)/src/%.o)
+OBJS	:=	$(SRCS:$(ROOT)/src/%.c=$(BUILD)/archive/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
 
 ARCHIVE	:=	$(BUILD)/minishell.a
 
-$(BUILD)/src/%.o: $(ROOT)/src/%.c
-	@$(DIRDUP)
-	clang						\
-		-Wall					\
-		-Wextra					\
-		-Wno-unused-command-line-argument \
-		-Werror					\
-		-ggdb3					\
-		-O3						\
-		-c						\
-		-MP						\
-		-MMD					\
-		-I$(ROOT)/include		\
-		-I$(ROOT)/libft/include	\
-		-xc $<					\
-		-L$(ROOT)/libft			\
-		-l:libft.a				\
-		-lreadline				\
-		-o$@
+$(OBJS): CC				:=	clang
+
+$(OBJS): CFLAGS			:=	-Wall								\
+							-Wextra								\
+							-Wno-unused-command-line-argument	\
+							-Werror								\
+							-ggdb3								\
+							-c									\
+
+$(OBJS): CPPFLAGS		:=	-MP									\
+							-MMD								\
+							-I$(ROOT)/include					\
+							-I$(ROOT)/libft/include				\
+
+$(OBJS): LDFLAGS		:=	-L$(ROOT)/libft -l:libft.a			\
+							-lreadline							\
+
+$(BUILD)/src/%.o: $(ROOT)/src/%.c | $(DIRDUP)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -xc $< $(LDFLAGS) -o $@;
 
 $(ARCHIVE): $(OBJS)
 	ar rcs $(ARCHIVE) $(OBJS)
@@ -62,38 +100,34 @@ $(ARCHIVE): $(OBJS)
 ################################################################################
 ### RUNNERS
 
-SUITES		:=	$(shell find . -name '*.test.c')
+SUITES		:=	$(shell find src -name '*.test.c')
 
 RUNNERS		:=	$(SUITES:%.c=$(BUILD)/runners/%.out)
 
-$(BUILD)/runners/%.test.out: ./%.test.c $(LIBFT) $(ARCHIVE)
-	@$(DIRDUP)
-	- scripts/mkrunner $< | clang			\
-					-Wall					\
-					-Wextra					\
-					-Wno-unused-command-line-argument \
-					-Werror					\
-					-ggdb3					\
-					-O3						\
-					-I./src					\
-					-I./include				\
-					-I$(ROOT)/src			\
-					-I$(ROOT)/include		\
-					-I$(ROOT)/libft/include	\
-					-xc -					\
-					-xc $<					\
-					-L$(dir $(ARCHIVE))		\
-					-l:$(notdir $(ARCHIVE))	\
-					-L$(dir $(LIBFT))		\
-					-l:$(notdir $(LIBFT))	\
-					-o$@
+$(RUNNERS): CC			:=	clang
+
+$(RUNNERS): CFLAGS		:=	-Wall								\
+							-Wextra								\
+							-Wno-unused-command-line-argument	\
+							-Werror								\
+							-ggdb3								\
+							-c									\
+
+$(RUNNERS): CPPFLAGS	:=	-MP									\
+							-MMD								\
+							-I$(ROOT)/include					\
+							-I$(ROOT)/libft/include				\
+
+$(RUNNERS): LDFLAGS		:=	-L$(ROOT)/libft -l:libft.a			\
+							-lreadline							\
+
+$(BUILD)/runners/%.test.out: ./%.test.c $(LIBFT) $(ARCHIVE) | $(DIRDUP)
+	-scripts/mkrunner $< | $(CC) $(CFLAGS) $(CPPFLAGS) -xc $< $(LDFLAGS) -o $@;
 
 ################################################################################
 ### TAPFILES
 
 TAPFILES	:=	$(RUNNERS:%.out=%.tap)
-
-$(TAPFILES): MAKEFlAGS += -j
 
 $(BUILD)/runners/%.test.tap: $(BUILD)/runners/%.test.out
 	@$(DIRDUP)
@@ -101,7 +135,7 @@ $(BUILD)/runners/%.test.tap: $(BUILD)/runners/%.test.out
 											--quiet					\
 											--leak-check=full		\
 											--show-reachable=yes	\
-											$<
+											-- $<
 
 ################################################################################
 ### TEST

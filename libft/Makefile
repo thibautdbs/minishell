@@ -6,16 +6,19 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/13 10:15:09 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/17 16:43:00 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# ##############################################################################
-# ## VARS                                                                      #
-# ##############################################################################
+SHELL			:=	/usr/bin/bash
+.SHELLFLAGS		:=	-ec
+.ONESHELL:
+
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --silent 
+.DEFAULT_GOAL	:=	all
 
 ################################################################################
-### TARGET
+### GOAL
 
 NAME		:=	libft.a
 
@@ -23,15 +26,34 @@ NAME		:=	libft.a
 ### DIRECTORIES
 
 SRC			:=	src
-BUILD		:=	build
 INCLUDE		:=	include
+
+BUILD		:=	.build
+
+################################################################################
+### STANDARD TARGETS
+
+all: $(NAME)
+.PHONY: all
+
+clean:
+	rm -rf $(BUILD);
+.PHONY: clean
+
+fclean:
+	rm -rf $(BUILD);
+	rm -rf $(NAME);
+.PHONY: fclean
+
+re: fclean all
+.PHONY: re
 
 ################################################################################
 ### FLAGS
 
 CC			:=	clang
 CFLAGS		:=	-Wall -Wextra -Werror -O3
-CPPFLAGS	:=	-MMD -MP -I $(INCLUDE)
+CPPFLAGS	:=	-MP -MMD -I$(INCLUDE)
 
 ################################################################################
 ### FILES
@@ -151,67 +173,20 @@ SRCS	+=	ft_lstget_int.c		\
 SRCS	+=	ft_lstreadlines.c	\
 
 ################################################################################
+### OBJS TARGET
 
 OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 
-# ##############################################################################
-# ## RULES                                                                     #
-# ##############################################################################
-
-################################################################################
-### DEFAULT
-
-all:
-	@$(MAKE) $(OBJS) -j
-	@$(MAKE) $(NAME)
-.PHONY: all
-
-################################################################################
-### LIBFT
-
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $^
-
 $(BUILD)/%.o: $(SRC)/%.c
-	@$(DIRDUP)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-
-################################################################################
-
-test:
-	@$(MAKE) -C ./tests
-.PHONY: test
-
-################################################################################
+	mkdir -p $(@D);
+	$(CC) $(CFLAGS) -c $(CPPFLAGS) -xc $< -o $@;
+	echo -n '.';
 
 -include $(DEPS)
 
-# ##############################################################################
-# ## UTILS                                                                     #
-# ##############################################################################
-
-clean:
-	$(RM) -r $(BUILD)
-.PHONY: clean
-
-fclean: clean
-	$(RM) $(NAME)
-.PHONY: fclean
-
-re: fclean all
-.PHONY: re
-
 ################################################################################
+### NAME TARGET
 
-SHELL		:=	sh
-MAKEFLAGS   +=	--no-print-directory		\
-				--warn-undefined-variables	\
-				--no-builtin-rules			\
-
-RM			:=	rm -f
-DIRDUP		=	mkdir -p $(@D)
-
-ifeq (DEBUG,1)
-	CFLAGS	+=	-ggdb3
-endif
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS);

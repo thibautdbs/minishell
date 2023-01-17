@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   check_varname.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/17 14:11:16 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/17 16:14:15 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/17 17:49:27 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/env.h"
+#include "libft.h" //t_success, ft_isalpha, ft_isalnum
 
-#include <stddef.h> //NULL
-#include "libft.h" //ft_strchr, ft_puterr, ft_putstr_fd
+#include "minishell/builtin.h"
 
-int	my_builtin_env(t_env *env, char **args)
+t_success my_check_varname(char	*var, char delim)
 {
-	t_env	*curr;
+	int	i;
 
-	curr = env;
-	if (args[1] != NULL)
+	if (ft_isalpha(var[0]) == 0 && var[0] != '_')
+		return (FAILURE);
+	i = 1;
+	while (var[i] != delim)
 	{
-		ft_puterr("env : No such file or directory");
-		return (127);
-	} 
-	while (curr != NULL)
-	{
-		if (ft_strchr(env->content, '=') != NULL)
-			ft_putstr_fd(env->content, STDOUT);
-		curr = curr->next;
+		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
+			return (FAILURE);
+		i++;
 	}
-	return (0);
+	return (SUCCESS);
 }

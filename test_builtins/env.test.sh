@@ -6,7 +6,7 @@
 #    By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 13:59:30 by ffeaugas          #+#    #+#              #
-#    Updated: 2023/01/16 17:20:06 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/17 13:28:42 by ffeaugas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ run()
 
 test_equality()
 {
-	assertEquals 0 0;
+	assertEquals env ;
+
 }
 
 shift ${#};

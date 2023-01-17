@@ -6,59 +6,31 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/17 17:13:16 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/18 00:33:43 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SHELL			=	/usr/bin/bash
-.SHELLFLAGS		=	-ec
-.ONESHELL:
+SHELL			:=	/usr/bin/bash
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory
 
-MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --silent
-.DEFAULT_GOAL	=	all
+.DEFAULT_GOAL	:=	all
 
-################################################################################
-### LIBFT TARGET
+LOG		=	@echo -e '\033[0;35m'$(1)'\033[0m'
 
-NAME		=	minishell
-
-SRC			=	src
-INCLUDE		=	include
-
-BUILD		=	.build
+-include dev.mk
 
 ################################################################################
-### STANDARD TARGETS
+### GOALS
 
-all:
-	$(info Building...)
-	$(MAKE) --jobs=8 --output-sync=recurse $(NAME);
-	echo;
-.PHONY: all
-
-clean:
-	$(info Cleaning...)
-	$(MAKE) -C $(dir $(LIBFT)) clean;
-	rm -rf $(BUILD);
-.PHONY: clean
-
-fclean:
-	$(info Cleaning(full)...)
-	$(MAKE) -C $(dir $(LIBFT)) fclean;
-	rm -rf $(BUILD);
-	rm -rf $(NAME);
-.PHONY: fclean
-
-re: fclean all
-.PHONY: re
+NAME		:=	minishell
+LIBFT		:=	libft/libft.a
 
 ################################################################################
-### LIBFT TARGET
+### DIRECTORIES
 
-LIBFT	=	libft/libft.a
-
-$(LIBFT):
-	$(MAKE) -C $(dir $(LIBFT));
+SRC			:=	src
+INCLUDE		:=	include
+BUILD		:=	.build
 
 ################################################################################
 ### FLAGS
@@ -68,27 +40,69 @@ CFLAGS		=	-Wall -Werror -Wextra -O3
 CPPFLAGS	=	-MP -MMD -I$(INCLUDE) -I$(dir $(LIBFT))/include
 LDFLAGS     =	-L$(dir $(LIBFT)) -l:$(notdir $(LIBFT)) -lreadline
 
-#SRCS		:=
+################################################################################
+### FILES
+
+# SRCS	:=
+
+OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
+DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 
 ################################################################################
-### OBJS TARGET
+### STANDARD TARGETS
 
-OBJS	=	$(SRCS:%.c=$(BUILD)/%.o)
-DEPS	=	$(SRCS:%.c=$(BUILD)/%.d)
+all: libft objs name
+.PHONY: all
 
-$(BUILD)/src/%.o: src/%.c
-	mkdir -p $(@D);
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -xc $< -o $@;
-	echo -n '.';
+clean:
+	$(call LOG,clean!);
+	$(MAKE) -C $(dir $(LIBFT)) clean;
+	rm -rf $(BUILD);
+.PHONY: clean
 
--include $(DEPS) dev.mk
+fclean:
+	$(call LOG,fclean!);
+	$(MAKE) -C $(dir $(LIBFT)) fclean;
+	rm -rf $(BUILD);
+	rm -rf $(NAME);
+.PHONY: fclean
+
+re: fclean all
+.PHONY: re
 
 ################################################################################
 ### NAME TARGET 
 
+name: $(NAME)
+.PHONY: name
+
 $(NAME): $(LIBFT) $(OBJS)
-	echo objs:$(OBJS)
+	$(call LOG,building $@:);
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME);
 
 ################################################################################
+### OBJS TARGET
 
+objs:
+	@parallel -j8 "$(MAKE) -q {} || $(MAKE) {}" ::: $(OBJS);
+.PHONY: objs
+
+# $(sort $(patsubst %/,%,$(dir $(OBJS)))):
+# 	$(call LOG,building $@:);
+# 	mkdir -p $@;
+
+$(OBJS): $(BUILD)/%.o: %.c
+	$(call LOG,building $@:);
+	mkdir -p $(@D);
+	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@;
+
+-include $(DEPS)
+
+################################################################################
+### LIBFT TARGET
+
+libft: $(LIBFT)
+.PHONY: libft
+
+$(LIBFT):
+	$(MAKE) -C $(dir $(LIBFT));

@@ -6,79 +6,37 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/17 17:50:09 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/17 20:12:25 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
 #include <stddef.h> //NULL
-#include <unistd.h> //write
-#include "libft.h" //t_status, ft_strncmp, ft_strlen, t_success
+#include "libft.h" //t_success, ft_strlen, ft_strchr
 
 #include "minishell/env.h"
 
-static int	loc_set_vars(t_env *env, char **args);
+static int			loc_set_vars(t_env *env, char **args);
 static t_success	loc_update_env(t_env *env, char *var);
-static int loc_print_env(t_env *env);
 
 int	my_builtin_export(t_env *env, char **args)
 {
 	if (args[1] == NULL)
-		return (loc_print_env(env));
+		return (my_print_export(env));
 	return (loc_set_vars(env, args + 1));
-}
-
-static void	loc_print_formalized(char *str)
-{
-	int		label_len;
-
-	label_len = ft_strlen(str) - ft_strlen(ft_strchr(str, '='));
-	ft_putstr_fd("declare -x ", STDOUT);
-	write(STDOUT, str, label_len);
-	if (ft_strchr(str, '=') != NULL)
-	{
-		ft_putstr_fd("=\"", STDOUT);
-		ft_putstr_fd(ft_strchr(str, '=') + 1, STDOUT);
-		ft_putstr_fd("\"\n", STDOUT);
-	}
-	else
-		ft_putstr_fd("\n", STDOUT);
-}
-
-static int loc_print_env(t_env *env)
-{
-	char	**envp;
-	int	i;
-
-	i = 0;
-	envp = my_get_envp(env);
-	if (envp == NULL)
-	{
-		ft_puterr("Error occured when creating envp");
-		return (12);
-	}
-	my_sort_env(envp);
-	while (envp[i] != NULL)
-	{
-		loc_print_formalized(envp[i]);	
-	i++;
-	}
-	ft_strsdel(&envp);
-	return (0);
 }
 
 static t_success	loc_update_env(t_env *env, char *var)
 {
-	t_env	*new;
-
-	new = my_env_create(var);
-	if (new == NULL)
-	{
-		ft_puterr("error occured when creating env var");
-		return (FAILURE);
-	}
-	my_env_addback(&env, new);
+	t_env	*env_var;
+	env_var = my_env_find_var(env, var);
+	if (env_var == NULL)
+		return (my_add_var(env, var));
+	if (ft_strlen(ft_strchr(var, '=')) - ft_strlen(ft_strchr(var, '+')) == 1)
+		return (my_append_var(env_var, var));
+	if (ft_strchr(var, '=') != NULL)
+		return (my_overwrite_var(env_var, var));
 	return (SUCCESS);
 }
 

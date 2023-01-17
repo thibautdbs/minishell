@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/16 12:04:00 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/17 20:04:28 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ t_env	*my_env_create(char const *str);
 void	my_env_addback(t_env **env, t_env *to_add);
 void	my_env_destroy(t_env **env);
 void	my_sort_env(char **envp);
+t_env	*my_env_find_var(t_env *env, char *var);
 
 #endif //ENV_H

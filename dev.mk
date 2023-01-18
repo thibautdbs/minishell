@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:39:52 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/17 17:01:15 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/18 13:31:29 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,16 @@ SRCS	=	$(shell find src -name '*.c')
 test: test.unit test.builtins
 .PHONY: test
 
-test.unit: $(ARCHIVE)
-	$(MAKE) -C ./tests/unit
+test.unit:
+	@$(MAKE) -q $(LIBFT) || $(MAKE) --jobs=8 $(LIBFT);
+	@$(MAKE) -q $(ARCHIVE) || $(MAKE) --jobs=8 $(ARCHIVE);
+	@$(MAKE) -C ./tests/unit
 .PHONY: test.unit
 
-test.builtins: $(ARCHIVE)
-	$(MAKE) -C ./tests/builtins
+test.builtins:
+	@$(MAKE) -q $(LIBFT) || $(MAKE) --jobs=8 $(LIBFT);
+	@$(MAKE) -q $(ARCHIVE) || $(MAKE) --jobs=8 $(ARCHIVE);
+	@$(MAKE) -C ./tests/builtins
 .PHONY: test.builtins
 
 ################################################################################
@@ -43,4 +47,3 @@ $(ARCHIVE): CFLAGS		:=	-Wall								\
 
 $(ARCHIVE): $(OBJS)
 	ar rcs $(ARCHIVE) $(OBJS);
-	echo;

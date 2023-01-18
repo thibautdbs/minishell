@@ -6,15 +6,27 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 15:35:41 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/17 17:50:38 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/18 17:17:58 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SHELL			:=	/usr/bin/bash
-.SHELLFLAGS		=	-ec
-.ONESHELL:
+################################################################################
+### SHELL OPTS
 
-MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --silent
+SHELL		:=	/usr/bin/bash
+.SHELLFLAGS	:=	-e -o pipefail -c --
+
+.SECONDEXPANSION:
+
+################################################################################
+### MAKE OPTS
+
+MAKEFLAGS   	+=	--no-builtin-rules 		\
+					--no-print-directory	\
+					--output-sync			\
+					--keep-going			\
+					--silent				\
+
 .DEFAULT_GOAL	:=	all
 
 ################################################################################
@@ -25,26 +37,24 @@ ROOT		:=	$(shell git rev-parse --show-cdup)
 SRC			:=	src
 INCLUDE		:=	include
 
-BUILD		:=	.build
+BUILD		:=	build
 
 ################################################################################
-### STANDARD TARGETS
+### FILES
 
-all: clean
-	$(info Building runners...)
-	$(MAKE) --jobs=8 --output-sync=recurse $(RUNNERS);
-.PHONY: all
+LIBFT		:=	$(ROOT)/libft/libft.a
+ARCHIVE		:=	$(ROOT)/tests/minishell.a
 
-clean:
-	$(info Cleaning runners...)
-	$(RM) $(BUILD);
-.PHONY: clean
+SUITES		:=	$(shell find $(SRC) -name '*.test.c')
 
 ################################################################################
-### RUNNERS
+### GOALS
 
-SUITES		:=	$(shell find src -name '*.test.c')
-RUNNERS		:=	$(SUITES:%.c=$(BUILD)/runners/%.out)
+RUNNERS		:=	$(SUITES:$(SRC)/%.c=$(BUILD)/runners/%.out)
+LOGFILES	:=	$(SUITES:$(SRC)/%.c=$(BUILD)/logfiles/%.log)
+
+################################################################################
+### FLAGS
 
 CC			:=	clang
 
@@ -53,42 +63,56 @@ CFLAGS		:=	-Wall								\
 				-Wno-unused-command-line-argument	\
 				-Werror								\
 				-ggdb3								\
-				-c									\
 
-CPPFLAGS	:=	-MP									\
-				-MMD								\
+CPPFLAGS	:=	-MP -MMD							\
 				-I$(SRC)							\
 				-I$(INCLUDE)						\
 				-I$(ROOT)/src						\
 				-I$(ROOT)/include					\
 				-I$(ROOT)/libft/include				\
 
-LDFLAGS		:=	-L$(ROOT)/tests -l:minishell.a		\
-				-L$(ROOT)/libft -l:libft.a			\
-				-lreadline							\
-
-$(BUILD)/runners/%.test.out: ./%.test.c
-	mkdir -p $(@D);
-	-scripts/mkrunner $< | $(CC) $(CFLAGS) $(CPPFLAGS) -xc $< $(LDFLAGS) -o $@;
+LDFLAGS		:=	-L$(dir $(ARCHIVE)) -l:$(notdir $(ARCHIVE))	\
+				-L$(dir $(LIBFT)) -l:$(notdir $(LIBFT))		\
+				-lreadline									\
 
 ################################################################################
-### TAPFILES
+### STANDARD TARGETS
 
-TAPFILES	:=	$(RUNNERS:%.out=%.tap)
-
-$(BUILD)/runners/%.test.tap: $(BUILD)/runners/%.test.out
-	@$(DIRDUP)
-	- >&$@ timeout --kill-after=5s 3s valgrind						\
-											--quiet					\
-											--leak-check=full		\
-											--show-reachable=yes	\
-											-- $<
-
-################################################################################
-### TEST
+all: clean run
+.PHONY: all
 
 run:
-	rm -rf $(BUILD)
-	$(MAKE) -j $(TAPFILES)
-	- 2>/dev/null cat $(TAPFILES)
-.PHONY: run
+	$(MAKE) --jobs=8 $(LOGFILES);
+.PHONY: build
+
+report: clean
+	-$(MAKE) run
+	find build/logfiles -name '*.log' -exec "cat" "{}" ";";
+.PHONY: report
+
+clean:
+	rm -rf $(BUILD);
+.PHONY: clean
+
+################################################################################
+### DIRECTORIES TARGETS
+
+$(sort $(patsubst %/,%,$(dir $(RUNNERS) $(LOGFILES)))):
+	mkdir -p $@;
+
+################################################################################
+### RUNNERS TARGETS
+
+MKRUNNER	:=	scripts/mkrunner
+
+$(RUNNERS): $(BUILD)/runners/%.out: $(SRC)/%.c | $$(@D)
+	$(MKRUNNER) $< | $(CC) $(CFLAGS) $(CPPFLAGS) $< -xc - $(LDFLAGS) -o $@;
+
+################################################################################
+### LOGFILES TARGETS
+
+TIMEOUT		:=	timeout --verbose --kill-after=5s 3s
+VALGRIND	:=	valgrind --quiet --leak-check=full --show-reachable=yes
+
+$(LOGFILES): $(BUILD)/logfiles/%.log: $(BUILD)/runners/%.out | $$(@D)
+	$(TIMEOUT) $(VALGRIND) -- $< >&$@ || ( cat $@ && exit 1 );

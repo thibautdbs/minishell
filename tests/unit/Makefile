@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 15:35:41 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/18 17:17:58 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/18 17:37:16 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,9 +86,16 @@ run:
 .PHONY: build
 
 report: clean
-	-$(MAKE) run
+	-$(MAKE) run;
 	find build/logfiles -name '*.log' -exec "cat" "{}" ";";
 .PHONY: report
+
+gdb:
+	-$(MAKE) run;
+	type fzf >&/dev/null && find build/runners -name '*.out'	\
+		| fzf													\
+		| xargs -i -r bash -c "gdb </dev/tty {}";
+.PHONY: gdb
 
 clean:
 	rm -rf $(BUILD);

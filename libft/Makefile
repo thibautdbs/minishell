@@ -6,19 +6,27 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/17 16:43:00 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/18 12:30:09 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SHELL			:=	/usr/bin/bash
-.SHELLFLAGS		:=	-ec
-.ONESHELL:
+################################################################################
+### SHELL OPTS
 
-MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --silent 
+SHELL		:=	/usr/bin/bash
+.SHELLFLAGS	:=	-e -o pipefail -c --
+
+.SECONDEXPANSION:
+
+################################################################################
+### MAKE OPTS
+
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
+
 .DEFAULT_GOAL	:=	all
 
 ################################################################################
-### GOAL
+### GOALS
 
 NAME		:=	libft.a
 
@@ -29,24 +37,6 @@ SRC			:=	src
 INCLUDE		:=	include
 
 BUILD		:=	.build
-
-################################################################################
-### STANDARD TARGETS
-
-all: $(NAME)
-.PHONY: all
-
-clean:
-	rm -rf $(BUILD);
-.PHONY: clean
-
-fclean:
-	rm -rf $(BUILD);
-	rm -rf $(NAME);
-.PHONY: fclean
-
-re: fclean all
-.PHONY: re
 
 ################################################################################
 ### FLAGS
@@ -172,16 +162,37 @@ SRCS	+=	ft_lstget_int.c		\
 
 SRCS	+=	ft_lstreadlines.c	\
 
-################################################################################
-### OBJS TARGET
-
 OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 
-$(BUILD)/%.o: $(SRC)/%.c
-	mkdir -p $(@D);
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) -xc $< -o $@;
-	echo -n '.';
+################################################################################
+### STANDARD TARGETS
+
+all: $(NAME)
+.PHONY: all
+
+clean:
+	rm -rf $(BUILD);
+.PHONY: clean
+
+fclean:
+	rm -rf $(BUILD);
+	rm -rf $(NAME);
+.PHONY: fclean
+
+re: fclean all
+.PHONY: re
+
+################################################################################
+### OBJS TARGET
+
+$(sort $(patsubst %/,%,$(dir $(OBJS)))):
+	$(LOG_TARGET)
+	mkdir -p $@;
+
+$(OBJS): $(BUILD)/%.o: $(SRC)/%.c | $$(@D)
+	$(LOG_TARGET)
+	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@;
 
 -include $(DEPS)
 
@@ -189,4 +200,15 @@ $(BUILD)/%.o: $(SRC)/%.c
 ### NAME TARGET
 
 $(NAME): $(OBJS)
+	$(LOG_TARGET)
 	ar rcs $(NAME) $(OBJS);
+
+################################################################################
+### TOOLS
+
+MAGENTA	:=	$(shell echo -e '\033[0;35m')
+NC		:=	$(shell echo -e '\033[0m')
+
+define LOG_TARGET
+	$(info $(MAGENTA)Building $@:$(NC))
+endef

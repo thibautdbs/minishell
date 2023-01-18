@@ -6,7 +6,7 @@
 /*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:32:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 13:25:17 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:30:34 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ char	*ft_strtok(char	*str, char const *sep);
 char	*ft_strtok_r(char *str, char const *sep, char **saveptr);
 
 int		ft_atoi(const char *nptr);
+long	ft_atol(const char *nptr);
 t_bool	ft_isint(char const *nptr);
+t_bool	ft_islong(char const *nptr);
 
 char	*ft_strdup(const char *s);
 char	*ft_strndup(char const *s, size_t n);

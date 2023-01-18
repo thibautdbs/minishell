@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/13 10:15:09 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/18 14:30:56 by ffeaugas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,8 +68,10 @@ SRCS 	+=	ft_isalnum.c		\
 			ft_isprint.c		\
 
 SRCS	+=	ft_atoi.c			\
+			ft_atol.c			\
 			ft_atoidup.c		\
 			ft_isint.c			\
+			ft_islong.c			\
 
 SRCS	+=	ft_itoa.c			\
 			ft_strlcat.c		\

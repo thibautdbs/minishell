@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 15:35:41 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/18 17:37:16 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/19 14:32:23 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,9 +92,7 @@ report: clean
 
 gdb:
 	-$(MAKE) run;
-	type fzf >&/dev/null && find build/runners -name '*.out'	\
-		| fzf													\
-		| xargs -i -r bash -c "gdb </dev/tty {}";
+	./scripts/fzf_gdb;
 .PHONY: gdb
 
 clean:

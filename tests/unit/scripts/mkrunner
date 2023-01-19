@@ -7,17 +7,20 @@ if test ! -f "${SRC}"; then
 	exit 1;
 fi
 
-SUITES=$(cat "${SRC}" | sed -nr 's/^SUITE *\( *([^ ]+) *\) *$/\1/p');
+B="[[:blank:]]";
+NB="[^[:blank:]]";
+PATTERN="^SUITE${B}*\(${B}*(${NB}+)${B}*\)";
 
 cat << EOF
 #include "greatest.h"
 
-$(printf "SUITE(%s);\n" ${SUITES})
+$(sed -nr "s/${PATTERN}/SUITE(\1);/p" "${SRC}")
 
 GREATEST_MAIN_DEFS();
-int main(int argc, char **argv) {
-GREATEST_MAIN_BEGIN();
-$(printf "RUN_SUITE(%s);\n" ${SUITES})
-GREATEST_MAIN_END();
+int main(int argc, char **argv)
+{
+	GREATEST_MAIN_BEGIN();
+	$(sed -nr "s/${PATTERN}/RUN_SUITE(\1);/p" "${SRC}")
+	GREATEST_MAIN_END();
 }
 EOF

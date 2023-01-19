@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/18 12:35:06 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/19 19:43:20 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,3 +130,5 @@ endef
 define LOG_PHONY
 	$(info $(BLUE)$@!$(NC))
 endef
+
+-include tests/test.mk

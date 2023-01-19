@@ -1,12 +1,14 @@
 ################################################################################
 ### BUILD FILES
 
-/minishell
 /.build
+/minishell
 
 /libft/.build/
 
+/tests/.build/
 /tests/minishell.a
+
 tests/unit/build/
 
 ################################################################################
@@ -20,4 +22,3 @@ tests/unit/build/
 ### VIM FILES
 
 *.swp
-

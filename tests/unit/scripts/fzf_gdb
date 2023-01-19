@@ -13,7 +13,7 @@ my::preview()
 {
 	declare -r PATTERN="${1}";
 
-	declare -r RUNNER="${2#build/runners/}";
+	declare -r RUNNER="${2#build/}";
 	declare -r SUITE="src/${RUNNER%.out}.c";
 
 	read -r -d '' AWKSCRIPT <<- EOF
@@ -42,7 +42,7 @@ export -f my::preview;
 
 my::select_runner()
 {
-	find build/runners -name '*.out'					\
+	find build -name '*.out'							\
 		| SHELL=bash fzf								\
 			--header='Select runner to debug with gdb:'	\
 			--layout=reverse							\
@@ -71,7 +71,7 @@ my::main()
 {
 	my::assert_command_exists fzf;
 
-	cd "$(git rev-parse --show-cdup)/tests/unit";
+	cd "$(git rev-parse --show-cdup)tests/unit";
 
 	RUNNER=$(my::select_runner);
 	if [[ -z "${RUNNER}" ]]; then

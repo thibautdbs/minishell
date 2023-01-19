@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/19 19:43:20 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/20 00:20:08 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 
 ################################################################################
-### STANDARD TARGETS
+### MANDATORY CMDS
 
 all:
 	$(LOG_PHONY)
@@ -81,7 +81,7 @@ re: fclean all
 .PHONY: re
 
 ################################################################################
-### CUSTOM TARGETS
+### CUSTOM CMDS
 
 fast:
 	$(MAKE) --jobs=8 all;

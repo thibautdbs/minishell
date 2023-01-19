@@ -18,23 +18,25 @@ my::preview()
 
 	read -r -d '' AWKSCRIPT <<- EOF
 		/${PATTERN}/ {
-			begin=NR;
 			var=1;
 		}
-		
-		/^}/ && var {
-			end=NR;
-			print begin":"end;
+
+		var {
+			print;
+		}
+
+		 var && /^}/ {
 			exit;
 		}
 	EOF
 
-	bat													\
+	awk "${AWKSCRIPT}" "${SUITE}" | bat					\
 		--tabs=4										\
 		--color=always									\
 		--style=header,grid								\
-		--line-range="$(awk "${AWKSCRIPT}" "${SUITE}")"	\
-		"${SUITE}";
+		--language=C									\
+		--file-name="Preview" -							\
+		--file-name="${SUITE}" "${SUITE}";
 }
 export -f my::preview;
 

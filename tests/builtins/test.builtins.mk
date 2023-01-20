@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    test.builtins.mk                                   :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 14:03:36 by ffeaugas          #+#    #+#              #
-#    Updated: 2023/01/20 00:18:08 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/20 17:31:42 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,23 @@ TBLTN_LOGFILES	:=	$(TBLTN_SUITES:$(TBLTN_SRC)/%.sh=$(TBLTN_BUILD)/%.log)
 ################################################################################
 ### MAIN RULE
 
-test.builtins: $(TBLTN_RUNNER)
+test.builtins: test.builtins.clean $(TBLTN_RUNNER)
+	@$(MAKE) -s --jobs=8 $(LIBFT) $(ARCHIVE) $(TBLTN_RUNNER);
 	@$(MAKE) -s -k --jobs=8 $(TBLTN_LOGFILES);
 .PHONY: test.builtins
+
+test.builtins.log: test.builtins.clean
+	@$(MAKE) -s --jobs=8 $(LIBFT) $(ARCHIVE) $(TBLTN_RUNNER);
+	-@$(MAKE) -s -k --jobs=8 $(TBLTN_LOGFILES);
+	@find $(TBLTN_LOGFILES) -name '*.log' | xargs -r -L1 cat;
+.PHONY: test.builtins.log
+
+test.builtins.gdb: export PATH	:=	$(abspath $(TBLTN_SCRIPTS)):$(PATH)
+
+test.builtins.gdb: test.builtins.clean
+	@$(MAKE) -s --jobs=8 $(LIBFT) $(ARCHIVE) $(TBLTN_RUNNER);
+	@fzf_gdb $(abspath $(TBLTN_RUNNER));
+.PHONY: test.builtins.gdb
 
 test.builtins.clean:
 	@rm -rf $(TBLTN_BUILD);
@@ -53,11 +67,10 @@ $(TBLTN_RUNNER): $(TBLTN_RUNNER).c
 ################################################################################
 ### LOGFILES TARGET
 
-$(TBLTN_LOGFILES): SHUNIT2	:=	$(TBLTN)/include/shunit2
-$(TBLTN_LOGFILES): PATH		:=	$(abspath $(TBLTN_SCRIPTS)):$${PATH}
+$(TBLTN_LOGFILES): export PATH	:=	$(abspath $(TBLTN_SCRIPTS)):$(PATH)
 
-$(sort $(patsubst %/,%,$(dir $(LOGFILES)))):
+$(sort $(patsubst %/,%,$(dir $(TBLTN_LOGFILES)))):
 	@mkdir -p $@;
 
 $(TBLTN_LOGFILES): $(TBLTN_BUILD)/%.log: $(TBLTN_SRC)/%.sh | $$(@D)
-	@PATH="$(PATH)" $(SHUNIT2) $< >&$@ || (cat $@ && exit 1);
+	run_suite $(TBLTN_RUNNER) $< >&$@ || (cat $@ && exit 1);

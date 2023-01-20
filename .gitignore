@@ -9,7 +9,10 @@
 /tests/.build/
 /tests/minishell.a
 
-tests/unit/build/
+/tests/unit/build/
+
+/tests/builtins/build/
+/tests/builtins/run_bltn
 
 ################################################################################
 ### DEV FILES

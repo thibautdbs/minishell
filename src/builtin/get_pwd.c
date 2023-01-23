@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   get_pwd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/20 17:00:08 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/20 16:56:37 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/20 17:02:05 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
 #include <stddef.h> //NULL
-#include "libft.h" //ft_putstr_fd, ft_memdel
+#include <unistd.h> //getcwd
+#include "libft.h" //ft_calloc, ft_puterr, ft_memdel
 
 #include "minishell/env.h"
 
-int	my_builtin_pwd(t_env *env, char **args)
+char	*my_get_pwd(void)
 {
-	char	*pwd;
+	char	*buf;
+	int		size;
 
-	(void) env;
-	(void) args;
-	pwd = my_get_pwd();
-	if (pwd == NULL)
-		return (12);
-	ft_putstr_fd(pwd, STDOUT);
-	ft_putstr_fd("\n", STDOUT);
-	ft_memdel(&pwd);
-	return (0);
+	size = 1;
+	while (1)
+	{
+		buf = ft_calloc(sizeof(char), size);
+		if (buf == NULL)
+		{
+			ft_puterr("malloc error when creating pwd buf");
+			return (NULL);
+		}
+		if (getcwd(buf, size) != NULL)
+			break ;
+		ft_memdel(&buf);
+		size++;
+	}
+	return (buf);
 }

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/17 20:12:25 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:30:32 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_success	loc_update_env(t_env *env, char *var);
 
 int	my_builtin_export(t_env *env, char **args)
 {
-	if (args[1] == NULL)
+	if (args[0] == NULL || args[1] == NULL)
 		return (my_print_export(env));
 	return (loc_set_vars(env, args + 1));
 }
@@ -55,11 +55,8 @@ static int	loc_set_vars(t_env *env, char **args)
 			ft_puterr(" : not a valid identifier");
 			error_status = 1;
 		}
-		else
-		{
-			if (loc_update_env(env, args[i]) == FAILURE)
-				return (12);
-		}
+		else if	(loc_update_env(env, args[i]) == FAILURE)
+			return (12);
 		i++;
 	}
 	return (error_status);

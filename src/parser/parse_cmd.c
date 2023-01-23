@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 23:11:22 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/23 14:35:03 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/23 13:45:44 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/23 14:47:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,21 @@
 #include "minishell/toks.h"
 
 /**
- * Parses whole command line.
+ * Parses simple command or subshell til eof or closing bracket.
+ * Then puts it in command list if necessary.
  */
-t_cmd_or_err	my_parse(t_toks const *toks)
+t_cmd_or_err	my_parse_cmd(t_toks const **ptoks)
 {
-	t_cmd_or_err	cmd;
+	t_cmd_or_err	res;
 
-	cmd = my_parse_cmd(&toks);
-	if (cmd.err != NO_ERR)
-		return ((t_cmd_or_err){.err = cmd.err, .cmd = NULL});
-	if (toks != NULL)
-	{
-		//put error near token *toks;
+	my_parse_skip_blanks(ptoks);
+	if (my_toks_has_type(*ptoks, (t_tok_t[]){PIPE, AND, OR, RPAR}, 4))
 		return ((t_cmd_or_err){.err = LEX_ERR, .cmd = NULL});
-	}
-	return (cmd);
+	res = my_parse_subshell_or_smpl_cmd();
+	if (res.err != NO_ERR)
+		return ((t_cmd_or_err){.err = res.err, .cmd = NULL});
+	my_parse_skip_blanks(ptoks);
+	if (*ptoks == NULL || (*ptoks)->type == RPAR)
+		return (res);
+	return (my_parse_cmd_lst(ptoks, res.cmd, (*ptoks)->type));
 }

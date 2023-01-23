@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 07:53:40 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/16 16:36:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/23 14:48:23 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_cmd_or_err
 
 t_cmd_or_err	my_parse(t_toks const *toks);
 
-t_cmd_or_err	my_parse_cmd(t_toks const **toks);
+t_cmd_or_err	my_parse_cmd(t_toks const **ptoks);
 t_cmd_or_err	my_parse_cmd_lst(t_toks const **toks, t_cmd *first_cmd,
 					t_tok_t type);
 

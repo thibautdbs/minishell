@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 08:53:25 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/16 08:28:58 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/23 17:54:21 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,9 @@ typedef enum e_tok_t
 	PIPE,
 	VAR,
 	QTD_VAR,
-	INFILE,
-	OUTFILE,
-	APPNDFILE,
 	WILDCARD,
-	HEREDOC,
 	BLANKS,
+	REDIR,
 	WORD
 }	t_tok_t;
 

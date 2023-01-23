@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 09:19:00 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/12 17:46:31 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/23 17:55:46 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// TYPES
 
-typedef enum e_lex_error
+typedef enum e_lex_err
 {
 	NO_ERR,
 	MEM_ERR,
 	LEX_ERR
-}	t_lex_error;
+}	t_lex_err;
 
 typedef struct s_maybe_toks
 {
-	t_lex_error	err;
+	t_lex_err	err;
 	t_toks		*toks;
 }	t_maybe_toks;
 

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 20:29:11 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/23 14:28:59 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/23 17:46:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CMD_H
 
 # include "toks.h"
+# include "redirs.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TYPES DECLARATIONS
@@ -57,14 +58,14 @@ typedef struct s_cmd
 
 typedef struct s_smpl_cmd
 {
-	t_toks	*words;
-	t_toks	*redirs;
+	t_toks		*words;
+	t_redirs	*redirs;
 }	t_smpl_cmd;
 
 typedef struct s_subshell
 {
-	t_cmd	*cmd;
-	t_toks	*redirs;
+	t_cmd		*cmd;
+	t_redirs	*redirs;
 }	t_subshell;
 
 typedef struct s_cmd_lst

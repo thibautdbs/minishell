@@ -6,16 +6,27 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/18 14:30:56 by ffeaugas         ###   ########.fr        #
+#    Updated: 2023/01/24 11:32:40 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# ##############################################################################
-# ## VARS                                                                      #
-# ##############################################################################
+################################################################################
+### SHELL OPTS
+
+SHELL		:=	/usr/bin/bash
+.SHELLFLAGS	:=	-e -o pipefail -c --
+
+.SECONDEXPANSION:
 
 ################################################################################
-### TARGET
+### MAKE OPTS
+
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
+
+.DEFAULT_GOAL	:=	all
+
+################################################################################
+### GOALS
 
 NAME		:=	libft.a
 
@@ -23,15 +34,16 @@ NAME		:=	libft.a
 ### DIRECTORIES
 
 SRC			:=	src
-BUILD		:=	build
 INCLUDE		:=	include
+
+BUILD		:=	.build
 
 ################################################################################
 ### FLAGS
 
 CC			:=	clang
 CFLAGS		:=	-Wall -Wextra -Werror -O3
-CPPFLAGS	:=	-MMD -MP -I $(INCLUDE)
+CPPFLAGS	:=	-MP -MMD -I$(INCLUDE)
 
 ################################################################################
 ### FILES
@@ -152,68 +164,53 @@ SRCS	+=	ft_lstget_int.c		\
 
 SRCS	+=	ft_lstreadlines.c	\
 
-################################################################################
-
 OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 
-# ##############################################################################
-# ## RULES                                                                     #
-# ##############################################################################
-
 ################################################################################
-### DEFAULT
+### STANDARD TARGETS
 
-all:
-	@$(MAKE) $(OBJS) -j
-	@$(MAKE) $(NAME)
+all: $(NAME)
 .PHONY: all
 
-################################################################################
-### LIBFT
-
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $^
-
-$(BUILD)/%.o: $(SRC)/%.c
-	@$(DIRDUP)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-
-################################################################################
-
-test:
-	@$(MAKE) -C ./tests
-.PHONY: test
-
-################################################################################
-
--include $(DEPS)
-
-# ##############################################################################
-# ## UTILS                                                                     #
-# ##############################################################################
-
 clean:
-	$(RM) -r $(BUILD)
+	rm -rf $(BUILD);
 .PHONY: clean
 
-fclean: clean
-	$(RM) $(NAME)
+fclean:
+	rm -rf $(BUILD);
+	rm -rf $(NAME);
 .PHONY: fclean
 
 re: fclean all
 .PHONY: re
 
 ################################################################################
+### OBJS TARGET
 
-SHELL		:=	sh
-MAKEFLAGS   +=	--no-print-directory		\
-				--warn-undefined-variables	\
-				--no-builtin-rules			\
+$(sort $(patsubst %/,%,$(dir $(OBJS)))):
+	$(LOG_TARGET)
+	mkdir -p $@;
 
-RM			:=	rm -f
-DIRDUP		=	mkdir -p $(@D)
+$(OBJS): $(BUILD)/%.o: $(SRC)/%.c | $$(@D)
+	$(LOG_TARGET)
+	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@;
 
-ifeq (DEBUG,1)
-	CFLAGS	+=	-ggdb3
-endif
+-include $(DEPS)
+
+################################################################################
+### NAME TARGET
+
+$(NAME): $(OBJS)
+	$(LOG_TARGET)
+	ar rcs $(NAME) $(OBJS);
+
+################################################################################
+### TOOLS
+
+MAGENTA	:=	$(shell echo -e '\033[0;35m')
+NC		:=	$(shell echo -e '\033[0m')
+
+define LOG_TARGET
+	$(info $(MAGENTA)Building $@:$(NC))
+endef

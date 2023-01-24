@@ -6,21 +6,27 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 13:42:42 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 11:56:12 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:03:28 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+/*
 #include "minishell/runner.h"
 
 #include "libft.h"
 
 #include "minishell/cmd.h"
 
+
+
 //4 étapes :
-//* Ouvrir les redirections
-//* Check si la commande est un built-in, si oui on l'execute et on s'arrête là
-//* Recupère le path de la commande
-//* Execute la commande
+// Ouvrir les redirections
+// Check si la commande est un built-in, si oui on l'execute et on s'arrête là
+// Recupère le path de la commande
+// Execute la commande
+
+
+
+
 t_success	ft_run_exec_cmd(t_cmd	**root, t_cmd *cmd)
 {
 	int		error_status;
@@ -38,3 +44,4 @@ t_success	ft_run_exec_cmd(t_cmd	**root, t_cmd *cmd)
 //	my_cmd_destroy(root);
 	execve(path, args, ft_env_build(ctx->env));
 }
+*/

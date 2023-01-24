@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env_size.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 16:03:00 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/17 19:24:13 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 11:18:45 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/24 12:11:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" // ft_strlen
-#include <stddef.h> // size_t, NULL
+#include "minishell/env.h"
 
-size_t	ft_strlen(const char *s)
+#include <stddef.h> //NULL
+
+int	my_env_size(t_env *env)
 {
-	size_t	i;
+	int		i;
+	t_env	*curr;
 
-	if (s == NULL)
-		return (0);
 	i = 0;
-	while (s[i] != '\0')
+	curr = env;
+	while (curr != NULL)
 	{
-		i += 1;
+		i++;
+		curr = curr->next;
 	}
 	return (i);
 }

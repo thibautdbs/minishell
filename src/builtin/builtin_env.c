@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_destroy.c                                    :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 15:02:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 10:12:05 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/24 12:01:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/redir.h"
+#include "minishell/env.h"
 
-#include <stddef.h>//NULL
+#include <stddef.h> //NULL
+#include "libft.h" //ft_strchr, ft_puterr, ft_putstr_fd
 
-#include "libft.h"//memdel
-
-void	my_redir_destroy(t_redir **redir)
+int	my_builtin_env(t_env *env, char **args)
 {
-	t_redir	*curr;
-	t_redir	*next;
+	t_env	*curr;
 
-	curr = *redir;
+	curr = env;
+	if (args[1] != NULL)
+	{
+		ft_puterr("env : No such file or directory");
+		return (127);
+	}
 	while (curr != NULL)
 	{
-		next = curr->next;
-		ft_memdel(&curr->label);
-		ft_memdel(&curr);
-		curr = next;
+		if (ft_strchr(env->content, '=') != NULL)
+			ft_putstr_fd(env->content, STDOUT);
+		curr = curr->next;
 	}
-	*redir = NULL;
+	return (0);
 }

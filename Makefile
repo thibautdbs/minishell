@@ -6,116 +6,129 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/05 09:23:33 by tdubois          ###   ########.fr        #
+#    Updated: 2023/01/20 00:20:08 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# ##############################################################################
-# ## VARS                                                                      #
-# ##############################################################################
+################################################################################
+### SHELL OPTS
+
+SHELL		:=	/usr/bin/bash
+.SHELLFLAGS	:=	-e -o pipefail -c --
+
+.SECONDEXPANSION:
 
 ################################################################################
-### TARGETS
+### MAKE OPTS
+
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
+
+.DEFAULT_GOAL	:=	all
+
+-include dev.mk
+
+################################################################################
+### GOALS
 
 NAME		:=	minishell
-
 LIBFT		:=	libft/libft.a
 
 ################################################################################
 ### DIRECTORIES
 
 SRC			:=	src
-BUILD		:=	.build
 INCLUDE		:=	include
+BUILD		:=	.build
 
 ################################################################################
 ### FLAGS
 
-CC			:=	clang
-CFLAGS		:=	-Wall -Werror -Wextra -O3
-CPPFLAGS	:=	-MMD -MP -I $(INCLUDE) -I $(dir $(LIBFT))/include
-LDFLAGS     :=	-L$(dir $(LIBFT))
-LDLIBS		:=	-l:$(notdir $(LIBFT))
+CC			=	clang
+CFLAGS		=	-Wall -Werror -Wextra -O3
+CPPFLAGS	=	-MP -MMD -I$(INCLUDE) -I$(dir $(LIBFT))/include
+LDFLAGS     =	-L$(dir $(LIBFT)) -l:$(notdir $(LIBFT)) -lreadline
 
 ################################################################################
 ### FILES
 
-SRCS		:=
+# SRCS	:=
 
-OBJS		=	$(SRCS:%.c=$(BUILD)/%.o)
-DEPS		=	$(SRCS:%.c=$(BUILD)/%.d)
-	
-# ##############################################################################
-# ## RULES                                                                     #
-# ##############################################################################
+OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
+DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
+
+################################################################################
+### MANDATORY CMDS
 
 all:
-	@$(ECHO) "$(MAGENTA)Building $(LIBFT)!$(NC)"
-	@$(MAKE)  $(LIBFT)
-	@$(ECHO) "$(MAGENTA)Building objects files!$(NC)"
-	@$(MAKE) -j $(OBJS)
-	@$(ECHO)
-	@$(ECHO) "$(MAGENTA)Building $(NAME)!$(NC)"
-	@$(MAKE) -j $(NAME)
+	$(LOG_PHONY)
+	@$(MAKE) $(NAME);
 .PHONY: all
 
-################################################################################
-### minishell
-
-$(NAME): $(OBJS)
-	@$(DIRDUP)
-	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
-
-$(BUILD)/%.o: %.c
-	@$(DIRDUP)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-
-################################################################################
-### libft
-
-$(LIBFT):
-	$(MAKE) -C $(dir $(LIBFT))
-
--include $(DEPS)
-
-# ##############################################################################
-# ## UTILS                                                                     #
-# ##############################################################################
-
-################################################################################
-### RULES
-
 clean:
-	@$(ECHO) "$(MAGENTA)removing build files!$(NC)"
-	$(MAKE) -C $(dir $(LIBFT)) clean
-	$(RM) -r $(BUILD)
+	$(LOG_PHONY)
+	$(MAKE) -C $(dir $(LIBFT)) clean;
+	rm -rf $(BUILD);
 .PHONY: clean
 
 fclean:
-	@$(ECHO) "$(MAGENTA)cleaning everything!$(NC)"
-	$(MAKE) -C $(dir $(LIBFT)) fclean
-	$(RM) -r $(BUILD)
-	$(RM) $(NAME)
+	$(LOG_PHONY)
+	$(MAKE) -C $(dir $(LIBFT)) fclean;
+	rm -rf $(BUILD);
+	rm -rf $(NAME);
 .PHONY: fclean
 
 re: fclean all
 .PHONY: re
 
 ################################################################################
-### ALIASES
+### CUSTOM CMDS
 
-RM			:=	rm -f
-ECHO		:=	echo -e
-DIRDUP		 =	mkdir -p $(@D)
+fast:
+	$(MAKE) --jobs=8 all;
+.PHONY: fast
+
+refast: fclean fast
+.PHONY: refast
 
 ################################################################################
-### VARS
+### NAME TARGET 
 
-SHELL		:=	/bin/bash
-MAKEFLAGS	:=	--no-builtin-rules			\
-				--no-print-directory		\
+$(NAME): $(LIBFT) $(OBJS)
+	$(LOG_TARGET)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME);
 
-NC			:=	\\e[0m
-MAGENTA		:=	\\e[95m
+################################################################################
+### OBJS TARGET
 
--include dev.mk test.mk
+$(sort $(patsubst %/,%,$(dir $(OBJS)))):
+	$(LOG_TARGET)
+	mkdir -p $@;
+
+$(OBJS): $(BUILD)/%.o: %.c | $$(@D)
+	$(LOG_TARGET)
+	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@;
+
+-include $(DEPS)
+
+################################################################################
+### LIBFT TARGET
+
+$(LIBFT):
+	$(MAKE) -C $(dir $(LIBFT));
+
+################################################################################
+### TOOLS
+
+MAGENTA	:=	$(shell echo -e '\033[0;35m')
+BLUE	:=	$(shell echo -e '\033[0;34m')
+NC		:=	$(shell echo -e '\033[0m')
+
+define LOG_TARGET
+	$(info $(MAGENTA)Building $@:$(NC))
+endef
+
+define LOG_PHONY
+	$(info $(BLUE)$@!$(NC))
+endef
+
+-include tests/test.mk

@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -e;
+
+my::assert_command_exists()
+{
+	if ! type "${1}" >&/dev/null; then
+		echo "Error: \`${1}\` not found.";
+		exit 1;
+	fi
+}
+
+my::preview()
+{
+	declare -r PATTERN="${1}";
+
+	declare -r RUNNER="${2#build/}";
+	declare -r SUITE="src/${RUNNER%.out}.c";
+
+	read -r -d '' AWKSCRIPT <<- EOF
+		/${PATTERN}/ {
+			var=1;
+		}
+
+		var {
+			print;
+		}
+
+		 var && /^}/ {
+			exit;
+		}
+	EOF
+
+	awk "${AWKSCRIPT}" "${SUITE}" | bat					\
+		--tabs=4										\
+		--color=always									\
+		--style=header,grid								\
+		--language=C									\
+		--file-name="Preview" -							\
+		--file-name="${SUITE}" "${SUITE}";
+}
+export -f my::preview;
+
+my::select_runner()
+{
+	find build -name '*.out'							\
+		| SHELL=bash fzf								\
+			--header='Select runner to debug with gdb:'	\
+			--layout=reverse							\
+			--preview='my::preview ^SUITE {}';
+}
+
+my::select_breakpoint()
+{
+	declare -r RUNNER="${1}";
+
+	read -r -d '' BREAKPOINTS <<- EOF
+		$(${RUNNER} -l | sed -rn "s/^\* Suite (.+):$/\1/p")
+		$(${RUNNER} -l | sed -rn "s/^  (.+)$/\1/p")
+	EOF
+
+	echo "${BREAKPOINTS}" | SHELL=bash fzf							\
+		--header='Select test to break into:'						\
+		--layout=reverse											\
+		--preview="my::preview '^(TEST|SUITE).*{}' '${RUNNER}'";
+}
+
+################################################################################
+### MAIN
+
+my::main()
+{
+	my::assert_command_exists fzf;
+
+	cd "$(git rev-parse --show-cdup)tests/unit";
+
+	RUNNER=$(my::select_runner);
+	if [[ -z "${RUNNER}" ]]; then
+		exit 1;
+	fi
+	BREAKPOINT=$(my::select_breakpoint "${RUNNER}");
+	if [[ -z "${BREAKPOINT}" ]]; then
+		exit 1;
+	fi
+
+	set -x;
+	</dev/tty gdb "${RUNNER}"			\
+		--tui							\
+		-ex "break ${BREAKPOINT}"		\
+		-ex "run -e ${BREAKPOINT}";
+}
+
+my::main;

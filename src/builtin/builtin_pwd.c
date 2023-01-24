@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_destroy.c                                    :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/09 15:02:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 10:12:05 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/01/20 17:00:08 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/redir.h"
+#include "minishell/builtin.h"
 
-#include <stddef.h>//NULL
+#include <stddef.h> //NULL
+#include "libft.h" //ft_putstr_fd, ft_memdel
 
-#include "libft.h"//memdel
+#include "minishell/env.h"
 
-void	my_redir_destroy(t_redir **redir)
+int	my_builtin_pwd(t_env *env, char **args)
 {
-	t_redir	*curr;
-	t_redir	*next;
+	char	*pwd;
 
-	curr = *redir;
-	while (curr != NULL)
-	{
-		next = curr->next;
-		ft_memdel(&curr->label);
-		ft_memdel(&curr);
-		curr = next;
-	}
-	*redir = NULL;
+	(void) env;
+	(void) args;
+	pwd = my_get_pwd();
+	if (pwd == NULL)
+		return (12);
+	ft_putstr_fd(pwd, STDOUT);
+	ft_putstr_fd("\n", STDOUT);
+	ft_memdel(&pwd);
+	return (0);
 }

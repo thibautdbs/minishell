@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -e;
+
+my::assert_command_exists()
+{
+	if ! type "${1}" >&/dev/null; then
+		echo "Error: \`${1}\` not found.";
+		exit 1;
+	fi
+}
+
+my::preview()
+{
+	declare -r PATTERN="${1}";
+	declare -r SUITE="${2}";
+
+	read -r -d '' AWKSCRIPT <<- EOF
+		/${PATTERN}/ {
+			var=1;
+		}
+
+		var {
+			print;
+		}
+
+		 var && /^}/ {
+			exit;
+		}
+	EOF
+
+	awk "${AWKSCRIPT}" "${SUITE}" | bat					\
+		--tabs=4										\
+		--color=always									\
+		--style=header,grid								\
+		--language=bash									\
+		--file-name="${SUITE}";
+}
+export -f my::preview;
+
+my::select_test()
+{
+	declare -r SUITE="${1}";
+
+	TESTS="$(sed -rn "s/^test([[:alnum:]_]*)\(\)$/test\1/p" ${SUITE})"
+
+	echo "${TESTS}" | SHELL=bash fzf					\
+		--header='Select test to break into:'			\
+		--layout=reverse								\
+		--preview="my::preview '^{}\(\)' '${SUITE}'";
+}
+
+my::select_suite()
+{
+	find src -name '*.test.sh'							\
+		| fzf											\
+			--header='Select suite to debug with gdb:'	\
+			--layout=reverse							\
+			--preview='bat								\
+				--tabs=4 								\
+				--color=always 							\
+				--style=header,grid						\
+				--language=bash							\
+				{}';									\
+}
+
+################################################################################
+### MAIN
+
+my::main()
+{
+	my::assert_command_exists fzf;
+
+	cd "$(git rev-parse --show-cdup)tests/builtins";
+
+	SUITE=$(my::select_suite);
+	if [[ -z "${SUITE}" ]]; then
+		exit 1;
+	fi
+	TEST=$(my::select_test "${SUITE}");
+	if [[ -z "${TEST}" ]]; then
+		exit 1;
+	fi
+	export TBLTN_GDB=1;
+	run_suite "${1}" "${SUITE}" -- "${TEST}";
+}
+
+my::main "${@}";

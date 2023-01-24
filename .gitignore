@@ -1,8 +1,18 @@
 ################################################################################
 ### BUILD FILES
 
-/minishell
 /.build
+/minishell
+
+/libft/.build/
+
+/tests/.build/
+/tests/minishell.a
+
+/tests/unit/build/
+
+/tests/builtins/build/
+/tests/builtins/run_bltn
 
 ################################################################################
 ### DEV FILES
@@ -15,4 +25,3 @@
 ### VIM FILES
 
 *.swp
-

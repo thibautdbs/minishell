@@ -6,19 +6,19 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 19:22:30 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:24:41 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/runner.h"
-
-#include "libft.h"//ft_memdel, ft_strlen, ft_strncmp
 
 #include <unistd.h> //unlink, dup2, close
 #include <fcntl.h> //open
 #include <stdio.h> //readline
 #include <readline/readline.h> //readline
 #include <readline/history.h> //readline
+
+#include "libft.h"//ft_memdel, ft_strlen, ft_strncmp
 
 static t_success	loc_read_heredoc(char *delimiter, int fd)
 {
@@ -55,7 +55,7 @@ t_success	my_open_heredoc(t_redir *redir)
 	fd_heredoc = open(".tmp.heredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd_heredoc < 0)
 		return (FAILURE); //Error in opening
-	if (loc_read_heredoc(redir->label , fd_heredoc) == FAILURE)
+	if (loc_read_heredoc(redir->label, fd_heredoc) == FAILURE)
 	{
 		unlink(".tmp.heredoc");
 		return (FAILURE); //Error in input : signal to abort prompt

@@ -6,24 +6,17 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:27:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/16 12:03:02 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:16:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" //ft_strncmp, ft_strlen
-#include <stddef.h> //NULL
-
 #include "minishell/env.h"
 
-static int	loc_envp_len(char **envp)
-{
-	int i;
+#include <stddef.h> //NULL
 
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
-	return (i);
-}
+#include "libft.h" //ft_strncmp, ft_strlen
+
+static int	loc_envp_len(char **envp);
 
 void	my_sort_env(char **envp)
 {
@@ -31,7 +24,7 @@ void	my_sort_env(char **envp)
 	int		j;
 	int		len;
 	char	*tmp;
-	
+
 	len = loc_envp_len(envp);
 	i = 0;
 	while (i < len - 2)
@@ -49,4 +42,14 @@ void	my_sort_env(char **envp)
 		}
 		i++;
 	}
+}
+
+static int	loc_envp_len(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	return (i);
 }

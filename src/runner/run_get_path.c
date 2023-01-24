@@ -6,13 +6,29 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:36:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 16:29:09 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:19:30 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h" //ft_strncmp, ft_split, ft_strsdel, ft_strjoin_sep, ft_memdel
 
 #include <unistd.h> //access
+
+static char	**loc_get_path_tab(char **my_env);
+static char	*loc_select_path(char **path_tab, char *cmd);
+
+char	*my_get_path(char **args, char **my_env)
+{
+	char	**path_tab;
+	char	*path;
+
+	path_tab = loc_get_path_tab(my_env);
+	if (path_tab == NULL)
+		return (NULL);
+	path = loc_select_path(path_tab, args[0]);
+	ft_strsdel(&path_tab);
+	return (path);
+}
 
 static char	**loc_get_path_tab(char **my_env)
 {
@@ -31,7 +47,7 @@ static char	**loc_get_path_tab(char **my_env)
 static char	*loc_select_path(char **path_tab, char *cmd)
 {
 	char	*path;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (path_tab[i] != 0)
@@ -45,17 +61,4 @@ static char	*loc_select_path(char **path_tab, char *cmd)
 		i++;
 	}
 	return (NULL); //Cmd doesn't exist or none of the path worked
-}
-
-char	*my_get_path(char **args, char **my_env)
-{
-	char	**path_tab;
-	char	*path;
-
-	path_tab = loc_get_path_tab(my_env);
-	if (path_tab == NULL)
-		return (NULL);
-	path = loc_select_path(path_tab, args[0]);
-	ft_strsdel(&path_tab);
-	return (path);
 }

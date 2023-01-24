@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:18:45 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 11:21:26 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:11:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 int	my_env_size(t_env *env)
 {
-	int	i;
+	int		i;
 	t_env	*curr;
-	
+
 	i = 0;
 	curr = env;
 	while (curr != NULL)

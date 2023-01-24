@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/17 20:37:01 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:11:19 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_env	*my_env_find_var(t_env *env, char *var)
 	{
 		if (ft_strncmp(curr->content, var, var_label_len) == 0
 			&& (curr->content[var_label_len] == '='
-			|| curr->content[var_label_len] == '\0'))
+				|| curr->content[var_label_len] == '\0'))
 			return (curr);
 		curr = curr->next;
 	}

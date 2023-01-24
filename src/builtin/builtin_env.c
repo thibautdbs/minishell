@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/17 14:11:16 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:01:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	my_builtin_env(t_env *env, char **args)
 	{
 		ft_puterr("env : No such file or directory");
 		return (127);
-	} 
+	}
 	while (curr != NULL)
 	{
 		if (ft_strchr(env->content, '=') != NULL)

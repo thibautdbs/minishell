@@ -6,15 +6,15 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/20 17:30:32 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:03:49 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
 #include <stddef.h> //NULL
-#include "libft.h" //t_success, ft_strlen, ft_strchr
 
+#include "libft.h" //t_success, ft_strlen, ft_strchr
 #include "minishell/env.h"
 
 static int			loc_set_vars(t_env *env, char **args);
@@ -30,6 +30,7 @@ int	my_builtin_export(t_env *env, char **args)
 static t_success	loc_update_env(t_env *env, char *var)
 {
 	t_env	*env_var;
+
 	env_var = my_env_find_var(env, var);
 	if (env_var == NULL)
 		return (my_add_var(env, var));
@@ -55,7 +56,7 @@ static int	loc_set_vars(t_env *env, char **args)
 			ft_puterr(" : not a valid identifier");
 			error_status = 1;
 		}
-		else if	(loc_update_env(env, args[i]) == FAILURE)
+		else if (loc_update_env(env, args[i]) == FAILURE)
 			return (12);
 		i++;
 	}

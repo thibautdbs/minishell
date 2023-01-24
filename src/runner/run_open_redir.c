@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:24:50 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 19:26:22 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:25:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_success	my_run_open_redirs(t_redir	*redir)
 	return (SUCCESS);
 }
 
-static t_success loc_openers(t_opener **opener)
+static t_success	loc_openers(t_opener **opener)
 {
 	opener[INPUT] = my_open_input;
 	opener[HEREDOC] = my_open_heredoc;

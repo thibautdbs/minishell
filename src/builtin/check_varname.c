@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 16:14:15 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/17 19:16:50 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:09:42 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include "minishell/builtin.h"
 
-t_success my_check_varname(char	*var, char delim)
+t_success	my_check_varname(char	*var, char delim)
 {
 	int	i;
 

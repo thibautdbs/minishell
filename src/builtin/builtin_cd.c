@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/23 15:54:11 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/24 12:01:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static	int	loc_update_env(t_env *env, char *old_pwd)
 int	my_builtin_cd(t_env *env, char **args)
 {
 	char	*old_pwd;
+
 	if (args[1] == NULL)
 		return (0);
 	if (args[2] != NULL)

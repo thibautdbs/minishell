@@ -6,15 +6,15 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 20:29:11 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/23 17:46:47 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/24 16:51:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CMD_H
 # define CMD_H
 
-# include "toks.h"
 # include "redirs.h"
+# include "toks.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TYPES DECLARATIONS
@@ -77,9 +77,15 @@ typedef struct s_cmd_lst
 ////////////////////////////////////////////////////////////////////////////////
 /// FUNCTIONS
 
+///CMD
 t_cmd		*my_cmd_create(t_cmd_t type);
 void		my_cmd_destroy(t_cmd **pcmd);
 
+///SUBSHELL
+t_subshell	*my_subshell_create(void);
+void		my_subshell_destroy(t_subshell **psubshell);
+
+///CMD_LST
 t_cmd_lst	*my_cmd_lst_create(t_cmd *cmd);
 void		my_cmd_lst_add_back(t_cmd_lst **cmd_lst, t_cmd_lst *new_cmd);
 t_cmd_lst	*my_cmd_lst_last(t_cmd_lst *cmd_lst);

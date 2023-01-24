@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:45:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/23 15:15:54 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/24 17:42:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cmd_or_err	my_parse_cmd(t_toks const **ptoks)
 	t_cmd_or_err	res;
 
 	my_parse_skip_blanks(ptoks);
-	if ((*ptoks)->type == LPAR)
+	if ((*ptoks)->type == LPAR)//is_subshell: iterate over toks til EOF or CONTROL_CHAR
 		res = my_parse_subshell(ptoks);
 	else
 	 	res = my_parse_smpl_cmd(ptoks);

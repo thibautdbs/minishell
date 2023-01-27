@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:49:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/26 19:30:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/27 15:39:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ typedef struct	s_cmdtree_or_err
 /// FUNCTIONS
 
 t_cmdtree_or_err	my_parse(char const *str);
-t_cmdtree_or_err	my_parse_cmdtree(char const **pstr);
+t_cmdtree			*my_parse_cmdtree(char const **pstr);
 
 #endif //PARSER_H

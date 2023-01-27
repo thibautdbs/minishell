@@ -6,16 +6,17 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 12:44:58 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/27 15:30:14 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/27 16:21:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/cmd.h"
 #include "minishell/parser.h"
 
 #include <stddef.h>//NULL
 
-static t_cmdtree	*loc_create_connection_from_tok(char const **pstr);
+#include "minishell/cmd.h"
+
+static t_cmdtree	*loc_parse_connection(char const **pstr);
 
 t_cmdtree	*my_parse_cmdtree(char const **pstr)
 {
@@ -27,7 +28,7 @@ t_cmdtree	*my_parse_cmdtree(char const **pstr)
 		return (NULL);
 	while (my_tok_type(*pstr) != EOF && my_tok_type(*pstr) != RPAR)
 	{
-		new_parent = loc_create_connection_from_tok(pstr);
+		new_parent = loc_parse_connection(pstr);
 		if (new_parent == NULL)
 		{
 			my_cmdtree_del(&tree);
@@ -45,11 +46,17 @@ t_cmdtree	*my_parse_cmdtree(char const **pstr)
 	return (tree);
 }
 
-static t_cmdtree	*loc_create_connection_from_tok(char const **pstr)
+static t_cmdtree	*loc_parse_connection(char const **pstr)
 {
 	if (my_tok_type(*pstr) == BARBAR)
+	{
+		my_tok_next(pstr);
 		return (my_cmdtree_new(OR));
+	}
 	else if (my_tok_type(*pstr) == AMPAMP)
+	{
+		my_tok_next(pstr);
 		return (my_cmdtree_new(AND));
+	}
 	return (NULL);
 }

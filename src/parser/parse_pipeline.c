@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 15:40:25 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/27 16:23:37 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:51:44 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_cmdtree	*my_parse_pipeline(char const **pstr)
 			return (NULL);
 		}
 		my_cmdlst_add_back(&pipeline->pipeline, new_cmd);
-		if (my_tok_type(pstr) != BAR)
+		if (!my_tok_is(pstr, (t_tok_t[]){BAR}))
 			break ;
 		my_tok_next(pstr);
 	}

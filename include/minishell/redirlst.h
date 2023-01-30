@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:26:59 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/26 18:30:53 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:32:06 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef enum e_redirlst_t
 typedef struct s_redirlst
 {
 	t_redirlst_t	type;
-	t_wordlst		word;
+	t_wordlst		*word;
 	t_redirlst		*next;
 }	t_redirlst;
 

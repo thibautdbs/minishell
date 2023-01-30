@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 12:51:39 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/30 16:22:30 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:30:53 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_wordlst	*my_parse_word(char const **pstr)
 	t_wordlst	*new_word;
 
 	my_skip_blanks(pstr);
-	len = loc_get_wordcontent_len(*pstr);
+	len = loc_get_word_len(*pstr);
 	new_word = my_wordlst_new();
 	if (new_word == NULL)
 		return (NULL);

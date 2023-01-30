@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:31:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/30 11:11:03 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:48:37 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "minishell/cmd.h"
 #include "minishell/redirlst.h"
+#include "minishell/tok.h"
 #include "minishell/wordlst.h"
 
 static t_redirlst	*loc_parse_redirs(char const **pstr);
@@ -27,16 +28,16 @@ t_cmdlst	*my_parse_cmd(char const **pstr)
 	t_cmdlst	*cmd;
 	t_redirlst	*leading_redirs;
 
-	if (my_tok_is_control_operator(*pstr))
+	if (my_tok_is(*pstr, (t_tok_t[]){BAR, BARBAR, AMPAMP}, 3))
 		return (NULL);
 	leading_redirs = NULL;
-	if (my_tok_is_redir(*pstr))
+	if (my_tok_is(*pstr, (t_tok_t[]){LESSLESS, LESS, GREATGREAT, GREAT}, 4))
 	{
 		leading_redirs = loc_parse_redirs(pstr);
 		if (leading_redirs == NULL)
 			return (NULL);
 	}
-	if (my_tok_is_lpar(*pstr))
+	if (my_tok_is(*pstr, (t_tok_t[]){LPAR}, 1))
 		cmd = loc_parse_subshell(pstr);
 	else
 		cmd = loc_parse_simple_cmd(pstr);
@@ -55,7 +56,7 @@ static t_redirlst	*loc_parse_redirs(char const **pstr)
 	t_redirlst	*new_redir;
 
 	lst = NULL;
-	while (my_tok_is_redir(*pstr))
+	while (my_tok_is(*pstr, (t_tok_t[]){LESSLESS, LESS, GREATGREAT, GREAT}, 4))
 	{
 		new_redir = my_parse_redir(pstr);
 		if (new_redir == NULL)
@@ -72,20 +73,20 @@ static t_cmdlst	*loc_parse_subshell(char const **pstr)
 {
 	t_cmdlst	*cmd;
 
-	if (!my_tok_is_lpar(*pstr))
+	if (!my_tok_is(*pstr, (t_tok_t[]){LPAR}, 1))
 		return (NULL);
 	my_tok_next(pstr);
 	cmd = my_cmdlst_new(SUBSHELL);
 	if (cmd == NULL)
 		return (NULL);
 	cmd->subcmd = my_parse_cmdtree(pstr);
-	if (cmd->subcmd == NULL || !my_tok_is_rpar(*pstr))
+	if (cmd->subcmd == NULL || !my_tok_is(*pstr, (t_tok_t[]){RPAR}, 1))
 	{
 		my_cmdlst_del(&cmd);
 		return (NULL);
 	}
 	my_tok_next(pstr);
-	if (my_tok_is_redir(*pstr))
+	if (my_tok_is(*pstr, (t_tok_t[]){LESSLESS, LESS, GREATGREAT, GREAT}, 4))
 	{
 		cmd->redirs = loc_parse_redirs(pstr);
 		if (cmd->redirs == NULL)
@@ -106,11 +107,12 @@ static t_cmdlst	*loc_parse_simple_cmd(char const **pstr)
 	cmd = my_cmdlst_new(SIMPLECMD);
 	if (cmd == NULL)
 		return (NULL);
-	while (my_tok_is_redir(pstr) || my_tok_is_word(pstr))
+	while (my_tok_is(*pstr, (t_tok_t[]){LESSLESS, LESS, GREATGREAT, GREAT,
+			WORD}, 5))
 	{
 		new_word = NULL;
 		new_redir = NULL;
-		if (my_tok_is_word(*pstr))
+		if (my_tok_is(*pstr, (t_tok_t[]){WORD}, 1))
 			new_word = my_parse_word(pstr);
 		else
 			new_redir = my_parse_redir(pstr);

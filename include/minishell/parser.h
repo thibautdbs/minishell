@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:49:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/27 15:39:04 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:52:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// SECURE TYPES
 
-typedef struct	s_cmdtree_or_err
+typedef struct s_cmdtree_or_err
 {
 	int			err;
 	t_cmdtree	*cmdtree;

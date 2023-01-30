@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:24:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/30 16:48:39 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:39:54 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "minishell/cmd.h"
 #include "minishell/redirlst.h"
+#include "minishell/tok.h"
 #include "minishell/wordlst.h"
 
 static t_redirlst_t	loc_parse_redir_type(char const **pstr);
@@ -28,7 +29,7 @@ t_redirlst	*my_parse_redir(char const **pstr)
 	if (redir == NULL)
 		return (NULL);
 	redir->type = loc_parse_redir_type(pstr);
-	if (!my_tok_is_word(*pstr))
+	if (!my_tok_is(*pstr, (t_tok_t[]){WORD}, 1))
 	{
 		my_redirlst_del(&redir);
 		return (NULL);
@@ -44,17 +45,17 @@ t_redirlst	*my_parse_redir(char const **pstr)
 
 static t_redirlst_t	loc_parse_redir_type(char const **pstr)
 {
-	if (ft_strcmp(*pstr, "<<") == 0)
+	if (my_tok_is(*pstr, (t_tok_t[]){LESSLESS}, 1))
 	{
 		pstr += 2;
 		return (HEREDOC);
 	}
-	if (ft_strcmp(*pstr, ">>") == 0)
+	if (my_tok_is(*pstr, (t_tok_t[]){GREATGREAT}, 1))
 	{
 		pstr += 2;
 		return (APPND);
 	}
-	if (ft_strcmp(*pstr, "<") == 0)
+	if (my_tok_is(*pstr, (t_tok_t[]){LESS}, 1))
 	{
 		pstr += 1;
 		return (INFILE);

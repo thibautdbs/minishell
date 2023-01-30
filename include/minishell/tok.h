@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wordlst.h                                          :+:      :+:    :+:   */
+/*   tok.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 18:23:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/30 17:53:10 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/30 17:36:23 by tdubois           #+#    #+#             */
+/*   Updated: 2023/01/30 17:45:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WORDLST_H
-# define WORDLST_H
+#ifndef TOK_H
+# define TOK_H
 
-////////////////////////////////////////////////////////////////////////////////
-/// DECLARATIONS
-
-typedef struct s_wordlst	t_wordlst;
-
-////////////////////////////////////////////////////////////////////////////////
-/// DEFINITIONS
-
-typedef struct s_wordlst
+typedef enum e_tot_t
 {
-	char		*content;
-	t_wordlst	*next;
-}	t_wordlst;
+	EOF,
+	WORD,
+	BLANKS,
+	LESS,
+	LESSLESS,
+	GREAT,
+	GREATGREAT,
+	BAR,
+	BARBAR,
+	AMPAMP,
+	LPAR,
+	RPAR
+}	t_tok_t;
 
-#endif //WORDLST_H
+#endif //TOK_H

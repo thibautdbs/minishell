@@ -6,12 +6,12 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:07:26 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/26 18:31:17 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/30 17:52:38 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMDTREE_H
-# define CMDTREE_H
+#ifndef CMD_H
+# define CMD_H
 
 ////////////////////////////////////////////////////////////////////////////////
 /// INCLUDES
@@ -58,4 +58,4 @@ typedef struct s_cmdtree
 	t_cmdtree	*right;
 }	t_cmdtree;
 
-#endif //CMDTREE_H
+#endif //CMD_H

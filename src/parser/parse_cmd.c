@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:31:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/28 02:32:38 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/01/30 09:37:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_cmdlst	*my_parse_cmd(char const **pstr)
 
 	if (my_tok_is_control_operator(*pstr))
 		return (NULL);
+	leading_redirs = NULL;
 	if (my_tok_is_redir(*pstr))
 	{
 		leading_redirs = loc_parse_redirs(pstr);
@@ -53,7 +54,7 @@ static t_redirlst	*loc_parse_redirs(char const **pstr)
 	t_redirlst	*lst;
 	t_redirlst	*new_redir;
 
-	lst == NULL;
+	lst = NULL;
 	while (my_tok_is_redir(*pstr))
 	{
 		new_redir = my_parse_redir(pstr);
@@ -78,34 +79,24 @@ static t_cmdlst	*loc_parse_simple_cmd(char const **pstr)
 	t_wordlst	*new_word;
 	t_redirlst	*new_redir;
 
-	cmd == my_cmdlst_new(SIMPLECMD);
+	cmd = my_cmdlst_new(SIMPLECMD);
 	if (cmd == NULL)
 		return (NULL);
-	while (my_tok_is_control_operator(*pstr))
+	while (1)
 	{
-		if (my_tok_is_par(*pstr))
-		{
-			my_cmdlst_del(&lst);
-			return (NULL);
-		}
-		if (my_tok_is_redir(*pstr))
-		{
+		new_word = NULL;
+		new_redir = NULL;
+		if (my_tok_is_word(*pstr))
+			new_word = my_parse_word(pstr);
+		else if (my_tok_is_redir(*pstr))
 			new_redir = my_parse_redir(pstr);
-			if (new_redir == NULL)
-			{
-				my_cmdlst_del(&cmd);
-				return (NULL);
-			}
-			my_redirlst_add_back(&cmd->redirs, new_redir);
-			continue ;
-		}
-		new_word = my_parse_word(pstr);
-		if (new_word == NULL)
-		{
-			my_cmdlst_del(&cmd);
-			return (NULL);
-		}
+		else
+			return (cmd);
+		if (new_redir == NULL && new_word == NULL)
+			break ;
 		my_wordlst_add_back(&cmd->words, new_word);
+		my_redirlst_add_back(&cmd->redirs, new_redir);
 	}
-	return (lst);
+	my_cmdlst_del(&cmd);
+	return (NULL);
 }

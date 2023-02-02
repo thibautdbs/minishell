@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:59 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/02 15:32:00 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/02 15:37:49 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ typedef struct s_wtoklst
 	char		*content;
 	t_wtoklst	*next;
 }	t_wtoklst;
+
+t_wtoklst	*my_wtoklst_extract(char const *str);
 
 #endif //WTOKLST_H

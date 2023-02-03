@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   wtoklst_add_front.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:04:40 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 15:33:08 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/03 16:20:33 by tdubois           #+#    #+#             */
+/*   Updated: 2023/02/03 16:22:32 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "minishell/wtoklst.h"
 
-# include "wordlst.h"
-# include "wtoklst.h"
+#include <stddef.h>//NULL
 
-t_wordlst	*my_expand(char const *str);
-void		my_expand_vars(t_wtoklst **ptoks, t_env *env);
-
-#endif //EXPAND_H
+void	my_wtoklst_add_front(t_wtoklst **ptoks, t_wtoklst *new)
+{
+	if (*ptoks != NULL)
+		my_wtoklst_add_back(&new, *ptoks);
+	*ptoks = new;
+}

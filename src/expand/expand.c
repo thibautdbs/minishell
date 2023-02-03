@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:08:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 08:20:49 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/03 16:28:24 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@
 #include "minishell/wordlst.h"
 #include "minishell/wtoklst.h"
 
-t_wordlst	*my_expand(char const *word)
+t_wordlst	*my_expand(char const *word, t_env *env)
 {
 	t_wtoklst	*toks;
 	t_wordlst	*args;
 
 	errno = 0;
 	toks = my_wtoklst_extract(word);
-	my_expand_vars(&toks);
-	my_expand_qtd_vars(&toks);
+	my_expand_vars(&toks, env, VAR);
+	my_wtoklst_concat(&toks);
+	my_do_word_splitting(&toks, env);
+	my_expand_vars(&toks, env, QTD_VAR);
 	my_wtoklst_concat(&toks);
 	my_expand_wildcard(&toks);
 	args = my_wtoklst_to_words(toks);

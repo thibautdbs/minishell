@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:40:51 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 13:44:06 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/03 18:56:15 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@
 
 void	my_wtoklst_del(t_wtoklst **ptoks)
 {
+	t_wtoklst	*tok;
 	t_wtoklst	*next;
 
-	while (*ptoks != NULL)
+	tok = *ptoks;
+	while (tok != NULL)
 	{
-		ft_memdel(&(*ptoks)->content);
-		next = (*ptoks)->next;
-		ft_memdel(ptoks);
-		ptoks = &next;
+		ft_memdel(&tok->content);
+		next = tok->next;
+		ft_memdel(&tok);
+		tok = next;
 	}
+	*ptoks = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:01:45 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 14:10:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:37:56 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ t_wtoklst	*my_wtoklst_new(t_wtoklst_t type, char *content)
 		return (NULL);
 	tok->type = type;
 	tok->content = content;
+	tok->next = NULL;
 	return (tok);
 }

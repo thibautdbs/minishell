@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:06:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 14:22:45 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/03 17:35:03 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// SETUP
 
-static t_wtoklst	*actual;
+static t_wtoklst	*g_actual;
 
 static void	setup(void *data)
 {
 	(void) data;
-	actual = NULL;
+	g_actual = NULL;
 }
 
 static void	teardown(void *data)
 {
 	(void) data;
-	my_wtoklst_del(&actual);
+	my_wtoklst_del(&g_actual);
 }
 
 TEST	ASSERT_WTOKLST_EQ(t_wtoklst const *expected, t_wtoklst const *actual)
@@ -40,7 +40,10 @@ TEST	ASSERT_WTOKLST_EQ(t_wtoklst const *expected, t_wtoklst const *actual)
 		if (expected->content == NULL)
 			ASSERT_EQ(NULL, actual->content);
 		else
+		{
+			ASSERT_NEQ(NULL, actual->content);
 			ASSERT_STR_EQ(expected->content, actual->content);
+		}
 		expected = expected->next;
 		actual = actual->next;
 	}
@@ -57,9 +60,9 @@ TEST	basic1(void)
 
 	t_wtoklst	*expected = &tok0;
 
-	actual = my_do_word_split("word", " \t\n");
+	g_actual = my_do_word_split("word", " \t\n");
 
-	CHECK_CALL(ASSERT_WTOKLST_EQ(expected, actual));
+	CHECK_CALL(ASSERT_WTOKLST_EQ(expected, g_actual));
 	PASS();
 }
 
@@ -70,9 +73,9 @@ TEST	basic2(void)
 
 	t_wtoklst	*expected = &tok0;
 
-	actual = my_do_word_split("   word", " \t\n");
+	g_actual = my_do_word_split("   word", " \t\n");
 
-	CHECK_CALL(ASSERT_WTOKLST_EQ(expected, actual));
+	CHECK_CALL(ASSERT_WTOKLST_EQ(expected, g_actual));
 	PASS();
 }
 

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:14:31 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 12:26:55 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/03 19:11:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ t_wtoklst	*my_do_word_split(char const *word, char const *sep)
 	int			len;
 
 	toks = NULL;
+	if (ft_strchr(sep, *word) != NULL)
+	{
+		loc_skip_ifs_spaces(&word, sep);
+		if (ft_strchr(sep, *word) == NULL)
+			my_wtoklst_add_back(&toks, my_wtoklst_new(BLANKS, NULL));
+	}
 	while (*word != '\0')
 	{
 		loc_skip_ifs_spaces(&word, sep);

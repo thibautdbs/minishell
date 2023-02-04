@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:59 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 17:07:19 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/04 02:24:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,13 @@ typedef struct s_wtoklst
 
 t_wtoklst	*my_wtoklst_new(t_wtoklst_t type, char *content);
 void		my_wtoklst_del(t_wtoklst **ptoks);
-
-t_wtoklst	*my_wtoklst_extract(char const *str);
-t_wtoklst	*my_do_word_split(char const *word, char const *sep);
-
+void		my_wtoklst_del_one(t_wtoklst **ptok);
 t_wtoklst	*my_wtoklst_last(t_wtoklst *toks);
 void		my_wtoklst_add_back(t_wtoklst **ptoks, t_wtoklst *new);
 void		my_wtoklst_add_front(t_wtoklst **ptoks, t_wtoklst *new);
+t_wtoklst	*my_wtoklst_pop_front(t_wtoklst **ptoks);
+
+t_wtoklst	*my_wtoklst_extract(char const *str);
+t_wtoklst	*my_do_word_split(char const *word, char const *sep);
 
 #endif //WTOKLST_H

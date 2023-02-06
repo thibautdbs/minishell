@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_wtoklst_extract.c                               :+:      :+:    :+:   */
+/*   wtoklst_extract.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:00:35 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/02 15:33:58 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 15:41:08 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static t_wtoklst	*loc_extract_wtok(char const **pstr);
 static void			loc_register_special_chars_tokenizers(
 						t_wtokenizer **look_up_tab);
 
-t_wtoklst	*my_wtoklst_extract(char const *str)
+t_wtoklst	*my_wtoklst_extract(char const *word)
 {
 	t_wtoklst	*toks;
 	t_wtoklst	*new;
 
 	toks = NULL;
-	while (*str != '\0')
+	while (*word != '\0')
 	{
-		new = loc_extract_wtok(&str);
+		new = loc_extract_wtok(&word);
 		if (new == NULL)
 		{
 			my_wtoklst_del(&toks);
@@ -39,7 +39,7 @@ t_wtoklst	*my_wtoklst_extract(char const *str)
 	return (toks);
 }
 
-static t_wtoklst	*loc_extract_wtok(char const **pstr)
+static t_wtoklst	*loc_extract_wtok(char const **pword)
 {
 	char const		*special_chars = "$*\"\'";
 	t_wtokenizer	*special_chars_tokenizers[NTOKENIZER];
@@ -49,11 +49,11 @@ static t_wtoklst	*loc_extract_wtok(char const **pstr)
 	i = 0;
 	while (i < NTOKENIZER)
 	{
-		if ((*pstr)[0] == special_chars[i])
-			return (special_chars_tokenizers[i](pstr));
+		if ((*pword)[0] == special_chars[i])
+			return (special_chars_tokenizers[i](pword));
 		i++;
 	}
-	return (my_wtok_handle_chars(pstr));
+	return (my_wtok_handle_chars(pword));
 }
 
 static void	loc_register_special_chars_tokenizers(t_wtokenizer **look_up_tab)

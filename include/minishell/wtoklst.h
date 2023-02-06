@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:59 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 11:54:02 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:24:31 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_wtoklst
 	t_wtoklst	*next;
 }	t_wtoklst;
 
-t_wtoklst	*my_wtoklst_new(t_wtoklst_t type, char *content);
+t_wtoklst	*my_wtoklst_new(t_wtoklst_t type, char const *content, int len);
 void		my_wtoklst_del(t_wtoklst **ptoks);
 void		my_wtoklst_del_one(t_wtoklst **ptok);
 t_wtoklst	*my_wtoklst_last(t_wtoklst *toks);

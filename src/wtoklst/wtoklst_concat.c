@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:34:24 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 08:11:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 16:28:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static	t_wtoklst	*loc_concat_word(t_wtoklst *toks)
 	t_wtoklst	*word;
 
 	len = loc_get_word_len(toks);
-	word = my_wtoklst_new(CHARS, NULL);
+	word = my_wtoklst_new(CHARS, NULL, 0);
 	if (word == NULL)
 		return (NULL);
 	word->content = malloc(len + 1);

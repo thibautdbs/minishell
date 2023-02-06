@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 07:47:55 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 07:54:17 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 15:34:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@
 
 void	my_expand_qtd_vars(t_wtoklst *toks, t_env *env)
 {
+	char	*value;
+
 	while (toks != NULL)
 	{
 		if (toks->type == QTD_VAR)
 		{
 			toks->type = CHARS;
-			toks->content = my_env_get_value(env, toks->content);
-			if (toks->content == NULL)
-				toks->content = ft_strdup("");
+			value = my_env_get_value(env, toks->content);
+			ft_memdel(&toks->content);
+			toks->content = value;
 		}
 		toks = toks->next;
 	}

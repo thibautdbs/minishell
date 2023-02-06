@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:52:09 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 11:47:15 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 12:35:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_wtoklst	*loc_get_matched_filenames(t_wtoklst *toks)
 	t_wtoklst		*files;
 	DIR				*dir;
 	struct dirent	*file;
-	char			*filename;
+	t_wtoklst		*tmp;
 
 	files = NULL;
 	dir = opendir(".");
@@ -86,8 +86,11 @@ static t_wtoklst	*loc_get_matched_filenames(t_wtoklst *toks)
 	{
 		if (loc_pattern_matches(toks, file->d_name))
 		{
-			filename = ft_strdup(file->d_name);
-			my_wtoklst_add_back(&files, my_wtoklst_new(CHARS, filename));
+			tmp = my_wtoklst_new(CHARS, NULL);
+			if (tmp == NULL)
+				break ;
+			tmp->content = ft_strdup(file->d_name);
+			my_wtoklst_add_back(&files, tmp);
 			my_wtoklst_add_back(&files, my_wtoklst_new(BLANKS, NULL));
 		}
 		file = readdir(dir);

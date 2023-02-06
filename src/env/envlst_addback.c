@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_addback.c                                      :+:      :+:    :+:   */
+/*   envlst_addback.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:16:42 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:10:55 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:36:12 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h> //NULL
 
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
-t_env	*loc_env_last(t_env *env)
+t_envlst	*loc_envlst_last(t_envlst *env)
 {
-	t_env	*curr;
+	t_envlst	*curr;
 
 	curr = env;
 	while (curr->next != NULL)
@@ -24,12 +24,12 @@ t_env	*loc_env_last(t_env *env)
 	return (curr);
 }
 
-void	my_env_addback(t_env **env, t_env *to_add)
+void	my_envlst_addback(t_envlst **env, t_envlst *to_add)
 {
 	if (env == NULL || to_add == NULL)
 		return ;
 	if (*env == NULL)
 		*env = to_add;
 	else
-		loc_env_last(*env)->next = to_add;
+		loc_envlst_last(*env)->next = to_add;
 }

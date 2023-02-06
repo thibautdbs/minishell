@@ -6,11 +6,11 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:27:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:16:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:44:55 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
 #include <stddef.h> //NULL
 
@@ -18,7 +18,7 @@
 
 static int	loc_envp_len(char **envp);
 
-void	my_sort_env(char **envp)
+void	my_sort_envp(char **envp)
 {
 	int		i;
 	int		j;

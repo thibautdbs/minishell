@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 18:49:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/30 17:52:59 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/06 12:30:50 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/06 12:31:08 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ typedef struct s_cmdtree_or_err
 
 t_cmdtree_or_err	my_parse(char const *str);
 t_cmdtree			*my_parse_cmdtree(char const **pstr);
+
+void	my_skip_blanks(char const **pstr);
 
 #endif //PARSER_H

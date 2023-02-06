@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:56:37 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/20 17:02:05 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:58:43 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h> //getcwd
 #include "libft.h" //ft_calloc, ft_puterr, ft_memdel
 
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
 char	*my_get_pwd(void)
 {

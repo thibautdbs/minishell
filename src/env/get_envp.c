@@ -6,24 +6,24 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:36:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:13:41 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:43:22 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
 static void	loc_destroy_envp(char ***envp, int stop);
 
-char	**my_get_envp(t_env *env)
+char	**my_get_envp(t_envlst *env)
 {
 	char	**envp;
 	int		i;
 	int		len;
-	t_env	*curr;
+	t_envlst	*curr;
 
-	len = my_env_size(env);
-	envp = ft_calloc(my_env_size(env) + 1, sizeof(char *));
+	len = my_envlst_size(env);
+	envp = ft_calloc(my_envlst_size(env) + 1, sizeof(char *));
 	if (envp == NULL)
 		return (NULL);
 	i = 0;

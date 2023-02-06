@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   envlst_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:55:47 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 13:10:23 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/06 11:31:52 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/builtin.h"
-
-#include <stddef.h> //NULL
-#include "libft.h" //ft_putstr_fd, ft_memdel
-
 #include "minishell/envlst.h"
 
-int	my_builtin_pwd(t_envlst *env, char **args)
-{
-	char	*pwd;
+#include "libft.h" //ft_strdup
+#include <stddef.h> //NULL
 
-	(void) env;
-	(void) args;
-	pwd = my_get_pwd();
-	if (pwd == NULL)
-		return (12);
-	ft_putstr_fd(pwd, STDOUT);
-	ft_putstr_fd("\n", STDOUT);
-	ft_memdel(&pwd);
-	return (0);
+t_envlst	*my_envlst_new(char const *str)
+{
+	t_envlst 	*env;
+
+	env = ft_calloc(1, sizeof(t_envlst));
+	if (env == NULL)
+		return (NULL);
+	env->next = NULL;
+	env->content = ft_strdup(str);
+	if (env->content == NULL)
+	{
+		ft_memdel(&env);
+		return (NULL);
+	}
+	return (env);
 }

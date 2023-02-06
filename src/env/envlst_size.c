@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_size.c                                         :+:      :+:    :+:   */
+/*   envlst_size.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:18:45 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:11:59 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:42:25 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
 #include <stddef.h> //NULL
 
-int	my_env_size(t_env *env)
+int	my_envlst_size(t_envlst *env)
 {
-	int		i;
-	t_env	*curr;
+	int			i;
+	t_envlst	*curr;
 
 	i = 0;
 	curr = env;

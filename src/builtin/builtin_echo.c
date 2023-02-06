@@ -6,18 +6,18 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/18 18:56:23 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:50:05 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
 #include <stddef.h> //NULL
 #include "libft.h" //ft_putstr_fd
 
 static int	loc_is_nl_flag(char *str);
 
-int	my_builtin_echo(t_env *env, char **args)
+int	my_builtin_echo(t_envlst *env, char **args)
 {
 	int	i;
 

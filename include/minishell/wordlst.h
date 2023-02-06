@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wordlst.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 18:23:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/30 17:53:10 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/06 12:32:27 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/06 12:32:31 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,11 @@ typedef struct s_wordlst
 	char		*content;
 	t_wordlst	*next;
 }	t_wordlst;
+
+////////////////////////////////////////////////////////////////////////////////
+/// FUNCTIONS
+
+void		my_wordlst_del(t_wordlst **word);
+t_wordlst	*my_wordlst_new(void);
 
 #endif //WORDLST_H

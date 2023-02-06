@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/30 12:51:39 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/30 17:30:53 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/06 12:31:46 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/06 12:31:52 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "minishell/cmd.h"
 #include "minishell/wordlst.h"
 
-static int	loc_get_word_len(char const *str);
+static int	loc_get_wordcontent_len(char const *str);
 
 t_wordlst	*my_parse_word(char const **pstr)
 {
@@ -40,7 +40,7 @@ t_wordlst	*my_parse_word(char const **pstr)
 	return (new_word);
 }
 
-static int	loc_get_word_len(char const *str)
+static int	loc_get_wordcontent_len(char const *str)
 {
 	int		len;
 	char	quote;

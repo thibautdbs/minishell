@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_init.c                                         :+:      :+:    :+:   */
+/*   wordlst_del.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 13:03:48 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 14:54:51 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/13 14:02:15 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/06 12:05:43 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/env.h"
+#include "minishell/wordlst.h"
 
-#include <stddef.h> //NULL
+#include <libft.h> //ft_memset
 
-t_env	*my_env_init(char	**envp)
+void	my_wordlst_del(t_wordlst **word)
 {
-	t_env	*env;
-	t_env	*curr;
-	int		i;
+	t_wordlst	*curr;
+	t_wordlst	*next;
 
-	i = 0;
-	env = NULL;
-	while (envp[i] != NULL)
+	curr = *word;
+	while (curr != NULL)
 	{
-		curr = my_env_create(envp[i]);
-		if (curr == NULL)
-		{
-			my_env_destroy(&env);
-			return (NULL);
-		}
-		my_env_addback(&env, curr);
-		i++;
+		ft_memdel(&curr->content);
+		next = curr->next;
+		ft_memdel(&curr);
+		curr = next;
 	}
-	return (env);
+	*word = NULL;
 }

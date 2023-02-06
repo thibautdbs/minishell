@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:08:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 07:56:24 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:51:06 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_wordlst	*my_expand(char const *word, t_env *env)
 	my_expand_vars(&toks, env);
 	my_expand_qtd_vars(toks, env);
 	my_wtoklst_concat(&toks);
-	my_expand_wildcard(&toks);
+	my_expand_wildcards(&toks);
+	my_wtoklst_concat(&toks);
 	args = my_wtoklst_to_words(toks);
 	my_wtoklst_del(&toks);
 	if (errno != 0)

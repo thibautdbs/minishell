@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand.h                                           :+:      :+:    :+:   */
+/*   wtoklst_wildcards2chars.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/02 14:04:40 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 11:34:19 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/06 11:43:03 by tdubois           #+#    #+#             */
+/*   Updated: 2023/02/06 11:46:26 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_H
-# define EXPAND_H
+#include "minishell/wtoklst.h"
 
-# include "wordlst.h"
-# include "wtoklst.h"
+#include <stddef.h>//NULL
 
-t_wordlst	*my_expand(char const *str, t_env *env);
-void		my_expand_vars(t_wtoklst **ptoks, t_env *env);
-void		my_expand_qtd_vars(t_wtoklst *toks, t_env *env);
-void		my_expand_wildcards(t_wtoklst **ptoks);
-
-#endif //EXPAND_H
+void	my_wtoklst_convert(t_wtoklst *toks, t_wtoklst_t from, t_wtoklst_t to)
+{
+	while (toks != NULL)
+	{
+		if (toks->type == from)
+			toks->type = to;
+		toks = toks->next;
+	}
+}

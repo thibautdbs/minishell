@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:34:24 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 16:18:17 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 08:11:12 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,36 +41,33 @@ void	my_wtoklst_concat(t_wtoklst **ptoks)
 
 static t_wtoklst	*loc_pop_adjacent_chars(t_wtoklst **ptoks)
 {
-	t_wtoklst	*first_chars;
-	t_wtoklst	*last_chars;
+	t_wtoklst	*chars;
 
-	first_chars = *ptoks;
-	while ((*ptoks)->next != NULL && (*ptoks)->next->type == CHARS)
-		ptoks = &(*ptoks)->next;
-	last_chars = *ptoks;
-	ptoks = &(*ptoks)->next;
-	last_chars->next = NULL;
-	return (first_chars);
+	chars = NULL;
+	while ((*ptoks) != NULL && (*ptoks)->type == CHARS)
+		my_wtoklst_add_back(&chars, my_wtoklst_pop_front(ptoks));
+	return (chars);
 }
 
 static	t_wtoklst	*loc_concat_word(t_wtoklst *toks)
 {
 	int			len;
 	t_wtoklst	*word;
-	char		*content;
 
 	len = loc_get_word_len(toks);
-	content = malloc(len + 1);
+	word = my_wtoklst_new(CHARS, NULL);
+	if (word == NULL)
+		return (NULL);
+	word->content = malloc(len + 1);
+	if (word->content == NULL)
+	{
+		my_wtoklst_del(&word);
+		return (NULL);
+	}
 	while (toks != NULL)
 	{
-		ft_strlcat(content, toks->content, len + 1);
+		ft_strlcat(word->content, toks->content, len + 1);
 		toks = toks->next;
-	}
-	word = my_wtoklst_new(CHARS, content);
-	if (word == NULL)
-	{
-		ft_memdel(&content);
-		return (NULL);
 	}
 	return (word);
 }

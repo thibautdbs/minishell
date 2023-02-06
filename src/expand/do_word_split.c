@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:14:31 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/04 02:04:44 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:53:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ t_wtoklst	*my_do_word_split(char const *word, char const *sep)
 	while (*word != '\0')
 	{
 		len = ft_strcspn(word, sep);
-		my_wtoklst_add_back(&toks, my_wtoklst_new(CHARS, ft_strndup(word, len)));
+		my_wtoklst_add_back(&toks,
+			my_wtoklst_new(CHARS, ft_strndup(word, len)));
 		word += len;
 		if (*word != '\0')
 		{

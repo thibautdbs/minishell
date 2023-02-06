@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:52:09 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 16:25:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:41:33 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <stddef.h>//NULL
 
 #include "libft.h"
-#include "minishell/env.h"
 #include "minishell/wtoklst.h"
 
 static t_wtoklst	*loc_pop_one_word(t_wtoklst **ptoks);

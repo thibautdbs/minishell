@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 07:47:55 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 15:34:02 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:40:57 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 #include <stddef.h>//NULL
 
 #include "libft.h"
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 #include "minishell/wtoklst.h"
 
-void	my_expand_qtd_vars(t_wtoklst *toks, t_env *env)
+void	my_expand_qtd_vars(t_wtoklst *toks, t_envlst *env)
 {
 	char	*value;
 
@@ -27,7 +27,7 @@ void	my_expand_qtd_vars(t_wtoklst *toks, t_env *env)
 		if (toks->type == QTD_VAR)
 		{
 			toks->type = CHARS;
-			value = my_env_get_value(env, toks->content);
+			value = my_envlst_get_value(env, toks->content);
 			ft_memdel(&toks->content);
 			toks->content = value;
 		}

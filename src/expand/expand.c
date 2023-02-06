@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:08:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 12:32:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:50:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@
 #include <stdio.h>//perror
 
 #include "libft.h"
+#include "minishell/envlst.h"
 #include "minishell/wordlst.h"
 #include "minishell/wtoklst.h"
 
 static t_wordlst	*loc_wtoklst2wordlst(t_wtoklst *toks);
 
-t_wordlst	*my_expand(char const *word, t_env *env)
+t_wordlst	*my_expand(char const *word, t_envlst *env)
 {
 	t_wtoklst	*toks;
 	t_wordlst	*args;
@@ -63,7 +64,7 @@ static t_wordlst	*loc_wtoklst2wordlst(t_wtoklst *toks)
 			tmp->content = ft_strdup(toks->content);
 			my_wordlst_add_back(&words, tmp);
 		}
-		toks =toks->next;
+		toks = toks->next;
 	}
 	return (words);
 }

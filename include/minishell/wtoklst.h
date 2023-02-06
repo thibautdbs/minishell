@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:01:59 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 16:24:31 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:17:32 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,11 @@ t_wtoklst	*my_do_word_split(char const *word, char const *sep);
 void		my_wtoklst_concat(t_wtoklst **ptoks);
 void		my_wtoklst_convert(t_wtoklst *toks, t_wtoklst_t from,
 				t_wtoklst_t to);
+
+t_wtoklst	*my_wtoklst_handle_dollar(char const **pstr);
+t_wtoklst	*my_wtoklst_handle_ast(char const **pstr);
+t_wtoklst	*my_wtoklst_handle_sgl_quotes(char const **pstr);
+t_wtoklst	*my_wtoklst_handle_dbl_quotes(char const **pstr);
+t_wtoklst	*my_wtoklst_handle_chars(char const **pstr);
 
 #endif //WTOKLST_H

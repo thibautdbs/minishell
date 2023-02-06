@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:00:35 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 15:41:08 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 17:24:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #define NTOKENIZER 4
 
 static t_wtoklst	*loc_extract_wtok(char const **pstr);
-static void			loc_register_special_chars_tokenizers(
-						t_wtokenizer **look_up_tab);
 
 t_wtoklst	*my_wtoklst_extract(char const *word)
 {
@@ -41,25 +39,13 @@ t_wtoklst	*my_wtoklst_extract(char const *word)
 
 static t_wtoklst	*loc_extract_wtok(char const **pword)
 {
-	char const		*special_chars = "$*\"\'";
-	t_wtokenizer	*special_chars_tokenizers[NTOKENIZER];
-	int				i;
-
-	loc_register_special_chars_tokenizers(special_chars_tokenizers);
-	i = 0;
-	while (i < NTOKENIZER)
-	{
-		if ((*pword)[0] == special_chars[i])
-			return (special_chars_tokenizers[i](pword));
-		i++;
-	}
-	return (my_wtok_handle_chars(pword));
-}
-
-static void	loc_register_special_chars_tokenizers(t_wtokenizer **look_up_tab)
-{
-	look_up_tab[0] = my_wtok_handle_dollar;
-	look_up_tab[1] = my_wtok_handle_ast;
-	look_up_tab[2] = my_wtok_handle_dbl_quotes;
-	look_up_tab[3] = my_wtok_handle_sgl_quotes;
+	if (**pword == '$')
+		return (my_wtoklst_handle_dollar(pword));
+	if (**pword == '*')
+		return (my_wtoklst_handle_ast(pword));
+	if (**pword == '\"')
+		return (my_wtoklst_handle_dbl_quotes(pword));
+	if (**pword == '\'')
+		return (my_wtoklst_handle_dbl_quotes(pword));
+	return (my_wtoklst_handle_chars(pword));
 }

@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_destroy.c                                    :+:      :+:    :+:   */
+/*   redirlst_del.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 15:02:13 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/13 10:12:05 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:52:25 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/redir.h"
+#include "minishell/redirlst.h"
 
 #include <stddef.h>//NULL
 
-#include "libft.h"//memdel
-
-void	my_redir_destroy(t_redir **redir)
+void	my_redirlst_del(t_redirlst **predirlst)
 {
-	t_redir	*curr;
-	t_redir	*next;
+	t_redirlst	*tmp;
 
-	curr = *redir;
-	while (curr != NULL)
+	while (*predirlst != NULL)
 	{
-		next = curr->next;
-		ft_memdel(&curr->label);
-		ft_memdel(&curr);
-		curr = next;
+		tmp = my_redirlst_pop_front(predirlst);
+		my_redirlst_del_one(&tmp);
 	}
-	*redir = NULL;
 }

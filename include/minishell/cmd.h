@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:07:26 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/09 15:47:20 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/09 16:18:38 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ typedef struct s_cmdtree
 }	t_cmdtree;
 
 /// CMDTREE
+t_cmdtree	*my_cmdtree_new(t_cmdtree_t type);
 void		my_cmdtree_del(t_cmdtree **pcmdtree);
 
 /// CMDLST
+t_cmdlst	*my_cmdlst_new(t_cmdlst_t type);
 void		my_cmdlst_del(t_cmdlst **pcmdlst);
 void		my_cmdlst_del_one(t_cmdlst **pcmdlst);
 t_cmdlst	*my_cmdlst_pop_front(t_cmdlst **pcmdlst);

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:24:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/30 17:39:54 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/09 16:55:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ t_redirlst	*my_parse_redir(char const **pstr)
 {
 	t_redirlst	*redir;
 
-	redir = my_redirlst_new();
+	redir = my_redirlst_new(loc_parse_redir_type(pstr));
 	if (redir == NULL)
 		return (NULL);
-	redir->type = loc_parse_redir_type(pstr);
 	if (!my_tok_is(*pstr, (t_tok_t[]){WORD}, 1))
 	{
 		my_redirlst_del(&redir);

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:30:50 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 17:48:44 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/09 16:11:21 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ typedef struct s_cmdtree_or_err
 
 t_cmdtree_or_err	my_parse(char const *str);
 t_cmdtree			*my_parse_cmdtree(char const **pstr);
+t_cmdtree			*my_parse_pipeline(char const **pstr);
+t_cmdlst			*my_parse_cmd(char const **pstr);
+t_wordlst			*my_parse_word(char const **pstr);
 
 void				my_skip_blanks(char const **pstr);
 

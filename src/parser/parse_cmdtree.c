@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 12:44:58 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/10 12:24:57 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/10 12:52:10 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ static t_cmdtree	*loc_parse_connection(char const **pstr)
 {
 	if (my_tok_type(*pstr) == BARBAR)
 	{
-		my_tok_next(pstr);
+		my_tok_skip_blanks_plus(pstr, 2);
 		return (my_cmdtree_new(OR));
 	}
 	else if (my_tok_type(*pstr) == AMPAMP)
 	{
-		my_tok_next(pstr);
+		my_tok_skip_blanks_plus(pstr, 2);
 		return (my_cmdtree_new(AND));
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:31:44 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/10 12:52:57 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/10 13:20:01 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ static t_cmdlst	*loc_parse_subshell(char const **pstr)
 {
 	t_cmdlst	*cmd;
 
-	if (my_tok_type(*pstr) != LPAR)
-		return (NULL);
 	my_tok_skip_blanks_plus(pstr, 1);
 	cmd = my_cmdlst_new(SUBSHELL);
 	if (cmd == NULL)

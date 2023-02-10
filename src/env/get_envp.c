@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:36:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:43:22 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/10 12:40:06 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void	loc_destroy_envp(char ***envp, int stop);
 
 char	**my_get_envp(t_envlst *env)
 {
-	char	**envp;
-	int		i;
-	int		len;
+	char		**envp;
+	int			i;
+	int			len;
 	t_envlst	*curr;
 
 	len = my_envlst_size(env);

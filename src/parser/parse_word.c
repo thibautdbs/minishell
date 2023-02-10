@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:31:46 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/09 16:11:36 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/10 11:18:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "libft.h"
 #include "minishell/cmd.h"
+#include "minishell/tok.h"
 #include "minishell/wordlst.h"
 
 static int	loc_get_wordcontent_len(char const *str);
@@ -46,20 +47,22 @@ static int	loc_get_wordcontent_len(char const *str)
 	char	quote;
 
 	len = 0;
-	while (str[0] == '\0' || ft_strchr("\t ()|&", str[len]) == NULL)
+	while (!my_tok_is_blank(str + len) && my_tok_type(str + len) == WORD)
 	{
-		len += ft_strcspn(str + len, "\"\'\t ()|&");
-		if (str[len] == '\"' && str[len] == '\'')
+		if (str[len] == '\"' || str[len] == '\'')
 		{
 			quote = str[len];
 			len += 1 + ft_strcspn(str + len + 1, &quote);
 			if (str[len] == '\0')
 			{
-				//ft_printf("minishell: unexpected EOF while looking for matching `%c'", quote);
+				//ft_printf("minishell: unexpected EOF while 
+				//looking for matching `%c'", quote);
 				return (len);
 			}
 			len += 1;
 		}
+		else
+			len++;
 	}
 	return (len);
 }

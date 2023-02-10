@@ -6,18 +6,19 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 17:36:23 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/30 17:45:05 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/10 12:21:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOK_H
 # define TOK_H
 
-typedef enum e_tot_t
+# include <stdbool.h>
+
+typedef enum e_tok_t
 {
-	EOF,
+	EOS,
 	WORD,
-	BLANKS,
 	LESS,
 	LESSLESS,
 	GREAT,
@@ -28,5 +29,12 @@ typedef enum e_tot_t
 	LPAR,
 	RPAR
 }	t_tok_t;
+
+void	my_tok_skip_blanks(char const **pstr);
+t_tok_t	my_tok_type(char const *str);
+bool	my_tok_is_blank(char const *str);
+bool	my_tok_is_redir(char const *str);
+bool	my_tok_is_redir_or_word(char const *str);
+bool	my_tok_is_redir_word_or_lpar(char const *str);
 
 #endif //TOK_H

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:24:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/09 16:55:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/10 12:24:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_redirlst	*my_parse_redir(char const **pstr)
 	redir = my_redirlst_new(loc_parse_redir_type(pstr));
 	if (redir == NULL)
 		return (NULL);
-	if (!my_tok_is(*pstr, (t_tok_t[]){WORD}, 1))
+	if (my_tok_type(*pstr) != WORD)
 	{
 		my_redirlst_del(&redir);
 		return (NULL);
@@ -44,17 +44,19 @@ t_redirlst	*my_parse_redir(char const **pstr)
 
 static t_redirlst_t	loc_parse_redir_type(char const **pstr)
 {
-	if (my_tok_is(*pstr, (t_tok_t[]){LESSLESS}, 1))
+	t_tok_t const	type = my_tok_type(*pstr);
+
+	if (type == LESSLESS)
 	{
 		pstr += 2;
 		return (HEREDOC);
 	}
-	if (my_tok_is(*pstr, (t_tok_t[]){GREATGREAT}, 1))
+	if (type == GREATGREAT)
 	{
 		pstr += 2;
 		return (APPND);
 	}
-	if (my_tok_is(*pstr, (t_tok_t[]){LESS}, 1))
+	if (type == LESS)
 	{
 		pstr += 1;
 		return (INFILE);

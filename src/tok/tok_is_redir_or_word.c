@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   skip_blanks.c                                      :+:      :+:    :+:   */
+/*   tok_is_redir_or_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 12:15:26 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 12:26:59 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/02/10 12:17:36 by tdubois           #+#    #+#             */
+/*   Updated: 2023/02/10 12:18:29 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/parser.h"
+#include "minishell/tok.h"
 
-#include "libft.h" //ft_strspn
+#include <stdbool.h>
 
-void	my_skip_blanks(char const **pstr)
+bool	my_tok_is_redir_or_word(char const *str)
 {
-	*pstr += ft_strspn(*pstr, " /t/n");
+	return (my_tok_is_redir(str) || my_tok_type(str) == WORD);
 }

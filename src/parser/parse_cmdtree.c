@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 12:44:58 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/27 16:21:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/10 12:24:57 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stddef.h>//NULL
 
 #include "minishell/cmd.h"
+#include "minishell/tok.h"
 
 static t_cmdtree	*loc_parse_connection(char const **pstr);
 
@@ -26,7 +27,7 @@ t_cmdtree	*my_parse_cmdtree(char const **pstr)
 	tree = my_parse_pipeline(pstr);
 	if (tree == NULL)
 		return (NULL);
-	while (my_tok_type(*pstr) != EOF && my_tok_type(*pstr) != RPAR)
+	while (my_tok_type(*pstr) != EOS && my_tok_type(*pstr) != RPAR)
 	{
 		new_parent = loc_parse_connection(pstr);
 		if (new_parent == NULL)

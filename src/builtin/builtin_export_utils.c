@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:37:44 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:06:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:54:56 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 #include <stddef.h> //NULL
 
 #include "libft.h" //ft_strlen, ft_strchr, ft_putstr_fd, ...
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
 static void	loc_print_formalized(char *str);
 
-int	my_print_export(t_env *env)
+int	my_print_export(t_envlst *env)
 {
 	char	**envp;
 	int		i;
@@ -32,7 +32,7 @@ int	my_print_export(t_env *env)
 		ft_puterr("Error occured when creating envp");
 		return (12);
 	}
-	my_sort_env(envp);
+	my_sort_envp(envp);
 	while (envp[i] != NULL)
 	{
 		loc_print_formalized(envp[i]);
@@ -42,21 +42,21 @@ int	my_print_export(t_env *env)
 	return (0);
 }
 
-t_success	my_add_var(t_env *env, char *var)
+t_success	my_add_var(t_envlst *env, char *var)
 {
-	t_env	*new;
+	t_envlst	*new;
 
-	new = my_env_create(var);
+	new = my_envlst_new(var);
 	if (new == NULL)
 	{
 		ft_puterr("error occured when creating env var");
 		return (FAILURE);
 	}
-	my_env_addback(&env, new);
+	my_envlst_addback(&env, new);
 	return (SUCCESS);
 }
 
-t_success	my_append_var(t_env *env, char *var)
+t_success	my_append_var(t_envlst *env, char *var)
 {
 	char	*new_content;
 
@@ -71,7 +71,7 @@ t_success	my_append_var(t_env *env, char *var)
 	return (SUCCESS);
 }
 
-t_success	my_overwrite_var(t_env *env, char *var)
+t_success	my_overwrite_var(t_envlst *env, char *var)
 {
 	char	*new_content;
 

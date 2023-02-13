@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:09:22 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:57:09 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include <stddef.h> //NULL
 
 #include "libft.h" //ft_strchr, ft_puterr, ft_putstr_fd
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
-static void	loc_pop_var(t_env *env, char *var);
+static void	loc_pop_var(t_envlst *env, char *var);
 static int	loc_varcmp(char	*str, char *var);
 
-int	my_builtin_unset(t_env *env, char **args)
+int	my_builtin_unset(t_envlst *env, char **args)
 {
 	int	error_status;
 	int	i;
@@ -50,10 +50,10 @@ static int	loc_varcmp(char	*str, char *var)
 	return (1);
 }
 
-static void	loc_pop_var(t_env *env, char *var)
+static void	loc_pop_var(t_envlst *env, char *var)
 {
-	t_env	*curr;
-	t_env	*tmp;
+	t_envlst	*curr;
+	t_envlst	*tmp;
 
 	curr = env;
 	if (curr != NULL && curr->next == NULL

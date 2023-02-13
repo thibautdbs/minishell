@@ -5,68 +5,69 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 11:59:18 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 12:56:28 by tdubois          ###   ########.fr       */
+/*   Created: 2023/01/26 18:07:26 by tdubois           #+#    #+#             */
+/*   Updated: 2023/02/09 16:49:20 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CMD_H
 # define CMD_H
 
-# include "libft.h"
-# include "token.h"
-# include "redir.h"
+////////////////////////////////////////////////////////////////////////////////
+/// INCLUDES
+
+# include "redirlst.h"
+# include "wordlst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// COMMAND TREE
+/// DECLARATIONS
 
-typedef enum e_cmd_t
-{
-	PIPELINE,
-	ANDLIST,
-	ORLIST,
-	SUBSHELL,
-	EXEC
-}	t_cmd_t;
-
-typedef struct s_cmd
-{
-	t_cmd_t	type;
-	void	*content;
-}	t_cmd;
+typedef struct s_cmdlst		t_cmdlst;
+typedef struct s_cmdtree	t_cmdtree;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// NODE TYPE
+/// DEFINITIONS
 
-// PIPELINE	-> t_cmdlst *
-// ANDLIST	-> t_cmdlst	*
-// ORLIST	-> t_cmdlst *
+typedef enum e_cmdlst
+{
+	SIMPLECMD,
+	SUBSHELL
+}	t_cmdlst_t;
 
 typedef struct s_cmdlst
 {
-	t_cmd			*content;
-	struct s_cmdlst	*next;
+	t_cmdlst_t	type;
+	t_redirlst	*redirs;
+	t_cmdtree	*subcmd;
+	t_wordlst	*words;
+	t_cmdlst	*next;
 }	t_cmdlst;
 
-// SUBSHELL	-> t_subshell *
-
-typedef struct s_subshell
+typedef enum e_cmdtree_t
 {
-	t_redir	*redirs;
-	t_cmd	*cmd;
-}	t_subshell;
+	PIPELINE,
+	AND,
+	OR
+}	t_cmdtree_t;
 
-// EXEC		-> t_exec *
-
-typedef struct s_exec
+typedef struct s_cmdtree
 {
-	t_redir		*redirs;
-	t_strlst	*args;
-}	t_exec;
+	t_cmdtree_t	type;
+	t_cmdlst	*pipeline;
+	t_cmdtree	*left;
+	t_cmdtree	*right;
+}	t_cmdtree;
 
-////////////////////////////////////////////////////////////////////////////////
-/// FCTS
+/// CMDTREE
+t_cmdtree	*my_cmdtree_new(t_cmdtree_t type);
+void		my_cmdtree_del(t_cmdtree **pcmdtree);
 
-t_cmd	*my_parse(t_tok *toks);
+/// CMDLST
+t_cmdlst	*my_cmdlst_new(t_cmdlst_t type);
+void		my_cmdlst_del(t_cmdlst **pcmdlst);
+void		my_cmdlst_del_one(t_cmdlst **pcmdlst);
+t_cmdlst	*my_cmdlst_last(t_cmdlst *cmdlst);
+t_cmdlst	*my_cmdlst_pop_front(t_cmdlst **pcmdlst);
+void		my_cmdlst_add_back(t_cmdlst **pcmdlst, t_cmdlst *new);
 
 #endif //CMD_H

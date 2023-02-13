@@ -3,38 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/05 13:44:19 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 11:29:02 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/06 12:30:50 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/09 16:28:28 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "libft.h"
-# include "token.h"
+////////////////////////////////////////////////////////////////////////////////
+/// INCLUDE
+
 # include "cmd.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// PUBLIC
+/// EXITCODES MACROS
 
-t_cmd		*my_parse(t_tok *toks);
+# define LEX_ERR 2
 
 ////////////////////////////////////////////////////////////////////////////////
-/// PRIVATE
+/// SECURE TYPES
 
-/**
- *	Constructs command tree.
- *	Consumes *toks.
- */
-t_success	my_parse_cmd(t_cmd **cmd, t_tok **toks);
+typedef struct s_cmdtree_or_err
+{
+	int			err;
+	t_cmdtree	*cmdtree;
+}	t_cmdtree_or_err;
 
-t_success	my_parse_cmd_group(t_cmd **cmd, t_tok **toks);
-t_success	my_parse_split(t_cmd **cmd, t_tok **toks);
-t_success	my_parse_args(t_cmd	**cmd, t_tok **toks);
+////////////////////////////////////////////////////////////////////////////////
+/// FUNCTIONS
 
-void		my_parse_skip_spaces(t_tok **toks);
+t_cmdtree_or_err	my_parse(char const *str);
+t_cmdtree			*my_parse_cmdtree(char const **pstr);
+t_cmdtree			*my_parse_pipeline(char const **pstr);
+t_cmdlst			*my_parse_cmd(char const **pstr);
+t_wordlst			*my_parse_word(char const **pstr);
+t_redirlst			*my_parse_redir(char const **pstr);
+
+void				my_skip_blanks(char const **pstr);
 
 #endif //PARSER_H

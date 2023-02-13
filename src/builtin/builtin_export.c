@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:03:49 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 12:01:02 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 #include <stddef.h> //NULL
 
 #include "libft.h" //t_success, ft_strlen, ft_strchr
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
-static int			loc_set_vars(t_env *env, char **args);
-static t_success	loc_update_env(t_env *env, char *var);
+static int			loc_set_vars(t_envlst *env, char **args);
+static t_success	loc_update_env(t_envlst *env, char *var);
 
-int	my_builtin_export(t_env *env, char **args)
+int	my_builtin_export(t_envlst *env, char **args)
 {
 	if (args[0] == NULL || args[1] == NULL)
 		return (my_print_export(env));
 	return (loc_set_vars(env, args + 1));
 }
 
-static t_success	loc_update_env(t_env *env, char *var)
+static t_success	loc_update_env(t_envlst *env, char *var)
 {
-	t_env	*env_var;
+	t_envlst	*env_var;
 
-	env_var = my_env_find_var(env, var);
+	env_var = my_envlst_find_var(env, var);
 	if (env_var == NULL)
 		return (my_add_var(env, var));
 	if (ft_strlen(ft_strchr(var, '=')) - ft_strlen(ft_strchr(var, '+')) == 1)
@@ -41,7 +41,7 @@ static t_success	loc_update_env(t_env *env, char *var)
 	return (SUCCESS);
 }
 
-static int	loc_set_vars(t_env *env, char **args)
+static int	loc_set_vars(t_envlst *env, char **args)
 {
 	int	error_status;
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:01:04 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/06 11:49:37 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 #include <stdio.h> //perror
 #include "libft.h" //ft_puterr
 
-#include "minishell/env.h"
+#include "minishell/envlst.h"
 
-static	t_success	loc_addpath_to_env(t_env *env, char *content, char *label)
+static	t_success	loc_addpath_to_env(t_envlst *env, char *content, char *id)
 {
 	char	*joined_args;
 	char	**args;
 
-	joined_args = ft_strjoin(label, content);
+	joined_args = ft_strjoin(id, content);
 	ft_memdel(&content);
 	if (joined_args == NULL)
 		return (FAILURE);
@@ -41,7 +41,7 @@ static	t_success	loc_addpath_to_env(t_env *env, char *content, char *label)
 	return (SUCCESS);
 }
 
-static	int	loc_update_env(t_env *env, char *old_pwd)
+static	int	loc_update_env(t_envlst *env, char *old_pwd)
 {
 	char	*new_pwd;
 
@@ -55,7 +55,7 @@ static	int	loc_update_env(t_env *env, char *old_pwd)
 	return (0);
 }
 
-int	my_builtin_cd(t_env *env, char **args)
+int	my_builtin_cd(t_envlst *env, char **args)
 {
 	char	*old_pwd;
 

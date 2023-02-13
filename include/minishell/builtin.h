@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/20 17:02:53 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:47:18 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 # define BUILTIN_H
 
 # include "libft.h"
-# include "env.h"
+# include "envlst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// PRIVATE
 
-int			my_builtin_env(t_env *env, char **args);
+int			my_builtin_env(t_envlst *env, char **args);
 
-int			my_builtin_export(t_env *env, char **args);
-int			my_print_export(t_env *env);
-t_success	my_add_var(t_env *env, char *var);
-t_success	my_append_var(t_env *env, char *var);
-t_success	my_overwrite_var(t_env *env, char *var);
+int			my_builtin_export(t_envlst *env, char **args);
+int			my_print_export(t_envlst *env);
+t_success	my_add_var(t_envlst *env, char *var);
+t_success	my_append_var(t_envlst *env, char *var);
+t_success	my_overwrite_var(t_envlst *env, char *var);
 
-int			my_builtin_exit(t_env *env, char **args);
+int			my_builtin_exit(t_envlst *env, char **args);
 
-int			my_builtin_unset(t_env *env, char **args);
+int			my_builtin_unset(t_envlst *env, char **args);
 
-int			my_builtin_echo(t_env *env, char **args);
+int			my_builtin_echo(t_envlst *env, char **args);
 
-int			my_builtin_pwd(t_env *env, char **args);
+int			my_builtin_pwd(t_envlst *env, char **args);
 
-int			my_builtin_cd(t_env *env, char **args);
+int			my_builtin_cd(t_envlst *env, char **args);
 
 t_success	my_check_varname(char	*var, char delim);
 char		*my_get_pwd(void);

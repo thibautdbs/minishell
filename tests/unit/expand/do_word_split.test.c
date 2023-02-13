@@ -6,11 +6,11 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 13:06:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/03 17:35:03 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/12 08:57:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "greatest.h"
+#include "greatest/greatest.h"
 
 #include "minishell/expand.h"
 #include "minishell/wtoklst.h"

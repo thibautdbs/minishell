@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/02/10 14:44:29 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/12 10:20:00 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -167,6 +167,7 @@ DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 ### STANDARD TARGETS
 
 all: $(NAME)
+	@:;
 .PHONY: all
 
 clean:

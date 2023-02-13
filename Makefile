@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/02/10 17:35:08 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/13 15:18:04 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ LDFLAGS     =	-L$(dir $(LIBFT)) -lft -lreadline
 ################################################################################
 ### FILES
 
-SRCS		=	$(shell find $(SRC) -name '*.c')
+SRCS		=	$(shell fd -g '*.c' src)
+# $(info SRCS="$(SRCS)")
 
 OBJS		=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS		=	$(SRCS:%.c=$(BUILD)/%.d)
@@ -55,6 +56,7 @@ DEPS		=	$(SRCS:%.c=$(BUILD)/%.d)
 ### MANDATORY CMDS
 
 all: $(NAME)
+	@:;
 .PHONY: all
 
 clean::
@@ -84,9 +86,9 @@ refast: fclean fast
 ################################################################################
 ### NAME TARGET 
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(OBJS)
 	$(LOG_TARGET)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@;
+	$(CC) $(OBJS) $(LDFLAGS) -o $@;
 
 ################################################################################
 ### OBJS TARGET
@@ -104,13 +106,9 @@ $(BUILD)/%.o: %.c | $$(@D)
 ################################################################################
 ### LIBFT TARGET
 
-#Makes libft PHONY if needs rebuild.
 $(LIBFT):
-	$(MAKE) -C $(dir $(LIBFT));
-$(shell make -q -C $(dir $(LIBFT)) >&/dev/null)
-ifneq ($(.SHELLSTATUS), 0)
+	@$(MAKE) -C $(dir $(LIBFT));
 .PHONY: $(LIBFT)
-endif
 
 ################################################################################
 ### TOOLS

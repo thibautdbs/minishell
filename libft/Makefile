@@ -6,24 +6,20 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/24 11:32:40 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/12 10:20:00 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ################################################################################
 ### SHELL OPTS
 
-SHELL		:=	/usr/bin/bash
-.SHELLFLAGS	:=	-e -o pipefail -c --
+SHELL			:=	/usr/bin/bash
+.SHELLFLAGS		:=	-e -o pipefail -c --
+MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
+.DEFAULT_GOAL	:=	all
 
 .SECONDEXPANSION:
-
-################################################################################
-### MAKE OPTS
-
-MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
-
-.DEFAULT_GOAL	:=	all
+.DELETE_ON_ERROR:
 
 ################################################################################
 ### GOALS
@@ -171,6 +167,7 @@ DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
 ### STANDARD TARGETS
 
 all: $(NAME)
+	@:;
 .PHONY: all
 
 clean:

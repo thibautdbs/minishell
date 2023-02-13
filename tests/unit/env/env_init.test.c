@@ -6,11 +6,11 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/13 14:53:40 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/12 08:57:27 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "greatest.h"
+#include "greatest/greatest.h"
 
 #include "libft.h"
 #include <stdio.h>

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+### Assert srcs exists.
+for SRC in "$@"; do
+	if [[ ! -f "${SRC}" ]]; then
+		echo "greatest_mkrunner: '${SRC}' doesn't exists.";
+		exit 1;
+	fi
+done
+
+declare -r PATTERN="^[ \t]*SUITE[ \t]*\([ \t]*([A-Za-z0-9_]+)[ \t]*\)";
+
+cat << EOF
+#include "greatest/greatest.h"
+
+$(sed -nr "s|${PATTERN}|extern SUITE(\1);|p" "$@")
+
+GREATEST_MAIN_DEFS();
+int	main(int argc, char **argv)
+{
+GREATEST_MAIN_BEGIN();
+
+$(sed -nr "s|${PATTERN}|RUN_SUITE(\1);|p" "$@")
+
+GREATEST_MAIN_END();
+}
+EOF

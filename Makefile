@@ -6,26 +6,21 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/01/20 00:20:08 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/13 15:18:04 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ################################################################################
 ### SHELL OPTS
 
-SHELL		:=	/usr/bin/bash
-.SHELLFLAGS	:=	-e -o pipefail -c --
-
-.SECONDEXPANSION:
-
-################################################################################
-### MAKE OPTS
-
+SHELL			:=	/usr/bin/bash
+.SHELLFLAGS		:=	-e -o pipefail -c --
 MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
-
 .DEFAULT_GOAL	:=	all
 
--include dev.mk
+.DELETE_ON_ERROR:
+.SECONDEXPANSION:
+.SECONDARY:
 
 ################################################################################
 ### GOALS
@@ -46,32 +41,30 @@ BUILD		:=	.build
 CC			=	clang
 CFLAGS		=	-Wall -Werror -Wextra -O3
 CPPFLAGS	=	-MP -MMD -I$(INCLUDE) -I$(dir $(LIBFT))/include
-LDFLAGS     =	-L$(dir $(LIBFT)) -l:$(notdir $(LIBFT)) -lreadline
+LDFLAGS     =	-L$(dir $(LIBFT)) -lft -lreadline
 
 ################################################################################
 ### FILES
 
-# SRCS	:=
+SRCS		=	$(shell fd -g '*.c' src)
+# $(info SRCS="$(SRCS)")
 
-OBJS	:=	$(SRCS:%.c=$(BUILD)/%.o)
-DEPS	:=	$(SRCS:%.c=$(BUILD)/%.d)
+OBJS		=	$(SRCS:%.c=$(BUILD)/%.o)
+DEPS		=	$(SRCS:%.c=$(BUILD)/%.d)
 
 ################################################################################
 ### MANDATORY CMDS
 
-all:
-	$(LOG_PHONY)
-	@$(MAKE) $(NAME);
+all: $(NAME)
+	@:;
 .PHONY: all
 
-clean:
-	$(LOG_PHONY)
+clean::
 	$(MAKE) -C $(dir $(LIBFT)) clean;
 	rm -rf $(BUILD);
 .PHONY: clean
 
-fclean:
-	$(LOG_PHONY)
+fclean::
 	$(MAKE) -C $(dir $(LIBFT)) fclean;
 	rm -rf $(BUILD);
 	rm -rf $(NAME);
@@ -93,20 +86,20 @@ refast: fclean fast
 ################################################################################
 ### NAME TARGET 
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(OBJS)
 	$(LOG_TARGET)
-	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(NAME);
+	$(CC) $(OBJS) $(LDFLAGS) -o $@;
 
 ################################################################################
 ### OBJS TARGET
 
-$(sort $(patsubst %/,%,$(dir $(OBJS)))):
+$(sort $(shell dirname $(OBJS))):
 	$(LOG_TARGET)
 	mkdir -p $@;
 
-$(OBJS): $(BUILD)/%.o: %.c | $$(@D)
+$(BUILD)/%.o: %.c | $$(@D)
 	$(LOG_TARGET)
-	$(CC) $(CFLAGS) -c $(CPPFLAGS) $< -o $@;
+	$(CC) $(CFLAGS) $(CPPFLAGS) $< -c -o $@;
 
 -include $(DEPS)
 
@@ -114,7 +107,8 @@ $(OBJS): $(BUILD)/%.o: %.c | $$(@D)
 ### LIBFT TARGET
 
 $(LIBFT):
-	$(MAKE) -C $(dir $(LIBFT));
+	@$(MAKE) -C $(dir $(LIBFT));
+.PHONY: $(LIBFT)
 
 ################################################################################
 ### TOOLS
@@ -127,8 +121,4 @@ define LOG_TARGET
 	$(info $(MAGENTA)Building $@:$(NC))
 endef
 
-define LOG_PHONY
-	$(info $(BLUE)$@!$(NC))
-endef
-
--include tests/test.mk
+-include test.mk

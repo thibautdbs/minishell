@@ -9,7 +9,7 @@
 /tests/.build/
 /tests/minishell.a
 
-/tests/unit/build/
+/tests/unit/run_tests
 
 /tests/builtins/build/
 /tests/builtins/run_bltn

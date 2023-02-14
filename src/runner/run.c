@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/14 10:45:53 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 11:58:34 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,18 @@ static int	loc_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 
 	if (my_cmdlst_size(pipeline) == 1)
 		return (my_run_cmd(pipeline, penvlst, res, pcmdtree));
-	pipes = my_pipelst_new(my_cmdlst_size(pipeline) - 1);
+	pipes = my_pipelst_init(my_cmdlst_size(pipeline) - 1);
+	//if (pipes == NULL)
+	//PROTECTION je pense qu'il faut utiliser errno dans pipelst init pour avoir l/exitstatus de quand la commande pipe fait
 	i = 0;
 	while (pipeline != NULL)
 	{
 		pid = fork();
-		if (pid == 0)
+		if (pid == 0)  //pour gagner des lignes on peut mettre tout ca dans un loc_child_process
 		{
-			dup2(my_pipelst_at(pipes, i - 1)->out, 0);
-			dup2(my_pipelst_at(pipes, i)->in, 1);
+			my_dup_pipe(pipes, i);
 			res  = my_run_cmd(pipeline, penvlst, res, pcmdtree);
 			my_close_stdfds();
-			// close(0);
-			// close(1);
 			my_pipelst_del(&pipes);
 			exit(res);
 		}
@@ -85,8 +84,6 @@ static int	loc_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 	}
 	waitpid(pid, &res, 0);
 	my_wait_children();
-	// while (wait(NULL) > 0)
-	// 	continue ;
 	my_pipelst_del(&pipes);
 	return (WEXITSTATUS(res));
 }

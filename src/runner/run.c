@@ -6,13 +6,14 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/14 11:58:34 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:09:30 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/runner.h"
 
 #include <wait.h>//waitpid
+#include <errno.h>
 #include <stdlib.h>//exit
 #include <unistd.h>//fork
 
@@ -34,6 +35,8 @@ int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 		return (loc_run_or(cmd, penvlst, res, pcmdtree));
 	if (cmd->type == AND)
 		return (loc_run_and(cmd, penvlst, res, pcmdtree));
+	if (my_cmdlst_size(cmd->pipeline) == 1)
+		return (my_run_cmd(cmd->pipeline, penvlst, res, pcmdtree));
 	return (loc_run_pipeline(cmd->pipeline, penvlst, res, pcmdtree));
 }
 
@@ -61,21 +64,20 @@ static int	loc_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 {
 	int			pid;
 	t_pipelst	*pipes;
-	int 		i;
+	int			i;
 
-	if (my_cmdlst_size(pipeline) == 1)
-		return (my_run_cmd(pipeline, penvlst, res, pcmdtree));
+	errno = 0;
 	pipes = my_pipelst_init(my_cmdlst_size(pipeline) - 1);
-	//if (pipes == NULL)
-	//PROTECTION je pense qu'il faut utiliser errno dans pipelst init pour avoir l/exitstatus de quand la commande pipe fait
+	if (pipes == NULL)
+		return (errno);
 	i = 0;
 	while (pipeline != NULL)
 	{
 		pid = fork();
-		if (pid == 0)  //pour gagner des lignes on peut mettre tout ca dans un loc_child_process
+		if (pid == 0) //pour gagner des lignes on peut mettre tout ca dans un loc_child_process
 		{
 			my_dup_pipe(pipes, i);
-			res  = my_run_cmd(pipeline, penvlst, res, pcmdtree);
+			res = my_run_cmd(pipeline, penvlst, res, pcmdtree);
 			my_close_stdfds();
 			my_pipelst_del(&pipes);
 			exit(res);

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:07:26 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/09 16:49:20 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 08:02:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void		my_cmdlst_del_one(t_cmdlst **pcmdlst);
 t_cmdlst	*my_cmdlst_last(t_cmdlst *cmdlst);
 t_cmdlst	*my_cmdlst_pop_front(t_cmdlst **pcmdlst);
 void		my_cmdlst_add_back(t_cmdlst **pcmdlst, t_cmdlst *new);
+int			my_cmdlst_size(t_cmdlst *lst);
 
 #endif //CMD_H

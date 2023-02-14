@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:46:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/13 17:52:24 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 08:05:38 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 /// FUNCTIONS
 
 int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree);
-int	my_run_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res, 
+int	my_run_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 		t_cmdtree **pcmdtree);
 
 // t_success	my_open_input(t_redir *redir);

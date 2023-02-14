@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/13 17:51:56 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 07:59:45 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <wait.h>//waitpid
 #include <stdlib.h>//exit
 #include <unistd.h>//fork
-#include <limits.h>//CHAR_BIT
 
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
@@ -53,5 +52,5 @@ static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 		exit(res);
 	}
 	waitpid(pid, &res, 0);
-	return (res >> CHAR_BIT);
+	return (WEXITSTATUS(res));
 }

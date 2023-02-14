@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/13 17:26:42 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 08:06:26 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <wait.h>//waitpid
 #include <stdlib.h>//exit
 #include <unistd.h>//fork
-#include <limits.h>//CHAR_BIT
 
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
@@ -56,7 +55,6 @@ static int	loc_run_and(t_cmdtree *cmd, t_envlst **penvlst, int res,
 	return (my_run(cmd->right, penvlst, res, pcmdtree));
 }
 
-//TODO doesn't wait for all subshells
 static int	loc_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
@@ -72,6 +70,7 @@ static int	loc_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 		pipeline = pipeline->next;
 	}
 	waitpid(pid, &res, 0);
-	waitpid(-1, NULL, 0);
-	return (res >> CHAR_BIT);
+	while (wait(NULL) > 0)
+		continue ;
+	return (WEXITSTATUS(res));
 }

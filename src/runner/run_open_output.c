@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/10 18:02:44 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:43:56 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,27 @@
 
 #include <unistd.h> //unlink, dup2
 #include <fcntl.h> //open
+#include <errno.h> //errno, perror
+#include <stdio.h> //perror
 
-t_success	my_open_output(t_redir *redir)
+int	my_open_output(char *str)
 {
 	int	fd_output;
 
-//	if (my_check_redir_label(redir->name) == failure)
-//		return (failure); //Invalid label
-	fd_output = open(redir->label, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	errno = 0;
+	fd_output = open(str, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd_output < 0)
-		return (FAILURE); //Error when creating or accessing
-	dup2(fd_output, STDOUT);
-	unlink(redir->label);
-	return (SUCCESS);
+		perror("Error when opening file");
+	else
+	{
+		dup2(fd_output, STDOUT);
+		if (errno != 0)
+		{
+			perror("Dup error");
+			close(fd_output);
+		}
+		else
+			unlink(str);
+	}
+	return (errno);
 }

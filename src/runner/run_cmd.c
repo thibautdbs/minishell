@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/14 09:33:08 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 13:51:12 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	int const	stdin = dup(0);
 	int const	stdout = dup(1);
 
-	res = my_redirect(cmd->redirs);
+	res = my_redirect(cmd->redirs, res);
 	if (res == 0)
 	{
 		//blah my_builtin(cmd->words, penvlst);

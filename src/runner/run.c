@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/14 08:06:26 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/14 10:45:53 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,38 @@ static int	loc_run_and(t_cmdtree *cmd, t_envlst **penvlst, int res,
 	return (my_run(cmd->right, penvlst, res, pcmdtree));
 }
 
+//TODO create pipes;
 static int	loc_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
-	int	pid;
+	int			pid;
+	t_pipelst	*pipes;
+	int 		i;
 
 	if (my_cmdlst_size(pipeline) == 1)
 		return (my_run_cmd(pipeline, penvlst, res, pcmdtree));
+	pipes = my_pipelst_new(my_cmdlst_size(pipeline) - 1);
+	i = 0;
 	while (pipeline != NULL)
 	{
 		pid = fork();
 		if (pid == 0)
-			exit(my_run_cmd(pipeline, penvlst, res, pcmdtree));
+		{
+			dup2(my_pipelst_at(pipes, i - 1)->out, 0);
+			dup2(my_pipelst_at(pipes, i)->in, 1);
+			res  = my_run_cmd(pipeline, penvlst, res, pcmdtree);
+			my_close_stdfds();
+			// close(0);
+			// close(1);
+			my_pipelst_del(&pipes);
+			exit(res);
+		}
 		pipeline = pipeline->next;
 	}
 	waitpid(pid, &res, 0);
-	while (wait(NULL) > 0)
-		continue ;
+	my_wait_children();
+	// while (wait(NULL) > 0)
+	// 	continue ;
+	my_pipelst_del(&pipes);
 	return (WEXITSTATUS(res));
 }

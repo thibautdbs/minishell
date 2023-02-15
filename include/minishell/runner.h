@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:42:33 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 15:43:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:45:22 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int		my_run_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 			t_cmdtree **pcmdtree);
 int		my_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 			t_cmdtree **pcmdtree);
+
+int		my_redirect(t_redirlst *redir, t_envlst *envlst, int res);
 
 int		my_open_input(char *str);
 int		my_open_output(char *str);

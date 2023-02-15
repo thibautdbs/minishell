@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 13:49:27 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:47:03 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	int const	stdin = dup(0);
 	int const	stdout = dup(1);
 
-	res = my_redirect(cmd->redirs, res);
+	res = my_redirect(cmd->redirs, *penvlst, res);
 	if (res == 0)
 	{
 		//blah my_builtin(cmd->words, penvlst);
@@ -64,7 +64,7 @@ static int	loc_run_exec(t_cmdlst *cmd, t_envlst **penvlst, int res,
 		words = cmd->words;
 		cmd->words = NULL;
 		my_cmdtree_del(pcmdtree);
-		res = my_redirect(cmd->redirs);
+		res = my_redirect(cmd->redirs, *penvlst, res);
 		if (res == 0)
 			exit(my_exec(&words, penvlst));
 		close(0);
@@ -98,7 +98,7 @@ static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	pid = fork();
 	if (pid == 0)
 	{
-		res = my_redirect(cmd->redirs);
+		res = my_redirect(cmd->redirs, *penvlst, res);
 		if (res == 0)
 		{
 			res = my_run(cmd->subcmd, penvlst, res, pcmdtree);

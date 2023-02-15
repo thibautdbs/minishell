@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 13:09:55 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:54:57 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	loc_get_var_label_len(char const *var)
 		i++;
 	return (i);
 }
-   
+
 t_envlst	*my_envlst_find_var(t_envlst *env, char const *var)
 {
 	int			var_label_len;

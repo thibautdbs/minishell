@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/14 13:51:12 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:49:27 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
+#include "minishell/wordlst.h"
 
 static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
@@ -54,19 +55,21 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
 static int	loc_run_exec(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
-	int	pid;
+	int			pid;
+	t_wordlst	*words;
 
 	pid = fork();
 	if (pid == 0)
 	{
+		words = cmd->words;
+		cmd->words = NULL;
+		my_cmdtree_del(pcmdtree);
 		res = my_redirect(cmd->redirs);
 		if (res == 0)
-		{
-			res = my_exec(cmd->words, *penvlst);
-			close(0);
-			close(1);
-		}
-		my_cmdtree_del(pcmdtree);
+			exit(my_exec(&words, penvlst));
+		close(0);
+		close(1);
+		my_wordlst_del(&words);
 		my_envlst_del(penvlst);
 		exit(res);
 	}

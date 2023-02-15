@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:10:23 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 11:41:54 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:47:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_pipelst	*my_pipelst_init(int len)
 {
 	t_pipelst	*pipes;
 	t_pipelst	*new;
-	int	i;
+	int			i;
 
 	i = 0;
 	while (i < len)

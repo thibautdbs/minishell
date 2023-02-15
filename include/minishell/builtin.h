@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:47:18 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:35:37 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 /// PRIVATE
+
+t_bool	my_is_builtin(char	*cmd);
 
 int			my_builtin_env(t_envlst *env, char **args);
 

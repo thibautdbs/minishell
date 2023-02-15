@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:36:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:19:30 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 12:56:00 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	**loc_get_path_tab(char **my_env)
 	while (my_env[i] != NULL && ft_strncmp(my_env[i], "PATH=", 5) != 0)
 		i++;
 	if (ft_strncmp(my_env[i], "PATH=", 5) != 0)
-		return (NULL); //No PATH var found is env
+		return (NULL);
 	path_tab = ft_split(my_env[i] + 5, ':');
 	return (path_tab);
 }
@@ -60,5 +60,5 @@ static char	*loc_select_path(char **path_tab, char *cmd)
 		ft_memdel(&path);
 		i++;
 	}
-	return (NULL); //Cmd doesn't exist or none of the path worked
+	return (NULL);
 }

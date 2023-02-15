@@ -1,44 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envlst_find_var.c                                  :+:      :+:    :+:   */
+/*   envlst_get_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 13:09:55 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:09:37 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/envlst.h"
 
-#include "libft.h" //ft_strncmp
 #include <stddef.h> //NULL
+#include "libft.h" //ft_strchr
 
-static int	loc_get_var_label_len(char const *var)
+char	*my_envlst_get_value(t_envlst *env, char const *var)
 {
-	int	i;
-
-	i = 0;
-	while (var[i] && var[i] != '=' && var[i] != '+')
-		i++;
-	return (i);
-}
-   
-t_envlst	*my_envlst_find_var(t_envlst *env, char const *var)
-{
-	int			var_label_len;
 	t_envlst	*curr;
+	char		*substr;
 
-	var_label_len = loc_get_var_label_len(var);
-	curr = env;
-	while (curr != NULL)
-	{
-		if (ft_strncmp(curr->content, var, var_label_len) == 0
-			&& (curr->content[var_label_len] == '='
-				|| curr->content[var_label_len] == '\0'))
-			return (curr);
-		curr = curr->next;
-	}
-	return (NULL);
+	curr = my_envlst_find_var(env, var);
+	if (curr == NULL)
+		return (NULL);
+	substr = ft_strchr(curr->content, '=');
+	if (substr == NULL)
+		return (NULL);
+	return (substr++);
 }

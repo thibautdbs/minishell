@@ -6,12 +6,14 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 17:35:37 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:49:38 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
+
+# include <stdbool.h>
 
 # include "libft.h"
 # include "envlst.h"
@@ -19,7 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// PRIVATE
 
-t_bool	my_is_builtin(char	*cmd);
+bool		my_is_builtin(char	*cmd);
 
 int			my_builtin_env(t_envlst *env, char **args);
 

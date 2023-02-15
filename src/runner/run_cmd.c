@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 15:59:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:44:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
+#include "minishell/builtin.h"
 #include "minishell/wordlst.h"
 
 static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
-static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
-				t_cmdtree **pcmdtree);
+static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res);
 static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
 static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
@@ -44,14 +44,13 @@ static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	my_expand_args(cmd, *penvlst, res);
 	if (errno != 0)
 		return (errno);
-	if (my_is_builtin(cmd->words))
-		return (loc_run_builtin(cmd, penvlst, res, pcmdtree));
+	if (my_is_builtin(cmd->words->content))
+		return (loc_run_builtin(cmd, penvlst, res));
 	return (loc_run_execve(cmd, penvlst, res, pcmdtree));
 }
 
 //TODO
-static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
-	t_cmdtree **pcmdtree)
+static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res)
 {
 	int const	stdin = dup(0);
 	int const	stdout = dup(1);
@@ -59,7 +58,7 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	res = my_redirect(cmd->redirs, *penvlst, res);
 	if (res == 0)
 	{
-		//blah my_builtin(cmd->words, penvlst);
+		res = my_builtin(cmd->words, penvlst);
 	}
 	dup2(stdin, 0);
 	dup2(stdout, 1);
@@ -82,7 +81,7 @@ static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst, int res,
 		my_cmdtree_del(pcmdtree);
 		res = my_redirect(cmd->redirs, *penvlst, res);
 		if (res == 0)
-			exit(my_execve(&words, penvlst));
+			exit(my_execve(words, *penvlst));
 		close(0);
 		close(1);
 		my_wordlst_del(&words);

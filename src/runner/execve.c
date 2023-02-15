@@ -6,11 +6,10 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:00:41 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 17:32:28 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:42:20 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell/runner.h"
 
 #include <stdlib.h>//exit
@@ -19,6 +18,7 @@
 #include <limits.h>//PATH_MAX
 #include <unistd.h>//execve
 
+#include "libft.h"
 #include "minishell/wordlst.h"
 #include "minishell/envlst.h"
 

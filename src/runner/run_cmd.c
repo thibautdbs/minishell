@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 15:47:03 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:59:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 
 static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
+static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
+				t_cmdtree **pcmdtree);
+static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst, int res,
+				t_cmdtree **pcmdtree);
 static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
 
@@ -31,6 +35,18 @@ int	my_run_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 	if (cmd->type == SIMPLECMD)
 		return (loc_run_simple_cmd(cmd, penvlst, res, pcmdtree));
 	return (loc_run_subshell(cmd, penvlst, res, pcmdtree));
+}
+
+static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
+	t_cmdtree **pcmdtree)
+{
+	errno = 0;
+	my_expand_args(cmd, *penvlst, res);
+	if (errno != 0)
+		return (errno);
+	if (my_is_builtin(cmd->words))
+		return (loc_run_builtin(cmd, penvlst, res, pcmdtree));
+	return (loc_run_execve(cmd, penvlst, res, pcmdtree));
 }
 
 //TODO
@@ -52,7 +68,7 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	return (res);
 }
 
-static int	loc_run_exec(t_cmdlst *cmd, t_envlst **penvlst, int res,
+static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
 	int			pid;
@@ -66,7 +82,7 @@ static int	loc_run_exec(t_cmdlst *cmd, t_envlst **penvlst, int res,
 		my_cmdtree_del(pcmdtree);
 		res = my_redirect(cmd->redirs, *penvlst, res);
 		if (res == 0)
-			exit(my_exec(&words, penvlst));
+			exit(my_execve(&words, penvlst));
 		close(0);
 		close(1);
 		my_wordlst_del(&words);
@@ -77,19 +93,6 @@ static int	loc_run_exec(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	return (WEXITSTATUS(res));
 }
 
-static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
-	t_cmdtree **pcmdtree)
-{
-	errno = 0;
-	my_expand_args(cmd, *penvlst, res);
-	if (errno != 0)
-		return (errno);
-	if (my_is_builtin(cmd->words))
-		return (my_run_builtin(cmd, penvlst, res, pcmdtree));
-	return (my_run_exec(cmd, penvlst, res, pcmdtree));
-}
-
-//TODO
 static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {

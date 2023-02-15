@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 13:10:13 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:01:16 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_envlst
 /// FUNCTIONS
 
 t_envlst	*my_envlst_init(char **envp);
-char		**my_get_envp(t_envlst *env);
+char		**my_envlst_to_envp(t_envlst *envlst);
 int			my_envlst_size(t_envlst *env);
 t_envlst	*my_envlst_new(char const *str);
 void		my_envlst_addback(t_envlst **envlst, t_envlst *to_add);

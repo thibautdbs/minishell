@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 17:32:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 17:44:09 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/15 19:15:11 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "minishell/envlst.h"
 #include "minishell/builtin.h"
 #include "minishell/wordlst.h"
+#include "minishell/builtin.h"
 
 static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
@@ -57,9 +58,7 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res)
 
 	res = my_redirect(cmd->redirs, *penvlst, res);
 	if (res == 0)
-	{
 		res = my_builtin(cmd->words, penvlst);
-	}
 	dup2(stdin, 0);
 	dup2(stdout, 1);
 	close(stdin);

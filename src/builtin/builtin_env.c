@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:50:28 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:28:00 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 #include <stddef.h> //NULL
 #include "libft.h" //ft_strchr, ft_puterr, ft_putstr_fd
 
-int	my_builtin_env(t_envlst *env, char **args)
+int	my_builtin_env(char **args, t_envlst *penvlst)
 {
 	t_envlst	*curr;
 
-	curr = env;
+	curr = penvlst;
 	if (args[1] != NULL)
 	{
 		ft_puterr("env : No such file or directory");
@@ -27,8 +27,8 @@ int	my_builtin_env(t_envlst *env, char **args)
 	}
 	while (curr != NULL)
 	{
-		if (ft_strchr(env->content, '=') != NULL)
-			ft_putstr_fd(env->content, STDOUT);
+		if (ft_strchr(penvlst->content, '=') != NULL)
+			ft_putstr_fd(penvlst->content, STDOUT);
 		curr = curr->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:37:44 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:54:56 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:58:52 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 
 static void	loc_print_formalized(char *str);
 
-int	my_print_export(t_envlst *env)
+int	my_print_export(t_envlst *envlst)
 {
 	char	**envp;
 	int		i;
 
 	i = 0;
-	envp = my_get_envp(env);
+	envp = my_envlst_to_envp(envlst);
 	if (envp == NULL)
 	{
 		ft_puterr("Error occured when creating envp");
@@ -42,7 +42,7 @@ int	my_print_export(t_envlst *env)
 	return (0);
 }
 
-t_success	my_add_var(t_envlst *env, char *var)
+t_success	my_add_var(char *var, t_envlst *penvlst)
 {
 	t_envlst	*new;
 
@@ -52,26 +52,26 @@ t_success	my_add_var(t_envlst *env, char *var)
 		ft_puterr("error occured when creating env var");
 		return (FAILURE);
 	}
-	my_envlst_addback(&env, new);
+	my_envlst_addback(&penvlst, new);
 	return (SUCCESS);
 }
 
-t_success	my_append_var(t_envlst *env, char *var)
+t_success	my_append_var(char *var, t_envlst *penvlst)
 {
 	char	*new_content;
 
-	new_content = ft_strjoin(env->content, ft_strchr(var, '=') + 1);
+	new_content = ft_strjoin(penvlst->content, ft_strchr(var, '=') + 1);
 	if (new_content == NULL)
 	{
 		ft_puterr("error occured when growing env var");
 		return (FAILURE);
 	}
-	ft_memdel(&env->content);
-	env->content = new_content;
+	ft_memdel(&penvlst->content);
+	penvlst->content = new_content;
 	return (SUCCESS);
 }
 
-t_success	my_overwrite_var(t_envlst *env, char *var)
+t_success	my_overwrite_var(char *var, t_envlst *penvlst)
 {
 	char	*new_content;
 
@@ -81,8 +81,8 @@ t_success	my_overwrite_var(t_envlst *env, char *var)
 		ft_puterr("error occured when overwritting env var");
 		return (FAILURE);
 	}
-	ft_memdel(&env->content);
-	env->content = new_content;
+	ft_memdel(&penvlst->content);
+	penvlst->content = new_content;
 	return (SUCCESS);
 }
 

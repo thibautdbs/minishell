@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runner.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 15:42:33 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 17:47:08 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/15 19:12:02 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/15 19:12:42 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

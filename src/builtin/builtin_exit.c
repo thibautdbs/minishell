@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:58:26 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:51:16 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:53:29 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@
 
 static int	loc_is_longnumeric(char *str);
 
-int	my_builtin_exit(t_envlst *env, char **args)
+int	my_builtin_exit(char **args)
 {
-	(void) env;
 	if (args[1] == NULL)
 		exit(0);
 	if (loc_is_longnumeric(args[1]))

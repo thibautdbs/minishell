@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:49:37 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:35:38 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,11 @@
 
 #include "minishell/envlst.h"
 
-static	t_success	loc_addpath_to_env(t_envlst *env, char *content, char *id)
-{
-	char	*joined_args;
-	char	**args;
+static	t_success	loc_addpath_to_env(char *content, char *id,
+					t_envlst *penvlst);
+static	int	loc_update_env(char *old_pwd, t_envlst *penvlst);
 
-	joined_args = ft_strjoin(id, content);
-	ft_memdel(&content);
-	if (joined_args == NULL)
-		return (FAILURE);
-	args = ft_split(joined_args, ' ');
-	ft_memdel(&joined_args);
-	if (args == NULL)
-		return (FAILURE);
-	if (my_builtin_export(env, args) == 12)
-	{
-		ft_strsdel(&args);
-		return (FAILURE);
-	}
-	ft_strsdel(&args);
-	return (SUCCESS);
-}
-
-static	int	loc_update_env(t_envlst *env, char *old_pwd)
-{
-	char	*new_pwd;
-
-	if (loc_addpath_to_env(env, old_pwd, "export OLDPWD=") == FAILURE)
-		return (12);
-	new_pwd = my_get_pwd();
-	if (new_pwd == NULL)
-		return (12);
-	if (loc_addpath_to_env(env, new_pwd, "export PWD=") == FAILURE)
-		return (12);
-	return (0);
-}
-
-int	my_builtin_cd(t_envlst *env, char **args)
+int	my_builtin_cd(char **args, t_envlst *penvlst)
 {
 	char	*old_pwd;
 
@@ -75,5 +43,42 @@ int	my_builtin_cd(t_envlst *env, char **args)
 		perror("cd");
 		return (1);
 	}
-	return (loc_update_env(env, old_pwd));
+	return (loc_update_env(old_pwd, penvlst));
+}
+
+static	t_success	loc_addpath_to_env(char *content, char *id,
+		t_envlst *penvlst)
+{
+	char	*joined_args;
+	char	**args;
+
+	joined_args = ft_strjoin(id, content);
+	ft_memdel(&content);
+	if (joined_args == NULL)
+		return (FAILURE);
+	args = ft_split(joined_args, ' ');
+	ft_memdel(&joined_args);
+	if (args == NULL)
+		return (FAILURE);
+	if (my_builtin_export(args, penvlst) == 12)
+	{
+		ft_strsdel(&args);
+		return (FAILURE);
+	}
+	ft_strsdel(&args);
+	return (SUCCESS);
+}
+
+static	int	loc_update_env(char *old_pwd, t_envlst *penvlst)
+{
+	char	*new_pwd;
+
+	if (loc_addpath_to_env(old_pwd, "export OLDPWD=", penvlst) == FAILURE)
+		return (12);
+	new_pwd = my_get_pwd();
+	if (new_pwd == NULL)
+		return (12);
+	if (loc_addpath_to_env(new_pwd, "export PWD=", penvlst) == FAILURE)
+		return (12);
+	return (0);
 }

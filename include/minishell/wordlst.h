@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:32:27 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 16:48:26 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:52:26 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ t_wordlst	*my_wordlst_new(void);
 void		my_wordlst_add_back(t_wordlst **pwords, t_wordlst *new);
 t_wordlst	*my_wordlst_last(t_wordlst *words);
 int			my_wordlst_size(t_wordlst *wordlst);
+char		**my_wordlst_to_args(t_wordlst *wordlst);
 
 #endif //WORDLST_H

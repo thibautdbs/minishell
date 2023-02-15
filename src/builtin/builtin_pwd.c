@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:55:47 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:23:25 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@
 
 #include "minishell/envlst.h"
 
-int	my_builtin_pwd(t_envlst *env, char **args)
+int	my_builtin_pwd(void)
 {
 	char	*pwd;
 
-	(void) env;
-	(void) args;
 	pwd = my_get_pwd();
 	if (pwd == NULL)
 		return (12);

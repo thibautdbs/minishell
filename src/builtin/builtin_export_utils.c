@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:37:44 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:58:52 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:09:56 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,47 +42,47 @@ int	my_print_export(t_envlst *envlst)
 	return (0);
 }
 
-t_success	my_add_var(char *var, t_envlst *penvlst)
+t_success	my_add_var(char *str, t_envlst **penvlst)
 {
 	t_envlst	*new;
 
-	new = my_envlst_new(var);
+	new = my_envlst_new(str);
 	if (new == NULL)
 	{
 		ft_puterr("error occured when creating env var");
 		return (FAILURE);
 	}
-	my_envlst_addback(&penvlst, new);
+	my_envlst_addback(penvlst, new);
 	return (SUCCESS);
 }
 
-t_success	my_append_var(char *var, t_envlst *penvlst)
+t_success	my_append_var(char *str, t_envlst **penvlst)
 {
 	char	*new_content;
 
-	new_content = ft_strjoin(penvlst->content, ft_strchr(var, '=') + 1);
+	new_content = ft_strjoin((*penvlst)->content, ft_strchr(str, '=') + 1);
 	if (new_content == NULL)
 	{
 		ft_puterr("error occured when growing env var");
 		return (FAILURE);
 	}
-	ft_memdel(&penvlst->content);
-	penvlst->content = new_content;
+	ft_memdel(&(*penvlst)->content);
+	(*penvlst)->content = new_content;
 	return (SUCCESS);
 }
 
-t_success	my_overwrite_var(char *var, t_envlst *penvlst)
+t_success	my_overwrite_var(char *str, t_envlst **penvlst)
 {
 	char	*new_content;
 
-	new_content = ft_strdup(ft_strchr(var, '=') + 1);
+	new_content = ft_strdup(ft_strchr(str, '=') + 1);
 	if (new_content == NULL)
 	{
 		ft_puterr("error occured when overwritting env var");
 		return (FAILURE);
 	}
-	ft_memdel(&penvlst->content);
-	penvlst->content = new_content;
+	ft_memdel(&(*penvlst)->content);
+	(*penvlst)->content = new_content;
 	return (SUCCESS);
 }
 

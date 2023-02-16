@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:11:29 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 17:27:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/16 19:06:26 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// PRIVATE
 
-int			my_builtin_export(char **args, t_envlst *penvlst);
+int			my_builtin_export(t_wordlst *words, t_envlst **penvlst);
 int			my_print_export(t_envlst *env);
-t_success	my_add_var(char *var, t_envlst *penvlst);
-t_success	my_append_var(char *var, t_envlst *penvlst);
-t_success	my_overwrite_var(char *var, t_envlst *penvlst);
-
-
-
+t_success	my_add_var(char *str, t_envlst **penvlst);
+t_success	my_append_var(char *str, t_envlst **penvlst);
+t_success	my_overwrite_var(char *str, t_envlst **penvlst);
 
 /// REWORKED
 int			my_builtin(t_wordlst *words, t_envlst **penvlst, int res);

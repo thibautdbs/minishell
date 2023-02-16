@@ -6,79 +6,59 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 10:24:54 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/16 12:29:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
-#include <stddef.h> //NULL
-#include <unistd.h> //chdir
-#include <stdio.h> //perror
-#include "libft.h" //ft_puterr
+#include <stddef.h>//NULL
+#include <unistd.h>//chdir
+#include <stdio.h>//perror
+#include <limits.h>//PATH_MAX
+#include <errno.h>//errno
 
+#include "libft.h"//ft_puterr
 #include "minishell/envlst.h"
 
-static t_success	loc_addpath_to_env(char *content, char *id,
-						t_envlst *penvlst);
-static int			loc_update_env(char *old_pwd, t_envlst *penvlst);
+static	int	loc_update_env(char const *old_pwd, t_envlst **penvlst);
 
-int	my_builtin_cd(char **args, t_envlst *penvlst)
+int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 {
-	char	*old_pwd;
+	char	old_pwd[PATH_MAX];
+	char	pwd[PATH_MAX];
 
-	if (args[1] == NULL)
-		return (0);
-	if (args[2] != NULL)
+	if (my_wordlst_size(words) > 2)
 	{
-		ft_puterr("cd: too many arguments");
+		ft_puterr("minishell: cd: too many arguments");
 		return (1);
 	}
-	old_pwd = my_get_pwd();
-	if (old_pwd == NULL)
-		return (12);
-	if (chdir(args[1]) == -1)
+	if (my_wordlst_size(words) == 1)
+		ft_strlcpy(pwd, my_envlst_get_value(*penvlst, "HOME"), PATH_MAX);
+	else
+		ft_strlcpy(pwd, my_wordlst_at(words, 1)->content, PATH_MAX);
+	if (getcwd(old_pwd, PATH_MAX) == NULL)
 	{
-		ft_memdel(&old_pwd);
-		perror("cd");
-		return (1);
+		perror("minishell: cd:");
+		return (errno);
+	}
+	if (chdir(pwd) == -1)
+	{
+		perror("minishell: cd:");
+		return (errno);
 	}
 	return (loc_update_env(old_pwd, penvlst));
 }
 
-static	t_success	loc_addpath_to_env(char *content, char *id,
-		t_envlst *penvlst)
+static	int	loc_update_env(char const *old_pwd, t_envlst **penvlst)
 {
-	char	*joined_args;
-	char	**args;
+	char	pwd[PATH_MAX];
 
-	joined_args = ft_strjoin(id, content);
-	ft_memdel(&content);
-	if (joined_args == NULL)
-		return (FAILURE);
-	args = ft_split(joined_args, ' ');
-	ft_memdel(&joined_args);
-	if (args == NULL)
-		return (FAILURE);
-	if (my_builtin_export(args, penvlst) == 12)
-	{
-		ft_strsdel(&args);
-		return (FAILURE);
-	}
-	ft_strsdel(&args);
-	return (SUCCESS);
-}
-
-static	int	loc_update_env(char *old_pwd, t_envlst *penvlst)
-{
-	char	*new_pwd;
-
-	if (loc_addpath_to_env(old_pwd, "export OLDPWD=", penvlst) == FAILURE)
-		return (12);
-	new_pwd = my_get_pwd();
-	if (new_pwd == NULL)
-		return (12);
-	if (loc_addpath_to_env(new_pwd, "export PWD=", penvlst) == FAILURE)
-		return (12);
+	if (getcwd(pwd, PATH_MAX) == NULL)
+		return (errno);
+	if (my_envlst_set(penvlst, "PWD", pwd) == FAILURE)
+		return (errno);
+	if (my_envlst_set(penvlst, "OLDPWD", old_pwd) == FAILURE)
+		return (errno);
 	return (0);
 }

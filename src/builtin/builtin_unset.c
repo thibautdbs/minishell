@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:26:47 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:26:27 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,22 @@
 static void	loc_pop_var(char *var, t_envlst *penvlst);
 static int	loc_varcmp(char	*str, char *var);
 
-int	my_builtin_unset(char **args, t_envlst *penvlst)
+int	my_builtin_unset(t_wordlst *words, t_envlst **penvlst)
 {
-	int	error_status;
-	int	i;
+	int	res;
 
-	error_status = 0;
-	i = 1;
-	while (args[i] != NULL)
+	res = 0;
+	while (words != NULL)
 	{
-		if (my_check_varname(args[i], '\0') == FAILURE)
+		if (my_is_valid_identifier(words->content, '\0') == FAILURE)
 		{
-			ft_puterr(args[i]);
-			ft_puterr(" : not a valid identifier");
-			error_status = 1;
+			ft_puterr("minishell: unset: not a valid identifier");
+			res = 1;
 		}
 		loc_pop_var(args[i], penvlst);
-		i++;
+		words = words->next;
 	}
-	return (error_status);
+	return (res);
 }
 
 static int	loc_varcmp(char	*str, char *var)

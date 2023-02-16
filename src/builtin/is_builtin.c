@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:29:35 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 17:50:38 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/16 13:23:54 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "libft.h" //ft_strcmp
 
-bool	my_is_builtin(char	*cmd)
+bool	my_is_builtin(char const *cmd)
 {
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (true);

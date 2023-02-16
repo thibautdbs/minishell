@@ -6,15 +6,15 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 16:14:15 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/01/24 12:09:42 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/16 17:26:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" //t_success, ft_isalpha, ft_isalnum
-
 #include "minishell/builtin.h"
 
-t_success	my_check_varname(char	*var, char delim)
+#include "libft.h" //t_success, ft_isalpha, ft_isalnum
+
+bool	my_is_valid_identifier(char *var, char delim)
 {
 	int	i;
 

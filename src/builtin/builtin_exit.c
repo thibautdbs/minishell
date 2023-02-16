@@ -6,50 +6,38 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:58:26 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:53:29 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:03:31 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
-#include "libft.h" //ft_isdigit, ft_islong, ft_atol
 #include <stdlib.h> //exit
 
-#include "minishell/envlst.h"
+#include "libft.h" //ft_isdigit, ft_islong, ft_atol
+#include "minishell/wordlst.h"
 
-static int	loc_is_longnumeric(char *str);
+static int	loc_is_long_numeric(char const *str);
 
-int	my_builtin_exit(char **args)
+int	my_builtin_exit(t_wordlst *words, int res)
 {
-	if (args[1] == NULL)
-		exit(0);
-	if (loc_is_longnumeric(args[1]))
-	{
-		if (args[2] != NULL)
-		{
-			ft_puterr("exit : too many arguments");
-			return (0);
-		}
-		exit((unsigned char) ft_atol(args[1]));
-	}
-	ft_puterr("exit : numeric argument required");
-	exit(2);
-}
+	char	*endptr;
+	char	*nptr;
 
-static int	loc_is_longnumeric(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	while (str[i])
+	if (my_wordlst_size(words) == 1)
+		exit(res);
+	nptr = my_wordlst_at(words, 1)->content;
+	res = (unsigned char) ft_strtol(nptr, &endptr, &res);
+	endptr += ft_strspn(endptr, " ");
+	if (res != 0 || endptr[0] != '\0')
 	{
-		if (ft_isdigit(str[i]) == 0)
-			return (0);
-		i++;
+		ft_puterr("minishell: exit: numeric argument required");
+		exit(2);
 	}
-	if (ft_islong(str) == FALSE)
-		return (0);
-	return (1);
+	if (my_wordlst_size(words) > 2)
+	{
+		ft_puterr("minishell: exit : too many arguments");
+		return (1);
+	}
+	exit(res);
 }

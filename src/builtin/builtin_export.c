@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:57:23 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:26:08 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static int			loc_set_vars(char **args, t_envlst *penvlst);
 static t_success	loc_update_env(char *var, t_envlst *penvlst);
 
-int	my_builtin_export(char **args, t_envlst *penvlst)
+int	my_builtin_export(char **args, t_envlst **penvlst)
 {
 	if (args[0] == NULL || args[1] == NULL)
 		return (my_print_export(penvlst));
@@ -50,7 +50,7 @@ static int	loc_set_vars(char **args, t_envlst *penvlst)
 	i = 0;
 	while (args[i] != NULL)
 	{
-		if (my_check_varname(args[i], '=') == FAILURE)
+		if (my_is_valid_identifier(args[i], '=') == FAILURE)
 		{
 			ft_puterr(args[i]);
 			ft_puterr(" : not a valid identifier");

@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_islong.c                                        :+:      :+:    :+:   */
+/*   ft_strtol.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/18 14:04:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 13:36:16 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/16 15:56:20 by tdubois           #+#    #+#             */
+/*   Updated: 2023/02/16 16:18:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 #include <limits.h>//LONG_MAX, LONG_MIN
-#include <stdbool.h>
+#include <errno.h>
 
-bool	ft_islong(char const *nptr)
+long	ft_strtol(char const *nptr, char **endptr, int *errptr)
 {
 	long	n;
 	long	digit;
 	bool	is_neg;
 
-	if (nptr == NULL)
-		return (false);
 	nptr += ft_strspn(nptr, " \f\n\r\t\v");
 	is_neg = (*nptr == '-');
 	nptr += (ft_strspn(nptr, "+-") > 0);
@@ -30,15 +28,18 @@ bool	ft_islong(char const *nptr)
 	while (ft_isdigit(*nptr))
 	{
 		digit = *nptr - '0';
-		if (n > (LONG_MAX - digit) / 10)
-			return (false);
-		if (n < (LONG_MIN + digit) / 10)
-			return (false);
-		if (is_neg)
-			n = n * 10 - digit;
-		else
-			n = n * 10 + digit;
+		if (n < (LONG_MIN + digit) / 10 || (LONG_MAX - digit) / 10 < n)
+		{
+			*errptr = ERANGE;
+			if (is_neg)
+				return (LONG_MIN);
+			return (LONG_MAX);
+		}
+		n = n * 10 + (1 - 2 * is_neg) * digit;
 		nptr++;
 	}
-	return (true);
+	*errptr = 0;
+	if (endptr != NULL)
+		*endptr = (char *) nptr;
+	return (n);
 }

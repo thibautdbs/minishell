@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 18:38:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:52:37 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 10:25:31 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ char	**my_wordlst_to_args(t_wordlst *wordlst)
 	}
 	return (argv);
 }
-

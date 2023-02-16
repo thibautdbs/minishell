@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:11:29 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 19:11:35 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 10:25:50 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			my_builtin_unset(char **args, t_envlst *penvlst);
 
 int			my_builtin_echo(char **args);
 
-int			my_builtin_pwd();
+int			my_builtin_pwd(void);
 
 int			my_builtin_cd(char **args, t_envlst *penvlst);
 

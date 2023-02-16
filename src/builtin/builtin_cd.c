@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:35:38 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/16 10:24:54 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 #include "minishell/envlst.h"
 
-static	t_success	loc_addpath_to_env(char *content, char *id,
-					t_envlst *penvlst);
-static	int	loc_update_env(char *old_pwd, t_envlst *penvlst);
+static t_success	loc_addpath_to_env(char *content, char *id,
+						t_envlst *penvlst);
+static int			loc_update_env(char *old_pwd, t_envlst *penvlst);
 
 int	my_builtin_cd(char **args, t_envlst *penvlst)
 {

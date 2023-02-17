@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 10:57:34 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:34:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,17 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 static	int	loc_update_env(char const *old_pwd, t_envlst **penvlst)
 {
 	char	pwd[PATH_MAX];
+	char	varspec[PATH_MAX + 7];
 
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (errno);
-	if (my_envlst_set(penvlst, "PWD", pwd) == FAILURE)
+	ft_strlcpy(varspec, "PWD=", PATH_MAX + 7);
+	ft_strlcat(varspec, pwd, PATH_MAX + 7);
+	if (my_envlst_apply(varspec, penvlst) == FAILURE)
 		return (errno);
-	if (my_envlst_set(penvlst, "OLDPWD", old_pwd) == FAILURE)
+	ft_strlcpy(varspec, "OLDPWD=", PATH_MAX + 7);
+	ft_strlcat(varspec, old_pwd, PATH_MAX + 7);
+	if (my_envlst_apply(varspec, penvlst) == FAILURE)
 		return (errno);
 	return (0);
 }

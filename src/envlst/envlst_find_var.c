@@ -6,29 +6,38 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 10:54:52 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:33:56 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/envlst.h"
 
-#include "libft.h" //ft_strncmp
 #include <stddef.h> //NULL
 
-t_envlst	*my_envlst_find_var(char const *var, t_envlst *envlst)
-{
-	int			var_label_len;
-	t_envlst	*curr;
+#include "libft.h" //ft_strncmp
 
-	var_label_len = ft_strcspn(var, "+=");
-	curr = envlst;
-	while (curr != NULL)
+/**
+ * Search a node in envlst whose content match varspec until +=, =, or EOF.
+ */
+t_envlst	*my_envlst_find_var(char const *varspec, t_envlst *envlst)
+{
+	int	len;
+
+	len = 0;
+	while (varspec[len] != '\0')
 	{
-		if (ft_strncmp(curr->content, var, var_label_len) == 0
-			&& (curr->content[var_label_len] == '='
-				|| curr->content[var_label_len] == '\0'))
-			return (curr);
-		curr = curr->next;
+		if (ft_strncmp(varspec, "+=", 2))
+			break ;
+		if (ft_strncmp(varspec, "=", 1))
+			break ;
+		len++;
+	}
+	while (envlst != NULL)
+	{
+		if (len == ft_strcspn(envlst->content, "=")
+				&& ft_strncmp(envlst->content, varspec, len))
+			return (envlst);
+		envlst = envlst->next;
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 19:15:11 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:51:14 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "minishell/envlst.h"
 #include "minishell/builtin.h"
 #include "minishell/wordlst.h"
-#include "minishell/builtin.h"
+#include "minishell/expand.h"
 
 static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);
@@ -42,7 +42,7 @@ static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
 	errno = 0;
-	my_expand_args(cmd, *penvlst, res);
+	my_expand_words(&cmd->words, *penvlst);
 	if (errno != 0)
 		return (errno);
 	if (my_is_builtin(cmd->words->content))
@@ -58,7 +58,7 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res)
 
 	res = my_redirect(cmd->redirs, *penvlst, res);
 	if (res == 0)
-		res = my_builtin(cmd->words, penvlst);
+		res = my_builtin(cmd->words, penvlst, res);
 	dup2(stdin, 0);
 	dup2(stdout, 1);
 	close(stdin);

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 14:02:15 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/06 11:39:13 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/17 16:38:43 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 #include <libft.h> //ft_memset
 
-void	my_envlst_del(t_envlst **env)
+void	my_envlst_del(t_envlst **penvlst)
 {
 	t_envlst	*curr;
 	t_envlst	*next;
 
-	curr = *env;
+	curr = *penvlst;
 	while (curr != NULL)
 	{
 		ft_memdel(&curr->content);
@@ -27,5 +27,5 @@ void	my_envlst_del(t_envlst **env)
 		ft_memdel(&curr);
 		curr = next;
 	}
-	*env = NULL;
+	*penvlst = NULL;
 }

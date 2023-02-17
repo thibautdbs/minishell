@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   expand_words.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 17:20:57 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/02/17 17:35:10 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/17 17:48:30 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/builtin.h"
+#include "minishell/expand.h"
 
-#include <stddef.h> //NULL
+#include <errno.h>
 
-#include "libft.h" //ft_strchr, ft_puterr, ft_putstr_fd
 #include "minishell/envlst.h"
+#include "minishell/wordlst.h"
 
-int	my_builtin_unset(t_wordlst *words, t_envlst **penvlst)
+void	my_expand_words(t_wordlst **pwords, t_envlst *envlst)
 {
-	int	res;
+	t_wordlst	*curr;
+	t_wordlst	*new_words;
+	t_wordlst	*expanded_words;
 
-	res = 0;
-	while (words != NULL)
+	errno = 0; 
+	curr = *pwords;
+	while (curr != NULL)
 	{
-		if (my_is_valid_identifier(words->content, '\0') == FAILURE)
-		{
-			ft_puterr("minishell: unset: not a valid identifier");
-			res = 1;
-		}
-		my_envlst_pop_var(words->content, penvlst);
-		words = words->next;
+		new_words = my_expand(curr->content, envlst);
+		if (errno != 0)
+			break ;
+		my_wordlst_add_back(&expanded_words, new_words);
 	}
-	return (res);
+	my_wordlst_del(pwords);
+	pwords = &expanded_words;
 }

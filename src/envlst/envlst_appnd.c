@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_varname.c                                    :+:      :+:    :+:   */
+/*   envlst_appnd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 16:14:15 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 17:26:59 by tdubois          ###   ########.fr       */
+/*   Created: 2023/02/17 16:40:43 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/17 16:47:25 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/builtin.h"
+#include "libft.h" //t_success
+#include "minishell/envlst.h"
 
-#include "libft.h" //t_success, ft_isalpha, ft_isalnum
-
-bool	my_is_valid_identifier(char *var, char delim)
+t_success	my_envlst_appnd(char *var, t_envlst **penvlst)
 {
-	int	i;
+	char	*new_content;
 
-	if (ft_isalpha(var[0]) == 0 && var[0] != '_')
-		return (FAILURE);
-	i = 1;
-	while (var[i] && var[i] != delim)
+	new_content = ft_strjoin((*penvlst)->content, ft_strchr(var, '=') + 1);
+	if (new_content == NULL)
 	{
-		if (delim == '=' && var[i] == '+' && var[i + 1] == '=')
-			break ;
-		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
-			return (FAILURE);
-		i++;
+		ft_puterr("error occured when appening env var");
+		return (FAILURE);
 	}
+	ft_memdel(&(*penvlst)->content);
+	(*penvlst)->content = new_content;
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:08:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/14 08:45:30 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:27:46 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
 
 static t_wordlst	*loc_wtoklst2wordlst(t_wtoklst *toks);
 
-t_wordlst	*my_expand(char const *word, t_envlst *env)
+t_wordlst	*my_expand(char const *word, t_envlst *envlst)
 {
 	t_wtoklst	*toks;
 	t_wordlst	*args;
 
 	toks = my_wtoklst_extract(word);
-	my_expand_vars(&toks, env);
-	my_expand_qtd_vars(toks, env);
+	my_expand_vars(&toks, envlst);
+	my_expand_qtd_vars(toks, envlst);
 	my_wtoklst_concat(&toks);
 	my_expand_wildcards(&toks);
 	my_wtoklst_concat(&toks);

@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   is_valid_identifier.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 17:20:57 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/01/17 16:14:15 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/17 17:13:05 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
-#include <stddef.h> //NULL
+#include "libft.h" //t_success, ft_isalpha, ft_isalnum
 
-#include "libft.h" //ft_strchr, ft_puterr, ft_putstr_fd
-#include "minishell/envlst.h"
-
-int	my_builtin_unset(t_wordlst *words, t_envlst **penvlst)
+bool	my_is_valid_identifier(char *var, char delim)
 {
-	int	res;
+	int	i;
 
-	res = 0;
-	while (words != NULL)
+	if (ft_isalpha(var[0]) == 0 && var[0] != '_')
+		return (FAILURE);
+	i = 1;
+	while (var[i] && var[i] != delim)
 	{
-		if (my_is_valid_identifier(words->content, '\0') == FAILURE)
-		{
-			ft_puterr("minishell: unset: not a valid identifier");
-			res = 1;
-		}
-		my_envlst_pop_var(words->content, penvlst);
-		words = words->next;
+		if (delim == '=' && var[i] == '+' && var[i + 1] == '=')
+			break ;
+		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
+			return (FAILURE);
+		i++;
 	}
-	return (res);
+	return (SUCCESS);
 }

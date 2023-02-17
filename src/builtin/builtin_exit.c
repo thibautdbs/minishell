@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:58:26 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 17:03:31 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/17 17:22:55 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 #include "libft.h" //ft_isdigit, ft_islong, ft_atol
 #include "minishell/wordlst.h"
-
-static int	loc_is_long_numeric(char const *str);
 
 int	my_builtin_exit(t_wordlst *words, int res)
 {

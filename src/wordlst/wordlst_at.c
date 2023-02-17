@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envlst_get_value.c                                 :+:      :+:    :+:   */
+/*   wordlst_at.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 10:56:32 by ffeaugas         ###   ########.fr       */
+/*   Created: 2023/02/17 10:58:14 by ffeaugas          #+#    #+#             */
+/*   Updated: 2023/02/17 11:00:58 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/envlst.h"
+#include "minishell/wordlst.h"
 
-#include <stddef.h> //NULL
-#include "libft.h" //ft_strchr
-
-char	*my_envlst_get_value(char const *var, t_envlst *envlst)
+t_wordlst	*my_wordlst_at(t_wordlst *words, int index)
 {
-	t_envlst	*curr;
-	char		*substr;
+	int	i;
+	t_wordlst	*curr;
 
-	curr = my_envlst_find_var(var, envlst);
-	if (curr == NULL)
-		return (NULL);
-	substr = ft_strchr(curr->content, '=');
-	if (substr == NULL)
-		return (NULL);
-	return (substr++);
+	curr = words;
+	i = 0;
+	while (i < index)
+	{
+		curr = curr->next;
+		i++;
+	}
+	return (curr);
 }

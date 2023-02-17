@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 10:36:28 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/17 10:54:52 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,13 @@
 #include "libft.h" //ft_strncmp
 #include <stddef.h> //NULL
 
-static int	loc_get_var_label_len(char const *var);
-
-t_envlst	*my_envlst_find_var(t_envlst *env, char const *var)
+t_envlst	*my_envlst_find_var(char const *var, t_envlst *envlst)
 {
 	int			var_label_len;
 	t_envlst	*curr;
 
-	var_label_len = loc_get_var_label_len(var);
-	curr = env;
+	var_label_len = ft_strcspn(var, "+=");
+	curr = envlst;
 	while (curr != NULL)
 	{
 		if (ft_strncmp(curr->content, var, var_label_len) == 0
@@ -33,14 +31,4 @@ t_envlst	*my_envlst_find_var(t_envlst *env, char const *var)
 		curr = curr->next;
 	}
 	return (NULL);
-}
-
-static int	loc_get_var_label_len(char const *var)
-{
-	int	i;
-
-	i = 0;
-	while (var[i] && var[i] != '=' && var[i] != '+')
-		i++;
-	return (i);
 }

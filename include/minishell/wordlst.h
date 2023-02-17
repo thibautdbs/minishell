@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:32:27 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 18:52:26 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/17 11:01:46 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_wordlst
 
 void		my_wordlst_del(t_wordlst **word);
 t_wordlst	*my_wordlst_new(void);
+t_wordlst	*my_wordlst_at(t_wordlst *words, int index);
 void		my_wordlst_add_back(t_wordlst **pwords, t_wordlst *new);
 t_wordlst	*my_wordlst_last(t_wordlst *words);
 int			my_wordlst_size(t_wordlst *wordlst);

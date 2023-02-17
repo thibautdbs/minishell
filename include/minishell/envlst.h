@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 19:01:16 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:56:04 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_envlst	*my_envlst_new(char const *str);
 void		my_envlst_addback(t_envlst **envlst, t_envlst *to_add);
 void		my_envlst_del(t_envlst **env);
 void		my_sort_envp(char **envp);
-t_envlst	*my_envlst_find_var(t_envlst *env, char const *var);
-char		*my_envlst_get_value(t_envlst *env, char const *var);
+t_envlst	*my_envlst_find_var(char const *var, t_envlst *envlst);
+char		*my_envlst_get_value(char const *var, t_envlst *envlst);
 
 #endif //ENVLST_H

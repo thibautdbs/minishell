@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 12:29:05 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/17 10:57:34 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 		return (1);
 	}
 	if (my_wordlst_size(words) == 1)
-		ft_strlcpy(pwd, my_envlst_get_value(*penvlst, "HOME"), PATH_MAX);
+		ft_strlcpy(pwd, my_envlst_get_value("HOME", *penvlst), PATH_MAX);
 	else
 		ft_strlcpy(pwd, my_wordlst_at(words, 1)->content, PATH_MAX);
 	if (getcwd(old_pwd, PATH_MAX) == NULL)

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 17:35:10 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/20 09:54:51 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:46:34 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "minishell/envlst.h"
 #include "minishell/wordlst.h"
 
-void	my_expand_words(t_wordlst **pwords, t_envlst *envlst)
+void	my_expand_words(t_wordlst **pwords, t_envlst *envlst, int res)
 {
 	t_wordlst	*curr;
 	t_wordlst	*new_words;
@@ -28,7 +28,7 @@ void	my_expand_words(t_wordlst **pwords, t_envlst *envlst)
 	expanded_words = NULL;
 	while (curr != NULL)
 	{
-		new_words = my_expand(curr->content, envlst);
+		new_words = my_expand(curr->content, envlst, res);
 		if (errno != 0)
 			break ;
 		my_wordlst_add_back(&expanded_words, new_words);

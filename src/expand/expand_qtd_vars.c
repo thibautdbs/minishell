@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 07:47:55 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/17 17:25:08 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 17:03:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "minishell/envlst.h"
 #include "minishell/wtoklst.h"
 
-void	my_expand_qtd_vars(t_wtoklst *toks, t_envlst *envlst)
+void	my_expand_qtd_vars(t_wtoklst *toks, t_envlst *envlst, int res)
 {
 	char	*value;
 
@@ -27,9 +27,15 @@ void	my_expand_qtd_vars(t_wtoklst *toks, t_envlst *envlst)
 		if (toks->type == QTD_VAR)
 		{
 			toks->type = CHARS;
-			value = my_envlst_get_value(toks->content, envlst);
-			ft_memdel(&toks->content);
-			toks->content = value;
+			if (ft_strcmp(toks->content, "?") == 0)
+				value = ft_itoa(res);
+			else
+				value = ft_strdup(my_envlst_get_value(toks->content, envlst));
+			if (value != NULL)
+			{
+				ft_memdel(&toks->content);
+				toks->content = value;
+			}
 		}
 		toks = toks->next;
 	}

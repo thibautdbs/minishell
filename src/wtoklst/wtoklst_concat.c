@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:34:24 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 16:28:02 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 09:53:25 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static	t_wtoklst	*loc_concat_word(t_wtoklst *toks)
 		my_wtoklst_del(&word);
 		return (NULL);
 	}
+	word->content[0] = '\0';
 	while (toks != NULL)
 	{
 		ft_strlcat(word->content, toks->content, len + 1);

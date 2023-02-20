@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 22:58:20 by tdubois           #+#    #+#             */
-/*   Updated: 2022/11/16 23:37:59 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 11:16:14 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,22 @@
 
 char	*ft_strtok_r(char *str, char const *sep, char **saveptr)
 {
-	size_t	len;
 	char	*tok;
 
-	if (saveptr == NULL || (*saveptr == NULL && str == NULL))
+	if (str == NULL && *saveptr == NULL)
 		return (NULL);
 	if (str == NULL)
-		str = *saveptr;
-	tok = str + ft_strspn(str, sep);
+		tok = *saveptr;
+	else
+		tok = str;
+	tok += ft_strspn(tok, sep);
 	if (tok[0] == '\0')
 	{
 		*saveptr = NULL;
 		return (NULL);
 	}
-	len = ft_strcspn(*saveptr, sep);
-	if (tok[len] == '\0')
-		*saveptr = NULL;
-	else
-		*saveptr = tok + len + 1;
-	tok[len] = '\0';
+	*saveptr = tok + ft_strcspn(tok, sep);
+	*saveptr += ft_strspn(*saveptr, sep);
+	tok[ft_strcspn(tok, sep)] = '\0';
 	return (tok);
 }

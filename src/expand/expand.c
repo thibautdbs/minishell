@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:08:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/17 17:27:46 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 09:50:24 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static t_wordlst	*loc_wtoklst2wordlst(t_wtoklst *toks)
 	t_wordlst	*words;
 	t_wordlst	*tmp;
 
+	words = NULL;
 	while (toks != NULL)
 	{
 		if (toks->type != BLANKS)

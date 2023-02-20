@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 17:51:14 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:07:33 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	{
 		words = cmd->words;
 		cmd->words = NULL;
-		my_cmdtree_del(pcmdtree);
 		res = my_redirect(cmd->redirs, *penvlst, res);
+		my_cmdtree_del(pcmdtree);
 		if (res == 0)
 			exit(my_execve(words, *penvlst));
 		close(0);

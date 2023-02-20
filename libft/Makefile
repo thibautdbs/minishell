@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/02/20 07:57:32 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/20 10:45:15 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ BUILD		:=	.build
 ### FLAGS
 
 CC			:=	clang
-CFLAGS		:=	-Wall -Wextra -Werror -O3
+CFLAGS		:=	-Wall -Wextra -Werror -ggdb3
+#-O3
 CPPFLAGS	:=	-MP -MMD -I$(INCLUDE)
 
 ################################################################################

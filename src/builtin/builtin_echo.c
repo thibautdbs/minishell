@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 12:55:13 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 11:59:12 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	my_builtin_echo(t_wordlst *words)
 	bool	n_opt;
 
 	n_opt = false;
+	words = words->next;
 	if (words != NULL && loc_is_n_opt(words->content))
 		n_opt = true;
 	while (words != NULL && loc_is_n_opt(words->content))
@@ -36,7 +37,7 @@ int	my_builtin_echo(t_wordlst *words)
 		if (words != NULL)
 			ft_putstr_fd(" ", STDOUT);
 	}
-	if (n_opt)
+	if (!n_opt)
 		ft_putendl_fd("", STDOUT);
 	return (0);
 }

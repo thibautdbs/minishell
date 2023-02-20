@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/04 11:37:10 by tdubois           #+#    #+#              #
-#    Updated: 2023/02/20 07:56:55 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/20 09:17:42 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ BUILD		:=	.build
 ### FLAGS
 
 CC			=	clang
-CFLAGS		=	-Wall -Werror -Wextra -O3
+CFLAGS		=	-Wall -Werror -Wextra -ggdb3
 CPPFLAGS	=	-MP -MMD -I$(INCLUDE) -I$(dir $(LIBFT))/include
 LDFLAGS     =	-L$(dir $(LIBFT)) -lft -lreadline
 

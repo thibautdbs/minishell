@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:10:23 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 11:29:15 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:25:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,5 @@ t_pipelst	*my_pipelst_new(void)
 		ft_memdel(&p);
 		return (NULL);
 	}
-	p->in = &p->fd[1];
-	p->out = &p->fd[0];
 	return (p);
 }

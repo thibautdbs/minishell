@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:32:27 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 11:50:06 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:25:03 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ typedef struct s_pipelst	t_pipelst;
 typedef struct s_pipelst
 {
 	int			fd[2];
-	int			*in;
-	int			*out;
 	t_pipelst	*next;
 }	t_pipelst;
 

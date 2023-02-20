@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:47:54 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 15:50:54 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 10:09:48 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	my_redirect(t_redirlst *redir, t_envlst *envlst, int res)
 	int			new_res;
 	t_redirlst	*tmp;
 
+	new_res = 0;
 	while (redir != NULL)
 	{
 		tmp = redir;

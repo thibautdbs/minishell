@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:52:30 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/15 14:38:15 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 11:51:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	my_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 				exit(errno);
 			exit(loc_run_piped_cmd(pipeline, penvlst, res, pcmdtree));
 		}
+		i++;
 		pipeline = pipeline->next;
 	}
 	my_pipelst_del(&pipes);
@@ -65,9 +66,9 @@ static int	loc_redirect_piped_cmd(t_pipelst *pipes, int idx)
 	right = my_pipelst_at(pipes, idx);
 	res = 0;
 	if (left != NULL)
-		res = dup2(left->fd[1], 0);
+		res = dup2(left->fd[0], 0);
 	if (right != NULL && res != -1)
-		res = dup2(right->fd[0], 1);
+		res = dup2(right->fd[1], 1);
 	return (res);
 }
 

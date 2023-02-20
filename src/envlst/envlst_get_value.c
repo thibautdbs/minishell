@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 17:24:17 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:50:30 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ char	*my_envlst_get_value(char *var, t_envlst *envlst)
 	substr = ft_strchr(curr->content, '=');
 	if (substr == NULL)
 		return (NULL);
-	return (substr++);
+	return (substr + 1);
 }

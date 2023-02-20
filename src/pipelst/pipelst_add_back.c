@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipelst_addback.c                                  :+:      :+:    :+:   */
+/*   pipelst_add_back.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:16:42 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 11:36:19 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/20 08:34:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_pipelst	*loc_pipelst_last(t_pipelst *p)
 	return (curr);
 }
 
-void	my_pipelst_addback(t_pipelst **pipes, t_pipelst *to_add)
+void	my_pipelst_add_back(t_pipelst **pipes, t_pipelst *to_add)
 {
 	if (pipes == NULL || to_add == NULL)
 		return ;

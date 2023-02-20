@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/02/12 10:20:00 by tdubois          ###   ########.fr        #
+#    Updated: 2023/02/20 07:57:32 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRCS	+=	ft_bzero.c			\
 SRCS 	+=	ft_min.c			\
 			ft_min_arr.c		\
 			ft_max.c			\
+			ft_abs.c			\
 			ft_isneg.c			\
 			ft_count_digits.c	\
 			ft_mod.c			\
@@ -82,6 +83,7 @@ SRCS	+=	ft_atoi.c			\
 			ft_islong.c			\
 
 SRCS	+=	ft_itoa.c			\
+			ft_strtol.c			\
 			ft_strlcat.c		\
 			ft_strlcpy.c		\
 			ft_strlen.c			\

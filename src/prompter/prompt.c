@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/20 09:14:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/20 21:21:41 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "minishell/envlst.h"
 #include "minishell/parser.h"
 #include "minishell/runner.h"
+
+int	sig_state;
 
 static t_success	loc_check_args(int argc)
 {
@@ -44,8 +46,12 @@ static void	loc_prompt(char **envp)
 	while (1)
 	{
 		buf = readline("minishell > ");
-		if (buf == NULL) //CTRL + D
+		if (buf == NULL)
+		{
+			ft_putstr_fd("exit\n", 1);
 			break ;
+		}
+		add_history(buf);
 		tree = my_parse(buf);
 		res = tree.err;
 		ft_memdel(&buf);
@@ -59,16 +65,22 @@ static void	loc_prompt(char **envp)
 void	loc_sa_handler(int signum)
 {
 	if (signum == SIGINT)
-		printf("je suis coincé");	
+	{
+		ft_putstr_fd("\n", 1);
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	(void) argv;
+	sig_state = 0;
 	if (loc_check_args(argc) == FAILURE)
 		return (1);
-	signal(SIGINT,SIG_IGN);
 	signal(SIGINT,loc_sa_handler);
 	loc_prompt(envp);
+	rl_clear_history();
 	return (0);
 }

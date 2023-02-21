@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/20 16:45:57 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 15:35:03 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,14 @@ static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	my_expand_words(&cmd->words, *penvlst, res);
 	if (errno != 0)
 		return (errno);
-	if (my_is_builtin(cmd->words->content))
+	if (cmd->words != NULL && cmd->words->content != NULL
+			&& my_is_builtin(cmd->words->content))
+	{
 		return (loc_run_builtin(cmd, penvlst, res));
+	}
 	return (loc_run_execve(cmd, penvlst, res, pcmdtree));
 }
 
-//TODO
 static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res)
 {
 	int const	stdin = dup(0);

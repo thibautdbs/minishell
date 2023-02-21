@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 13:10:23 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 13:06:31 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:09:28 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_envlst	*my_envlst_new(char const *varspec)
 		return (NULL);
 	if (varspec == NULL)
 		return (env);
-	env->content = malloc(ft_strlen(varspec) + 1);
+	env->content = ft_calloc(ft_strlen(varspec) + 1, sizeof(char));
 	if (env->content == NULL)
 	{
 		ft_memdel(&env);

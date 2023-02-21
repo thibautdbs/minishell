@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/20 21:21:41 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 14:09:04 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static void	loc_prompt(char **envp)
 	int					res;
 
 	envlst = my_envlst_init(envp);
+	res = 0;
 	if (envlst == NULL)
 		return ;
 	while (1)
@@ -53,10 +54,11 @@ static void	loc_prompt(char **envp)
 		}
 		add_history(buf);
 		tree = my_parse(buf);
-		res = tree.err;
 		ft_memdel(&buf);
-		if (res == 0)
+		if (tree.err == 0)
 			res = my_run(tree.cmdtree, &envlst, res, &tree.cmdtree);
+		else
+			res = tree.err;
 		my_cmdtree_del(&tree.cmdtree);
 	}
 	my_envlst_del(&envlst);

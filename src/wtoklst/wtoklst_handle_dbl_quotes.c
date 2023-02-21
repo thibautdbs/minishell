@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 17:00:04 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/21 13:34:03 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 14:03:54 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ t_wtoklst	*my_wtoklst_handle_dbl_quotes(char const **pstr)
 	t_wtoklst	*toks;
 	t_wtoklst	*tmp;
 
-	toks = NULL;
+	toks = my_wtoklst_new(CHARS, "", 0);
+	if (toks == NULL)
+		return (NULL);
 	*pstr += 1;
 	while (**pstr != '\"' && **pstr != '\0')
 	{

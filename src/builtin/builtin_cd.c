@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 15:34:00 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:21:26 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 		ft_strlcpy(pwd, my_envlst_get_value("HOME", *penvlst), PATH_MAX);
 	else
 		ft_strlcpy(pwd, my_wordlst_at(words, 1)->content, PATH_MAX);
+	errno = 0;
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
 	{
 		perror("minishell: cd:");
@@ -59,11 +60,11 @@ static	int	loc_update_env(char const *old_pwd, t_envlst **penvlst)
 		return (errno);
 	ft_strlcpy(varspec, "PWD=", PATH_MAX + 7);
 	ft_strlcat(varspec, pwd, PATH_MAX + 7);
-	if (my_envlst_apply(varspec, penvlst) == FAILURE)
+	if (my_envlst_apply(varspec, penvlst) != 0)
 		return (errno);
 	ft_strlcpy(varspec, "OLDPWD=", PATH_MAX + 7);
 	ft_strlcat(varspec, old_pwd, PATH_MAX + 7);
-	if (my_envlst_apply(varspec, penvlst) == FAILURE)
+	if (my_envlst_apply(varspec, penvlst) != 0)
 		return (errno);
 	return (0);
 }

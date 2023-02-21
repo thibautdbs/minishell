@@ -6,14 +6,14 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:29:43 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 17:24:28 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:40:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENVLST_H
 # define ENVLST_H
 
-#include "libft.h" //t_success
+# include "libft.h" //t_success
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TYPES
@@ -42,14 +42,14 @@ char		**my_envlst_to_envp(t_envlst *envlst);
 int			my_envlst_size(t_envlst *envlst);
 t_envlst	*my_envlst_new(char const *str);
 void		my_envlst_addback(t_envlst **envlst, t_envlst *to_add);
-void		my_envlst_pop_var(char *var, t_envlst **penvlst);
+void		my_envlst_del_var(char const *varspec, t_envlst **penvlst);
 t_envlst	*my_envlst_pop_front(t_envlst **penvlst);
 void		my_envlst_del(t_envlst **penvlst);
 void		my_sort_envp(char **envp);
 t_envlst	*my_envlst_find_var(char const *var, t_envlst *envlst);
 char		*my_envlst_get_value(char *var, t_envlst *envlst);
-t_success	my_envlst_set(char *var, t_envlst **penvlst);
-t_success	my_envlst_appnd(char *var, t_envlst **penvlst);
-t_success	my_envlst_apply(char *var, t_envlst **penvlst);
+int			my_envlst_set(char const *varspec, t_envlst **penvlst);
+int			my_envlst_appnd(char const *varspec, t_envlst **penvlst);
+int			my_envlst_apply(char const *varspec, t_envlst **penvlst);
 
 #endif //ENVLST_H

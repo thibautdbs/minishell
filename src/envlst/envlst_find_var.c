@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:56:28 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/20 17:36:37 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 11:30:27 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ t_envlst	*my_envlst_find_var(char const *varspec, t_envlst *envlst)
 	while (envlst != NULL)
 	{
 		if (len == (int) ft_strcspn(envlst->content, "=")
-				&& ft_strncmp(envlst->content, varspec, len) == 0)
+			&& ft_strncmp(envlst->content, varspec, len) == 0)
+		{
 			return (envlst);
+		}
 		envlst = envlst->next;
 	}
 	return (NULL);

@@ -6,36 +6,37 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:48:25 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 17:10:23 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:35:06 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/envlst.h"
 
 #include <stddef.h> //NULL
+
 #include "libft.h" //t_success, ft_strcspn, ft_strchr
 
-static t_var_operation_t loc_get_operation_type(char const *var,
-	t_envlst *envlst);
+static t_var_operation_t	loc_get_operation_type(char const *var,
+								t_envlst *envlst);
 
-t_success	my_envlst_apply(char *var, t_envlst **penvlst)
+int	my_envlst_apply(char const *varspec, t_envlst **penvlst)
 {
 	t_var_operation_t	op;
 
-	op = loc_get_operation_type(var, *penvlst);
+	op = loc_get_operation_type(varspec, *penvlst);
 	if (op == VAR_NO_ACTION)
 		return (SUCCESS);
 	if (op == VAR_APPND)
-		return (my_envlst_appnd(var, penvlst));
+		return (my_envlst_appnd(varspec, penvlst));
 	if (op == VAR_REPLACE)
-		my_envlst_pop_var(var, penvlst);
-	return (my_envlst_set(var, penvlst));
+		my_envlst_del_var(varspec, penvlst);
+	return (my_envlst_set(varspec, penvlst));
 }
 
-static t_var_operation_t loc_get_operation_type(char const *var,
+static t_var_operation_t	loc_get_operation_type(char const *var,
 	t_envlst *envlst)
 {
-	t_envlst *var_location;
+	t_envlst	*var_location;
 
 	var_location = my_envlst_find_var(var, envlst);
 	if (var_location != NULL && ft_strchr(var, '=') == NULL)

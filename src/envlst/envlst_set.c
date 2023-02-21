@@ -6,24 +6,28 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:04:09 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/17 16:43:11 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:48:51 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/envlst.h"
 
+#include <errno.h>
+#include <stdio.h>//perror
+
 #include "libft.h" //t_success
 
-t_success	my_envlst_set(char *var, t_envlst **penvlst)
+int	my_envlst_set(char const *varspec, t_envlst **penvlst)
 {
 	t_envlst	*new;
 
-	new = my_envlst_new(var);
+	errno = 0;
+	new = my_envlst_new(varspec);
 	if (new == NULL)
 	{
-		ft_puterr("Error occured when creating var");
-		return (FAILURE);
+		perror("minishell: Error occured when creating var");
+		return (errno);
 	}
 	my_envlst_addback(penvlst, new);
-	return (SUCCESS);
+	return (0);
 }

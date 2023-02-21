@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:04:09 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 12:48:51 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:47:46 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	my_envlst_set(char const *varspec, t_envlst **penvlst)
 		perror("minishell: Error occured when creating var");
 		return (errno);
 	}
-	my_envlst_addback(penvlst, new);
+	while (*penvlst != NULL && ft_strcmp(varspec, (*penvlst)->content) > 0)
+		penvlst = &(*penvlst)->next;
+	my_envlst_addfront(penvlst, new);
 	return (0);
 }

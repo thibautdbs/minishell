@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 16:48:57 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 16:52:05 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:32:51 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 t_wtoklst	*my_wtoklst_handle_ast(char const **pstr)
 {
-	*pstr += ft_strspn(*pstr, "*");
-	return (my_wtoklst_new(WILDCARD, "*", 1));
+	int			len;
+	t_wtoklst	*tok;
+
+	len = ft_strspn(*pstr, "*");
+	tok = my_wtoklst_new(WILDCARD, *pstr, len);
+	*pstr += len;
+	return (tok);
 }

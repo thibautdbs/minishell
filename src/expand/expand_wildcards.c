@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:52:09 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 17:41:33 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 17:28:32 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static bool	loc_pattern_matches(t_wtoklst *toks, char const *str)
 			toks = toks->next;
 			continue ;
 		}
-		if (*str != '\0')
+		if (*str == '\0')
 			return (false);
 		len = ft_strlen(toks->content);
 		if (ft_strncmp(toks->content, str, len) == 0)

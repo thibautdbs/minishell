@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 15:00:35 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 17:24:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:40:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ static t_wtoklst	*loc_extract_wtok(char const **pword)
 	if (**pword == '\"')
 		return (my_wtoklst_handle_dbl_quotes(pword));
 	if (**pword == '\'')
-		return (my_wtoklst_handle_dbl_quotes(pword));
+		return (my_wtoklst_handle_sgl_quotes(pword));
 	return (my_wtoklst_handle_chars(pword));
 }

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 17:00:04 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/10 12:38:10 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/02/21 13:34:03 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,11 @@ static t_wtoklst	*loc_handle_qtd_var(char const **pstr)
 
 static t_wtoklst	*loc_handle_chars(char const **pstr)
 {
-	return (my_wtoklst_new(CHARS, *pstr, ft_strcspn(*pstr, "\"")));
+	int			len;
+	t_wtoklst	*tmp;
+
+	len = ft_strcspn(*pstr, "\"$");
+	tmp = my_wtoklst_new(CHARS, *pstr, len);
+	*pstr += len;
+	return (tmp);
 }

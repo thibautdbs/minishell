@@ -6,37 +6,34 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 13:43:56 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 08:46:06 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/runner.h"
 
-#include "libft.h"
-
-#include <unistd.h> //unlink, dup2
+#include <unistd.h> //dup2
 #include <fcntl.h> //open
-#include <errno.h> //errno, perror
+#include <errno.h> //errno
 #include <stdio.h> //perror
 
-int	my_open_output(char *str)
+int	my_open_output(char const *str)
 {
 	int	fd_output;
 
 	errno = 0;
-	fd_output = open(str, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fd_output = open(str, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
 	if (fd_output < 0)
-		perror("Error when opening file");
-	else
 	{
-		dup2(fd_output, STDOUT);
-		if (errno != 0)
-		{
-			perror("Dup error");
-			close(fd_output);
-		}
-		else
-			unlink(str);
+		perror("minishell: Error when opening file");
+		return (errno);
 	}
-	return (errno);
+	dup2(fd_output, STDOUT_FILENO);
+	close(fd_output);
+	if (errno != 0)
+	{
+		perror("minishell: Dup error");
+		return (errno);
+	}
+	return (0);
 }

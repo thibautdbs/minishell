@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:12:02 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/15 19:12:42 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 08:55:48 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	my_execve(t_wordlst *wordlst, t_envlst *envlst);
 
 int	my_get_path(char *buf, char const *name, t_envlst *envlst);
 
-int	my_open_input(char *str);
-int	my_open_output(char *str);
-int	my_open_append(char *str);
-int	my_open_heredoc(char *str);
+int	my_open_input(char const *str);
+int	my_open_output(char const *str);
+int	my_open_append(char const *str);
+int	my_open_heredoc(char const *str);
 
 #endif//RUNNER_H

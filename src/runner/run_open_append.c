@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 13:34:07 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 08:54:01 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,23 @@
 #include <errno.h> //errno, perror
 #include <stdio.h> //perror
 
-int	my_open_append(char *str)
+int	my_open_append(char const *str)
 {
 	int	fd_append;
 
 	errno = 0;
-	fd_append = open(str, O_CREAT | O_RDWR | O_APPEND, 0644);
+	fd_append = open(str, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
 	if (fd_append < 0)
-		perror("Error when opening file");
-	else
 	{
-		dup2(fd_append, STDOUT);
-		if (errno != 0)
-		{
-			perror("Dup error");
-			close(fd_append);
-		}
-		else
-			unlink(str);
+		perror("minishell: Error when opening file");
+		return (errno);
 	}
-	return (errno);
+	dup2(fd_append, STDOUT_FILENO);
+	close(fd_append);
+	if (errno != 0)
+	{
+		perror("minishell: Dup error");
+		return (errno);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/14 13:44:27 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/02/21 08:51:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,23 @@
 #include <errno.h> //errno, perror
 #include <stdio.h> //perror
 
-int	my_open_input(char *str)
+int	my_open_input(char const *str)
 {
 	int	fd_input;
 
 	errno = 0;
 	fd_input = open(str, O_RDONLY);
 	if (fd_input < 0)
-		perror("Error when opening file");
-	else
 	{
-		dup2(fd_input, STDIN);
-		if (errno != 0)
-		{
-			perror("Dup error");
-			close(fd_input);
-		}
-		else
-			unlink(str);
+		perror("minishell: Error when opening file");
+		return (errno);
 	}
-	return (errno);
+	dup2(fd_input, STDIN_FILENO);
+	close(fd_input);
+	if (errno != 0)
+	{
+		perror("minishell: Dup error");
+		return (errno);
+	}
+	return (0);
 }

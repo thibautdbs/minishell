@@ -6,10 +6,11 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 09:39:16 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/06 13:57:00 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell/redirlst.h"
 #include "minishell/runner.h"
 
 #include <unistd.h>//unlink, dup2, close
@@ -18,13 +19,12 @@
 #include <readline/readline.h>//readline
 #include <errno.h>//errno
 #include <limits.h>//PATH_MAX
-
 #include "libft.h"//ft_memdel, ft_strlen, ft_strncmp, ft_count_digits
 
 static int	loc_tmpfile(char *path);
 static int	loc_read_heredoc(char const *delimiter, int tmp_fd);
 
-int	my_open_heredoc(char const *str)
+int	my_open_heredoc(t_redirlst *redir)
 {
 	int		tmp_fd;
 	char	file_name[PATH_MAX];
@@ -37,7 +37,7 @@ int	my_open_heredoc(char const *str)
 		perror("minishell: File creation failed");
 		return (errno);
 	}
-	res = loc_read_heredoc(str, tmp_fd);
+	res = loc_read_heredoc(redir->word->content, tmp_fd);
 	close(tmp_fd);
 	if (res == 0)
 		res = my_open_input(file_name);

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 16:35:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/06 13:18:43 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 #include "minishell/parser.h"
 #include "minishell/runner.h"
 
-int	sig_state;
-
 static t_success	loc_check_args(int argc)
 {
 	if (argc > 1)
@@ -33,17 +31,13 @@ static t_success	loc_check_args(int argc)
 	return (SUCCESS);
 }
 
-static void	loc_prompt(char **envp)
+static void	loc_prompt(t_envlst *envlst)
 {
 	char				*buf;
 	t_cmdtree_or_err	tree;
-	t_envlst			*envlst;
 	int					res;
 
-	envlst = my_envlst_init(envp);
 	res = 0;
-	if (envlst == NULL)
-		return ;
 	while (1)
 	{
 		buf = readline("minishell > ");
@@ -61,11 +55,11 @@ static void	loc_prompt(char **envp)
 			res = tree.err;
 		my_cmdtree_del(&tree.cmdtree);
 	}
-	my_envlst_del(&envlst);
 }
 
-void	loc_sa_handler(int signum)
+static void	handler(int signum)
 {
+	// kill signum > child
 	if (signum == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
@@ -77,12 +71,24 @@ void	loc_sa_handler(int signum)
 
 int	main(int argc, char **argv, char **envp)
 {
+	struct sigaction	sa;
+	t_envlst	*envlst;
+
 	(void) argv;
 	sig_state = 0;
+	sa.sa_handler = handler;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
 	if (loc_check_args(argc) == FAILURE)
 		return (1);
-	signal(SIGINT,loc_sa_handler);
-	loc_prompt(envp);
+	envlst = my_envlst_init(envp);
+	if (envlst == NULL)
+		return (0);
+	sigaction(SIGINT, &sa, NULL);
+//	signal(SIGINT,loc_sa_handler);
+//	signal(SIGQUIT, SIG_IGN);
+	loc_prompt(envlst);
+	my_envlst_del(&envlst);
 	rl_clear_history();
 	return (0);
 }

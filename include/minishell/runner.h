@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:12:02 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 08:55:48 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/06 13:57:28 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include "pipelst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// TYPES
+/// GLOBAL VAR
 
-// typedef t_success	t_opener(t_redir *);
+int	sig_state;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// FUNCTIONS
@@ -43,6 +43,6 @@ int	my_get_path(char *buf, char const *name, t_envlst *envlst);
 int	my_open_input(char const *str);
 int	my_open_output(char const *str);
 int	my_open_append(char const *str);
-int	my_open_heredoc(char const *str);
+int	my_open_heredoc(t_redirlst *redir);
 
 #endif//RUNNER_H

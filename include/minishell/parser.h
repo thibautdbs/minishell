@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:30:50 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/09 16:28:28 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:14:05 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_cmdtree			*my_parse_pipeline(char const **pstr);
 t_cmdlst			*my_parse_cmd(char const **pstr);
 t_wordlst			*my_parse_word(char const **pstr);
 t_redirlst			*my_parse_redir(char const **pstr);
+
+int					my_parse_heredoc(t_cmdtree *cmd);
 
 void				my_skip_blanks(char const **pstr);
 

@@ -6,11 +6,11 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 12:42:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/06 13:55:20 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:11:02 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-include "minishell/parser.h"
+#include "minishell/parser.h"
 
 #include <stddef.h> //NULL
 #include <unistd.h>

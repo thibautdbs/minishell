@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/06 13:18:43 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/03/06 17:16:14 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ static void	loc_prompt(t_envlst *envlst)
 			break ;
 		}
 		add_history(buf);
-		tree = my_parse(buf);
+		tree = my_parse(buf, &res);
 		ft_memdel(&buf);
-		if (tree.err == 0)
+		if (res == 0)
+			res = my_parse_heredoc(tree.cmdtree);
+		if (res == 0)
 			res = my_run(tree.cmdtree, &envlst, res, &tree.cmdtree);
 		else
 			res = tree.err;

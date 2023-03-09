@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:48:17 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/21 14:41:01 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 01:12:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,37 @@
 #include <errno.h>//errno
 #include <stdio.h>//perror
 #include <stddef.h>//NULL
+#include <stdlib.h>//EXIT_SUCCESS
 
 #include "libft.h"
 #include "minishell/tok.h"
+#include "minishell/cmd.h"
 
 static void	loc_puterr(t_tok_t type);
 
-t_cmdtree_or_err	my_parse(char const *str)
+/** my_parse:
+ *	 Parses str as a t_cmdtree into ret_cmdtree. return exit status.
+ */
+int	my_parse(char const *str, t_cmdtree **ret_cmdtree)
 {
-	t_cmdtree	*tree;
+	int	res;
 
+	*ret_cmdtree = NULL;
 	if (my_tok_type(str) == EOS)
-		return ((t_cmdtree_or_err){.err = 0, .cmdtree = NULL});
-	errno = 0;
-	tree = my_parse_cmdtree(&str);
-	if (errno != 0)
+		return (EXIT_SUCCESS);
+	res = my_parse_cmdtree(&str, ret_cmdtree);
+	if (res != 0 && res != LEX_ERR)
 	{
 		perror("minishell:");
-		my_cmdtree_del(&tree);
-		return ((t_cmdtree_or_err){.err = errno, .cmdtree = NULL});
+		my_cmdtree_del(ret_cmdtree);
+		return (res);
 	}
-	if (tree == NULL || my_tok_type(str) != EOS)
+	if (res == LEX_ERR || my_tok_type(str) != EOS)
 	{
 		loc_puterr(my_tok_type(str));
-		my_cmdtree_del(&tree);
-		return ((t_cmdtree_or_err){.err = LEX_ERR, .cmdtree = NULL});
+		return (LEX_ERR);
 	}
-	return ((t_cmdtree_or_err){.err = 0, .cmdtree = tree});
+	return (EXIT_SUCCESS);
 }
 
 static void	loc_puterr(t_tok_t type)

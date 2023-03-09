@@ -6,13 +6,15 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 16:24:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 08:19:58 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 01:49:06 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/parser.h"
 
 #include <stddef.h>//NULL
+#include <errno.h>//ENOMEM
+#include <stdlib.h>//EXIT_SUCCESS
 
 #include "minishell/cmd.h"
 #include "minishell/redirlst.h"
@@ -21,25 +23,25 @@
 
 static t_redirlst_t	loc_parse_redir_type(char const **pstr);
 
-t_redirlst	*my_parse_redir(char const **pstr)
+int	my_parse_redir(char const **pstr, t_redirlst **ret_redirlst)
 {
-	t_redirlst	*redir;
+	int	res;
 
-	redir = my_redirlst_new(loc_parse_redir_type(pstr));
-	if (redir == NULL)
-		return (NULL);
+	*ret_redirlst = my_redirlst_new(loc_parse_redir_type(pstr));
+	if (*ret_redirlst == NULL)
+		return (ENOMEM);
 	if (my_tok_type(*pstr) != WORD)
 	{
-		my_redirlst_del(&redir);
-		return (NULL);
+		my_redirlst_del(ret_redirlst);
+		return (LEX_ERR);
 	}
-	redir->word = my_parse_word(pstr);
-	if (redir->word == NULL)
+	res = my_parse_word(pstr, &(*ret_redirlst)->word);
+	if (res != EXIT_SUCCESS)
 	{
-		my_redirlst_del(&redir);
-		return (NULL);
+		my_redirlst_del(ret_redirlst);
+		return (res);
 	}
-	return (redir);
+	return (EXIT_SUCCESS);
 }
 
 static t_redirlst_t	loc_parse_redir_type(char const **pstr)

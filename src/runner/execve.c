@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:04 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 16:00:21 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 03:10:58 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	my_execve(t_wordlst *wordlst, t_envlst *envlst)
 
 	errno = 0;
 	if (wordlst->content[ft_strspn(wordlst->content, " \t\n")] == '\0'
-			|| my_get_path(path_name, wordlst->content, envlst) == -1)
+		|| my_get_path(path_name, wordlst->content, envlst) == -1)
 	{
 		ft_puterr(wordlst->content);
 		ft_puterr(": command not found\n");

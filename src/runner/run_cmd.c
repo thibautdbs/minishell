@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 15:35:03 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 03:09:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	loc_run_simple_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	if (errno != 0)
 		return (errno);
 	if (cmd->words != NULL && cmd->words->content != NULL
-			&& my_is_builtin(cmd->words->content))
+		&& my_is_builtin(cmd->words->content))
 	{
 		return (loc_run_builtin(cmd, penvlst, res));
 	}

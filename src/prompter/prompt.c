@@ -6,91 +6,77 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/06 17:16:14 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/03/09 03:10:20 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h" //t_success
-#include <stdio.h> //printf, readline
+#include "minishell/prompt.h"
+
 #include <readline/readline.h> //readline
 #include <readline/history.h> //readline
-#include <signal.h> //signal
+#include <unistd.h>
+#include <limits.h>
 
+#include "libft.h" //t_success
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
 #include "minishell/parser.h"
 #include "minishell/runner.h"
 
-static t_success	loc_check_args(int argc)
-{
-	if (argc > 1)
-	{
-		ft_puterr("Invalid args");
-		return (FAILURE);
-	}
-	return (SUCCESS);
-}
+static char	*loc_readline_cwd(void);
+static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res);
 
-static void	loc_prompt(t_envlst *envlst)
+int	my_prompt(t_envlst **penvlst)
 {
-	char				*buf;
-	t_cmdtree_or_err	tree;
-	int					res;
+	char	*buf;
+	int		res;
 
 	res = 0;
 	while (1)
 	{
-		buf = readline("minishell > ");
+		buf = loc_readline_cwd();
 		if (buf == NULL)
 		{
-			ft_putstr_fd("exit\n", 1);
+			ft_putendl_fd("exit", STDERR_FILENO);
 			break ;
 		}
 		add_history(buf);
-		tree = my_parse(buf, &res);
+		res = loc_process_cmd(buf, penvlst, res);
 		ft_memdel(&buf);
-		if (res == 0)
-			res = my_parse_heredoc(tree.cmdtree);
-		if (res == 0)
-			res = my_run(tree.cmdtree, &envlst, res, &tree.cmdtree);
-		else
-			res = tree.err;
-		my_cmdtree_del(&tree.cmdtree);
 	}
-}
-
-static void	handler(int signum)
-{
-	// kill signum > child
-	if (signum == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	struct sigaction	sa;
-	t_envlst	*envlst;
-
-	(void) argv;
-	sig_state = 0;
-	sa.sa_handler = handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	if (loc_check_args(argc) == FAILURE)
-		return (1);
-	envlst = my_envlst_init(envp);
-	if (envlst == NULL)
-		return (0);
-	sigaction(SIGINT, &sa, NULL);
-//	signal(SIGINT,loc_sa_handler);
-//	signal(SIGQUIT, SIG_IGN);
-	loc_prompt(envlst);
-	my_envlst_del(&envlst);
 	rl_clear_history();
-	return (0);
+	return (res);
+}
+
+static char	*loc_readline_cwd(void)
+{
+	char const		suffix[] = " minishell>";
+	char			prompt[PATH_MAX + sizeof(suffix)];
+
+	getcwd(prompt, PATH_MAX);
+	ft_strlcat(prompt, suffix, sizeof(prompt));
+	return (readline(prompt));
+}
+
+static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)
+{
+	t_cmdtree	*cmdtree;
+	int			parse_res;
+	// int			heredoc_res;
+
+	parse_res = my_parse(cmd, &cmdtree);
+	// heredoc_res = my_parse_heredoc(cmdtree);
+	if (parse_res != 0)
+	{
+		my_cmdtree_del(&cmdtree);
+		return (parse_res);
+	}
+	// if (heredoc_res != 0)
+	// {
+	// 	my_cmdtree_del(&cmdtree);
+	// 	return (heredoc_res);
+	// }
+	res = my_run(cmdtree, penvlst, res, &cmdtree);
+	my_cmdtree_del(&cmdtree);
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:28:33 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/06 17:31:46 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:41:54 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,5 @@ t_wordlst	*my_wordlst_pop_front(t_wordlst **wordlst)
 	first = *wordlst;
 	*wordlst = first->next;
 	first->next = NULL;
-	ft_memdel(&first->content);
-	ft_memdel(&first);
 	return (first);
 }

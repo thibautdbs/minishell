@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 01:51:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/09 03:09:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:02:37 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 static void	loc_setup_signal_handling(void);
 static void	loc_sigint_handler(int sig);
 
-bool	g_sig_stop;
+bool	g_sigint_received;
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -53,6 +53,7 @@ static void	loc_setup_signal_handling(void)
 	struct sigaction	sa_sigint;
 	struct sigaction	sa_sigquit;
 
+	g_sigint_received = false;
 	sa_sigint.sa_handler = loc_sigint_handler;
 	sa_sigint.sa_flags = 0;
 	sigemptyset(&sa_sigint.sa_mask);
@@ -66,7 +67,6 @@ static void	loc_setup_signal_handling(void)
 static void	loc_sigint_handler(int sig)
 {
 	(void) sig;
-	g_sig_stop = true;
-	while (1)
-		close(STDIN_FILENO);
+	g_sigint_received = true;
+	close(STDIN_FILENO);
 }

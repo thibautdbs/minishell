@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 03:10:20 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:14:46 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 #include <readline/readline.h> //readline
 #include <readline/history.h> //readline
+#include <stdio.h>
 #include <unistd.h>
 #include <limits.h>
+#include <stdbool.h>
+#include <errno.h>
 
 #include "libft.h" //t_success
 #include "minishell/cmd.h"
@@ -26,6 +29,8 @@
 static char	*loc_readline_cwd(void);
 static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res);
 
+extern bool	g_sigint_received;
+
 int	my_prompt(t_envlst **penvlst)
 {
 	char	*buf;
@@ -35,6 +40,13 @@ int	my_prompt(t_envlst **penvlst)
 	while (1)
 	{
 		buf = loc_readline_cwd();
+		if (g_sigint_received == true)
+		{
+			g_sigint_received = false;
+			res = 130;
+			ft_putchar_fd('\n', STDOUT_FILENO);
+			continue ;
+		}
 		if (buf == NULL)
 		{
 			ft_putendl_fd("exit", STDERR_FILENO);
@@ -48,14 +60,35 @@ int	my_prompt(t_envlst **penvlst)
 	return (res);
 }
 
+/** loc_readline_cwd: 
+ *   calls readline with a prompt showing current working directory.
+ *   saves and restores STDIN_FILENO after prompting, in case it's
+ *   closed by signal handler.
+ */
 static char	*loc_readline_cwd(void)
 {
-	char const		suffix[] = " minishell>";
+	char const		suffix[] = " minishell> ";
 	char			prompt[PATH_MAX + sizeof(suffix)];
+	int				saved_stdin;
+	char			*buf;
 
+	saved_stdin = dup(STDIN_FILENO);
+	if (saved_stdin == -1)
+	{
+		perror("minishell:");
+		return (NULL);
+	}
 	getcwd(prompt, PATH_MAX);
 	ft_strlcat(prompt, suffix, sizeof(prompt));
-	return (readline(prompt));
+	buf = readline(prompt);
+	close(STDIN_FILENO);
+	if (dup2(saved_stdin, STDIN_FILENO) == -1)
+	{
+		perror("minishell:");
+		ft_memdel(&buf);
+	}
+	close(saved_stdin);
+	return (buf);
 }
 
 static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)

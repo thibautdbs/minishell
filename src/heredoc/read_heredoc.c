@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:41:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/09 16:23:08 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:33:14 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "minishell/utils.h"
 
 static int	loc_readline_as_word(t_wordlst **ret_word);
+static void	loc_puterr(char const *sep);
 
 extern bool	g_sigint_received;
 
@@ -44,7 +45,7 @@ int	my_read_heredoc(t_redirlst *redir)
 			return (res);
 		}
 		if (new_line == NULL)
-			ft_putendl_fd("minishell: TODO err heredoc", STDERR_FILENO);//TODO
+			loc_puterr(sep->content);
 		if (new_line == NULL || ft_strcmp(sep->content, new_line->content) == 0)
 		{
 			my_wordlst_del(&new_line);
@@ -79,4 +80,12 @@ static int	loc_readline_as_word(t_wordlst **ret_word)
 	if ((*ret_word)->content == NULL)
 		my_wordlst_del(ret_word);
 	return (EXIT_SUCCESS);
+}
+
+static void	loc_puterr(char const *sep)
+{
+	ft_putstr_fd("minishell: warning: here-document ", STDERR_FILENO);
+	ft_putstr_fd("delimited by end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd(sep, STDERR_FILENO);
+	ft_putstr_fd("')\n", STDERR_FILENO);
 }

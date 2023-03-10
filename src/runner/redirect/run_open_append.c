@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 08:54:01 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 23:55:21 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	my_open_append(char const *str)
 	int	fd_append;
 
 	errno = 0;
-	fd_append = open(str, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
+	fd_append = open(str, O_CREAT | O_WRONLY | O_APPEND, S_IRUSR | S_IWUSR);
 	if (fd_append < 0)
 	{
 		perror("minishell: Error when opening file");

@@ -6,7 +6,7 @@
 /*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:32:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/16 16:17:34 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 00:18:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int		ft_isprint(int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void	ft_strlfilter(char const *src, char *dst, char const *filter, int n);
+void	ft_strrev(char *str);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 char	ft_tochar(int digit);
@@ -99,10 +100,11 @@ size_t	ft_strllen(char const *str, size_t size);
 char	*ft_strtok(char	*str, char const *sep);
 char	*ft_strtok_r(char *str, char const *sep, char **saveptr);
 
+int		ft_sitoa(char *str, int const value, size_t const size);
 int		ft_atoi(const char *nptr);
 long	ft_atol(const char *nptr);
-t_bool	ft_isint(char const *nptr);
 long	ft_strtol(char const *nptr, char **endptr, int *errptr);
+bool	ft_isint(char const *nptr);
 bool	ft_islong(char const *nptr);
 
 char	*ft_strdup(const char *s);

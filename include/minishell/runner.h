@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:12:02 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 03:12:37 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 01:28:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "pipelst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// FUNCTIONS
+/// RUNNER
 
 int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res,
 		t_cmdtree **pcmdtree);
@@ -29,15 +29,19 @@ int	my_run_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
 int	my_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 		t_cmdtree **pcmdtree);
 
-int	my_redirect(t_redirlst *redir, t_envlst *envlst, int res);
-
 int	my_execve(t_wordlst *wordlst, t_envlst *envlst);
 
 int	my_get_path(char *buf, char const *name, t_envlst *envlst);
 
+////////////////////////////////////////////////////////////////////////////////
+/// redirect
+
+int	my_redirect(t_redirlst *redir, t_envlst *envlst, int res);
+
+int	my_redirect_one_heredoc(t_wordlst const *lines);
+
 int	my_open_input(char const *str);
 int	my_open_output(char const *str);
 int	my_open_append(char const *str);
-int	my_open_heredoc(t_redirlst *redir);
 
 #endif//RUNNER_H

@@ -1,41 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_open_input.c                                   :+:      :+:    :+:   */
+/*   run_open_output.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 08:51:09 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:18:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/runner.h"
 
-#include "libft.h"
+#include <stdlib.h>//EXIT_SUCCESS
+#include <unistd.h>//dup2
+#include <fcntl.h>//open, O_FALGS..., S_FLAGS...
+#include <errno.h>//errno
+#include <stdio.h>//perror
 
-#include <unistd.h> //unlink, dup2
-#include <fcntl.h> //open
-#include <errno.h> //errno, perror
-#include <stdio.h> //perror
-
-int	my_open_input(char const *str)
+int	my_redirect_one_outfile(char const *file_name)
 {
-	int	fd_input;
+	int	fd;
 
-	errno = 0;
-	fd_input = open(str, O_RDONLY);
-	if (fd_input < 0)
+	fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+	if (fd == -1)
 	{
-		perror("minishell: Error when opening file");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file_name, STDERR_FILENO);
+		perror(":");
 		return (errno);
 	}
-	dup2(fd_input, STDIN_FILENO);
-	close(fd_input);
-	if (errno != 0)
-	{
-		perror("minishell: Dup error");
-		return (errno);
-	}
-	return (0);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (EXIT_SUCCESS);
 }

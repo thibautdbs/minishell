@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_open_output.c                                  :+:      :+:    :+:   */
+/*   run_open_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 08:46:06 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:18:10 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/runner.h"
 
-#include <unistd.h> //dup2
-#include <fcntl.h> //open
-#include <errno.h> //errno
-#include <stdio.h> //perror
+#include <stdlib.h>//EXIT_SUCCESS
+#include <unistd.h>//dup2
+#include <fcntl.h>//open, O_RDONLY
+#include <errno.h>//errno
+#include <stdio.h>//perror
 
-int	my_open_output(char const *str)
+int	my_redirect_one_infile(char const *file_name)
 {
-	int	fd_output;
+	int	fd;
 
-	errno = 0;
-	fd_output = open(str, O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
-	if (fd_output < 0)
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
 	{
-		perror("minishell: Error when opening file");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file_name, STDERR_FILENO);
+		perror(":");
 		return (errno);
 	}
-	dup2(fd_output, STDOUT_FILENO);
-	close(fd_output);
-	if (errno != 0)
-	{
-		perror("minishell: Dup error");
-		return (errno);
-	}
-	return (0);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (EXIT_SUCCESS);
 }

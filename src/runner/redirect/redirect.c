@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:47:54 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/10 01:08:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:29:18 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <errno.h> //errno
 #include <stdio.h> //perror
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "libft.h"
 #include "minishell/expand.h"
@@ -23,6 +24,8 @@
 #include "minishell/wordlst.h"
 
 static int	loc_redirect_one(t_redirlst *redir, t_envlst *envlst, int res);
+static int	loc_expand_filename(t_wordlst *word, char **ret_file_name,
+				t_envlst *envlst, int res);
 
 int	my_redirect(t_redirlst *redir, t_envlst *envlst, int res)
 {
@@ -40,28 +43,44 @@ int	my_redirect(t_redirlst *redir, t_envlst *envlst, int res)
 
 static int	loc_redirect_one(t_redirlst *redir, t_envlst *envlst, int res)
 {
-	t_wordlst	*word;
+	char	*expanded_filename;
 
 	if (redir->type == HEREDOC)
 		return (my_redirect_one_heredoc(redir->word));
+	res = loc_expand_filename(redir->word, &expanded_filename, envlst, res);
+	if (res != EXIT_SUCCESS)
+		return (res);
+	if (redir->type == APPND)
+		res = my_redirect_one_appnd(expanded_filename);
+	else if (redir->type == INFILE)
+		res = my_redirect_one_infile(expanded_filename);
+	else
+		res = my_redirect_one_outfile(expanded_filename);
+	ft_memdel(&expanded_filename);
+	return (res);
+}
+
+static int	loc_expand_filename(t_wordlst *word, char **ret_file_name,
+				t_envlst *envlst, int res)
+{
+	t_wordlst	*words;
+
 	errno = 0;
-	word = my_expand(redir->word->content, envlst, res);
+	words = my_expand(word->content, envlst, res);
 	if (errno != 0)
 	{
 		perror("minishell:");
-		res = errno;
+		my_wordlst_del(&words);
+		return (errno);
 	}
-	else if (my_wordlst_size(word) != 1)
+	if (my_wordlst_size(words) != 1)
 	{
-		ft_puterr("minishell: ambiguous redirect.");
-		res = 1;
+		ft_putendl_fd("minishell: ambiguous redirect.", STDERR_FILENO);
+		my_wordlst_del(&words);
+		return (1);
 	}
-	else if (redir->type == APPND)
-		res = my_open_append(word->content);
-	else if (redir->type == INFILE)
-		res = my_open_input(word->content);
-	else
-		res = my_open_output(word->content);
-	my_wordlst_del(&word);
-	return (res);
+	*ret_file_name = words->content;
+	words->content = NULL;
+	my_wordlst_del(&words);
+	return (EXIT_SUCCESS);
 }

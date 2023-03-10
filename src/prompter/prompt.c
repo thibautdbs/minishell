@@ -6,11 +6,11 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 16:10:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:38:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/prompt.h"
+#include "minishell/prompter.h"
 
 #include <readline/readline.h> //readline
 #include <readline/history.h> //readline
@@ -26,7 +26,6 @@
 #include "minishell/envlst.h"
 #include "minishell/parser.h"
 #include "minishell/runner.h"
-#include "minishell/heredoc.h"
 #include "minishell/utils.h"
 
 static char	*loc_readline_cwd(void);
@@ -79,33 +78,6 @@ static char	*loc_readline_cwd(void)
 	return (buf);
 }
 
-// static char	*loc_readline_cwd(void)
-// {
-// 	char const		suffix[] = " minishell> ";
-// 	char			prompt[PATH_MAX + sizeof(suffix)];
-// 	int				saved_stdin;
-// 	char			*buf;
-//
-// 	saved_stdin = dup(STDIN_FILENO);
-// 	if (saved_stdin == -1)
-// 	{
-// 		perror("minishell:");
-// 		return (NULL);
-// 	}
-// 	if (getcwd(prompt, PATH_MAX) == NULL)
-// 		prompt[0] = '\0';
-// 	ft_strlcat(prompt, suffix, sizeof(prompt));
-// 	buf = readline(prompt);
-// 	close(STDIN_FILENO);
-// 	if (dup2(saved_stdin, STDIN_FILENO) == -1)
-// 	{
-// 		perror("minishell:");
-// 		ft_memdel(&buf);
-// 	}
-// 	close(saved_stdin);
-// 	return (buf);
-// }
-
 static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)
 {
 	t_cmdtree	*cmdtree;
@@ -113,7 +85,7 @@ static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)
 	int			heredoc_res;
 
 	parse_res = my_parse(cmd, &cmdtree);
-	heredoc_res = my_read_heredocs(cmdtree);
+	heredoc_res = my_prompt_heredocs(cmdtree);
 	if (parse_res != EXIT_SUCCESS)
 	{
 		my_cmdtree_del(&cmdtree);

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_heredocs.c                                    :+:      :+:    :+:   */
+/*   prompt_heredocs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 12:42:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 16:23:44 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:35:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/heredoc.h"
+#include "minishell/prompter.h"
 
 #include <stddef.h> //NULL
 #include <unistd.h>
@@ -25,11 +25,11 @@ static int	loc_parse_pipeline(t_cmdlst *pipeline);
 static int	loc_parse_cmd(t_cmdlst *pipeline);
 static int	loc_parse_redirs(t_redirlst *redir);
 
-/** my_read_heredocs:
+/** my_prompt_heredocs:
  *   browse cmdtree left to right and
  *   reads heredocs encountered along the way.
  */
-int	my_read_heredocs(t_cmdtree *cmdtree)
+int	my_prompt_heredocs(t_cmdtree *cmdtree)
 {
 	if (cmdtree == NULL)
 		return (EXIT_SUCCESS);
@@ -47,10 +47,10 @@ static int	loc_parse_connection(t_cmdtree *cmd)
 {
 	int	res;
 
-	res = my_read_heredocs(cmd->left);
+	res = my_prompt_heredocs(cmd->left);
 	if (res != EXIT_SUCCESS)
 		return (res);
-	return (my_read_heredocs(cmd->right));
+	return (my_prompt_heredocs(cmd->right));
 }
 
 static int	loc_parse_pipeline(t_cmdlst *pipeline)
@@ -77,7 +77,7 @@ static int	loc_parse_cmd(t_cmdlst *cmd)
 
 	if (cmd->type == SUBSHELL)
 	{
-		res = my_read_heredocs(cmd->subcmd);
+		res = my_prompt_heredocs(cmd->subcmd);
 		if (res != EXIT_SUCCESS)
 			return (res);
 	}
@@ -92,7 +92,7 @@ static int	loc_parse_redirs(t_redirlst *redirs)
 	{
 		if (redirs->type == HEREDOC)
 		{
-			res = my_read_heredoc(redirs);
+			res = my_prompt_heredoc(redirs);
 			if (res != EXIT_SUCCESS)
 				return (res);
 		}

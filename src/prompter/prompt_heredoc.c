@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_heredoc.c                                     :+:      :+:    :+:   */
+/*   prompt_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:41:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/09 16:33:14 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:32:52 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/heredoc.h"
+#include "minishell/prompter.h"
 
 #include <readline/readline.h>//readline
 #include <stdbool.h>
@@ -29,7 +29,7 @@ static void	loc_puterr(char const *sep);
 
 extern bool	g_sigint_received;
 
-int	my_read_heredoc(t_redirlst *redir)
+int	my_prompt_heredoc(t_redirlst *redir)
 {
 	int			res;
 	t_wordlst	*sep;

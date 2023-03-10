@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 01:51:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/09 13:02:37 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 02:38:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include "libft.h"
 #include "minishell/envlst.h"
-#include "minishell/prompt.h"
+#include "minishell/prompter.h"
 
 static void	loc_setup_signal_handling(void);
 static void	loc_sigint_handler(int sig);

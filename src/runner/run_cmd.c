@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 17:59:56 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:12:17 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst,
 				t_cmdtree **pcmdtree)
 {
 	int			pid;
-	int			wstatus;
 	t_wordlst	*words;
 
 	pid = fork();
@@ -82,15 +81,13 @@ static int	loc_run_execve(t_cmdlst *cmd, t_envlst **penvlst,
 		my_cmdtree_del(pcmdtree);
 		exit(my_execve(words, *penvlst));
 	}
-	waitpid(pid, &wstatus, 0);
-	return (WEXITSTATUS(wstatus));
+	return (my_waitpid(pid));
 }
 
 static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
 	int	pid;
-	int	wstatus;
 
 	pid = fork();
 	if (pid == 0)
@@ -100,6 +97,5 @@ static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 		my_envlst_del(penvlst);
 		exit(res);
 	}
-	waitpid(pid, &wstatus, 0);
-	return (WEXITSTATUS(wstatus));
+	return (my_waitpid(pid));
 }

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/10 02:38:09 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 01:56:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,12 @@ int	my_prompt(t_envlst **penvlst)
 		buf = loc_readline_cwd();
 		if (g_sigint_received == true)
 		{
-			g_sigint_received = false;
 			res = 130;
-			ft_putchar_fd('\n', STDOUT_FILENO);
+			ft_memdel(&buf);
 			continue ;
 		}
 		if (buf == NULL)
 		{
-			ft_putendl_fd("exit", STDERR_FILENO);
 			break ;
 		}
 		add_history(buf);
@@ -59,6 +57,7 @@ int	my_prompt(t_envlst **penvlst)
 		ft_memdel(&buf);
 	}
 	rl_clear_history();
+	ft_putendl_fd("exit", STDERR_FILENO);
 	return (res);
 }
 
@@ -69,13 +68,12 @@ static char	*loc_readline_cwd(void)
 {
 	char const		suffix[] = " minishell> ";
 	char			prompt[PATH_MAX + sizeof(suffix)];
-	char			*buf;
 
 	if (getcwd(prompt, PATH_MAX) == NULL)
 		prompt[0] = '\0';
 	ft_strlcat(prompt, suffix, sizeof(prompt));
-	my_interuptable_readline(prompt, &buf);
-	return (buf);
+	g_sigint_received = false;
+	return (readline(prompt));
 }
 
 static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)

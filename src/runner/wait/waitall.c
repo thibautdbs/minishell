@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   waitall.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 16:06:49 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/09 16:07:26 by tdubois          ###   ########.fr       */
+/*   Created: 2023/03/10 16:07:45 by tdubois           #+#    #+#             */
+/*   Updated: 2023/03/10 16:08:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "minishell/runner.h"
 
-int	my_interuptable_readline(char const *prompt, char **ret_buf);
-
-#endif //UTILS_H
+/** my_waitall:
+ *   wait termination of all child processes.
+ *   - do not interrupt when a signal is received.
+ */
+void	my_waitall(void)
+{
+	while (my_waitpid(-1) >= 0)
+		continue ;
+}

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:41:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/10 02:32:52 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 02:26:14 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include "libft.h"
 #include "minishell/redirlst.h"
 #include "minishell/wordlst.h"
-#include "minishell/utils.h"
 
 static int	loc_readline_as_word(t_wordlst **ret_word);
 static void	loc_puterr(char const *sep);
@@ -59,21 +58,13 @@ int	my_prompt_heredoc(t_redirlst *redir)
 
 static int	loc_readline_as_word(t_wordlst **ret_word)
 {
-	int	res;
-
 	*ret_word = my_wordlst_new();
 	if (*ret_word == NULL)
 		return (ENOMEM);
-	res = my_interuptable_readline("> ", &(*ret_word)->content);
-	if (res != EXIT_SUCCESS)
-	{
-		my_wordlst_del(ret_word);
-		return (res);
-	}
+	g_sigint_received = false;
+	(*ret_word)->content = readline("> ");
 	if (g_sigint_received == true)
 	{
-		g_sigint_received = false;
-		ft_putchar_fd('\n', STDOUT_FILENO);
 		my_wordlst_del(ret_word);
 		return (130);
 	}

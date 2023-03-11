@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:52:30 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/20 11:51:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:10:25 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,9 @@ static int	loc_wait_pipeline(int pid)
 {
 	int	res;
 
-	waitpid(pid, &res, 0);
-	while (wait(NULL) > 0)
-		continue ;
-	return (WEXITSTATUS(res));
+	res = my_waitpid(pid);
+	my_waitall();
+	return (res);
 }
 
 static int	loc_run_piped_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,

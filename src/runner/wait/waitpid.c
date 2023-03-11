@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:05:23 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/10 16:06:10 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 03:59:11 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@
  */
 int	my_waitpid(int pid)
 {
-	int	ret;
 	int	wstatus;
+	int	ret;
 
 	while (1)
 	{
 		errno = 0;
 		ret = waitpid(pid, &wstatus, 0);
-		if (ret == -1 && errno != EINTR)
+		if (errno != EINTR)
 			break ;
 	}
+	if (ret == -1)
+		return (-1);
 	if (WIFEXITED(wstatus))
 		return (WEXITSTATUS(wstatus));
-	if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus));
-	return (-1);
+	return (WTERMSIG(wstatus));
 }

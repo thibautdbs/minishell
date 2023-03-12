@@ -6,11 +6,11 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:07:45 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/10 16:08:09 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 16:33:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/runner.h"
+#include "minishell/utils.h"
 
 /** my_waitall:
  *   wait termination of all child processes.

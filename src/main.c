@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 01:51:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 01:39:46 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 18:02:10 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "libft.h"
 #include "minishell/envlst.h"
 #include "minishell/prompter.h"
+#include "minishell/utils.h"
 
 static void	loc_setup_signal_handling(void);
 static void	loc_sigint_handler(int sig);
@@ -52,19 +53,10 @@ int	main(int argc, char *argv[], char *envp[])
 
 static void	loc_setup_signal_handling(void)
 {
-	struct sigaction	sa_sigint;
-	struct sigaction	sa_sigquit;
-
 	g_sigint_received = false;
 	rl_event_hook = loc_rl_event_hook;
-	sa_sigint.sa_handler = loc_sigint_handler;
-	sa_sigint.sa_flags = 0;
-	sigemptyset(&sa_sigint.sa_mask);
-	sigaction(SIGINT, &sa_sigint, NULL);
-	sa_sigquit.sa_handler = SIG_IGN;
-	sa_sigquit.sa_flags = 0;
-	sigemptyset(&sa_sigquit.sa_mask);
-	sigaction(SIGQUIT, &sa_sigquit, NULL);
+	my_signal(SIGINT, loc_sigint_handler);
+	my_signal(SIGQUIT, SIG_IGN);
 }
 
 static void	loc_sigint_handler(int sig)
@@ -76,9 +68,6 @@ static void	loc_sigint_handler(int sig)
 static int	loc_rl_event_hook(void)
 {
 	if (g_sigint_received == true)
-	{
-		rl_replace_line("", 0);
 		rl_done = 1;
-	}
 	return (0);
 }

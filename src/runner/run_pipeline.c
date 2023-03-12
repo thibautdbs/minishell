@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:52:30 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 03:28:27 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 16:45:55 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <unistd.h>//fork
 
 #include "minishell/cmd.h"
+#include "minishell/utils.h"
 #include "minishell/envlst.h"
 
 static int	loc_redirect_piped_cmd(t_pipelst *pipes, int idx);

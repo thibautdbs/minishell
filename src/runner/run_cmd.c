@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/11 04:01:23 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 17:15:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "minishell/builtin.h"
 #include "minishell/wordlst.h"
 #include "minishell/expand.h"
+#include "minishell/utils.h"
 
 static int	loc_run_subshell(t_cmdlst *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **pcmdtree);

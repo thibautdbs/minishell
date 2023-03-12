@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:04 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 03:10:58 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 18:01:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@
 #include <errno.h>
 #include <limits.h>//PATH_MAX
 #include <unistd.h>//execve
+#include <signal.h>
 
 #include "libft.h"
+#include "minishell/utils.h"
 #include "minishell/wordlst.h"
 #include "minishell/envlst.h"
+
+static void	loc_sigquit_handler(int	signum)
+{
+	(void) signum;
+}
 
 int	my_execve(t_wordlst *wordlst, t_envlst *envlst)
 {
@@ -43,7 +50,10 @@ int	my_execve(t_wordlst *wordlst, t_envlst *envlst)
 	envp = my_envlst_to_envp(envlst);
 	my_envlst_del(&envlst);
 	if (argv != NULL && envp != NULL)
+	{
+		my_signal(SIGQUIT, loc_sigquit_handler);
 		execve((const char *)path_name, argv, envp);
+	}
 	ft_strsdel(&argv);
 	ft_strsdel(&envp);
 	exit(errno);

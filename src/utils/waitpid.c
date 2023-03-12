@@ -6,11 +6,11 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:05:23 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 03:59:11 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/11 16:34:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/runner.h"
+#include "minishell/utils.h"
 
 #include <wait.h>
 #include <errno.h>

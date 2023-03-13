@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:52:30 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/13 17:16:44 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 23:42:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 static int	loc_redirect_piped_cmd(t_pipelst *pipes, int idx);
 static int	loc_wait_pipeline(int pid);
-static int	loc_run_piped_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
-				t_cmdtree **pcmdtree);
+static void	loc_run_piped_cmd_and_exit(t_cmdlst *cmd, t_envlst **penvlst,
+				int res, t_cmdtree **pcmdtree);
 
 int	my_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
@@ -48,7 +48,7 @@ int	my_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 			my_pipelst_del(&pipes);
 			if (errno != 0)
 				exit(errno);
-			exit(loc_run_piped_cmd(pipeline, penvlst, res, pcmdtree));
+			loc_run_piped_cmd_and_exit(pipeline, penvlst, res, pcmdtree);
 		}
 		i++;
 		pipeline = pipeline->next;
@@ -82,14 +82,11 @@ static int	loc_wait_pipeline(int pid)
 	return (res);
 }
 
-static int	loc_run_piped_cmd(t_cmdlst *cmd, t_envlst **penvlst, int res,
-	t_cmdtree **pcmdtree)
+static void	loc_run_piped_cmd_and_exit(t_cmdlst *cmd, t_envlst **penvlst,
+				int res, t_cmdtree **pcmdtree)
 {
 	res = my_run_cmd(cmd, penvlst, res, pcmdtree);
-	close(0);
-	close(1);
-	close(2);
 	my_cmdtree_del(pcmdtree);
 	my_envlst_del(penvlst);
-	exit(res);
+	my_exit_or_raise(res);
 }

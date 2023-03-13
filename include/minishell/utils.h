@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 16:33:10 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/13 17:41:04 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 23:38:57 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,20 @@ void	my_waitall(void);
 /// SIGNAL
 
 int		my_signal(int signum, void (handler)(int signum));
+
+////////////////////////////////////////////////////////////////////////////////
+/// GETPID
+
+int		my_getpid(void);
+
+////////////////////////////////////////////////////////////////////////////////
+/// RAISE
+
+int		my_raise(int signum);
+
+////////////////////////////////////////////////////////////////////////////////
+/// EXIT_OR_RAISE
+
+void	my_exit_or_raise(int res);
 
 #endif //UTILS_H

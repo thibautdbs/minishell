@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:41:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 02:26:14 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 08:42:11 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static int	loc_readline_as_word(t_wordlst **ret_word)
 	*ret_word = my_wordlst_new();
 	if (*ret_word == NULL)
 		return (ENOMEM);
-	g_sigint_received = false;
 	(*ret_word)->content = readline("> ");
 	if (g_sigint_received == true)
 	{

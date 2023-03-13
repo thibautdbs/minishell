@@ -6,12 +6,18 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 01:22:56 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:35:52 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/runner.h"
 
+#include <stddef.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdbool.h>
+
+#include "libft.h"
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
 
@@ -19,6 +25,10 @@ static int	loc_run_or(t_cmdtree *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **cmdtree);
 static int	loc_run_and(t_cmdtree *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **cmdtree);
+
+static bool	loc_is_parent_shell(t_cmdlst *pipeline, t_cmdtree *cmdtree);
+
+extern bool	g_sigint_received;
 
 int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 {
@@ -29,14 +39,24 @@ int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 	if (cmd->type == AND)
 		return (loc_run_and(cmd, penvlst, res, pcmdtree));
 	if (my_cmdlst_size(cmd->pipeline) == 1)
-		return (my_run_cmd(cmd->pipeline, penvlst, res, pcmdtree));
-	return (my_run_pipeline(cmd->pipeline, penvlst, res, pcmdtree));
+		res = my_run_cmd(cmd->pipeline, penvlst, res, pcmdtree);
+	else
+		res = my_run_pipeline(cmd->pipeline, penvlst, res, pcmdtree);
+	if (res == 131 && loc_is_parent_shell(cmd->pipeline, *pcmdtree))
+		ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
+	return (res);
 }
 
 static int	loc_run_or(t_cmdtree *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
 	res = my_run(cmd->left, penvlst, res, pcmdtree);
+	if (g_sigint_received)
+	{
+		if (res == 130)
+			return (130);
+		g_sigint_received = false;
+	}
 	if (res == 0)
 		return (res);
 	return (my_run(cmd->right, penvlst, res, pcmdtree));
@@ -49,4 +69,13 @@ static int	loc_run_and(t_cmdtree *cmd, t_envlst **penvlst, int res,
 	if (res != 0)
 		return (res);
 	return (my_run(cmd->right, penvlst, res, pcmdtree));
+}
+
+static bool	loc_is_parent_shell(t_cmdlst *pipeline, t_cmdtree *cmdtree)
+{
+	if (cmdtree->type == PIPELINE)
+		return (cmdtree->pipeline == pipeline);
+	if (loc_is_parent_shell(pipeline, cmdtree->left))
+		return (true);
+	return (loc_is_parent_shell(pipeline, cmdtree->right));
 }

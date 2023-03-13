@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/11 01:56:13 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:15:42 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	my_prompt(t_envlst **penvlst)
 	res = 0;
 	while (1)
 	{
+		g_sigint_received = false;
 		buf = loc_readline_cwd();
 		if (g_sigint_received == true)
 		{
@@ -49,9 +50,7 @@ int	my_prompt(t_envlst **penvlst)
 			continue ;
 		}
 		if (buf == NULL)
-		{
 			break ;
-		}
 		add_history(buf);
 		res = loc_process_cmd(buf, penvlst, res);
 		ft_memdel(&buf);
@@ -72,7 +71,6 @@ static char	*loc_readline_cwd(void)
 	if (getcwd(prompt, PATH_MAX) == NULL)
 		prompt[0] = '\0';
 	ft_strlcat(prompt, suffix, sizeof(prompt));
-	g_sigint_received = false;
 	return (readline(prompt));
 }
 
@@ -96,5 +94,10 @@ static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)
 	}
 	res = my_run(cmdtree, penvlst, res, &cmdtree);
 	my_cmdtree_del(&cmdtree);
+	if (res < 0)
+	{
+		ft_putendl_fd("", STDOUT_FILENO);
+		return (-res);
+	}
 	return (res);
 }

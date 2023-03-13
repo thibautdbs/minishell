@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:05:23 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 16:34:00 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:37:58 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 /** my_waitpid:
  *   wait for termination of process denoted by `pid'.
  *   - do not abort when a signal is received.
- *   - on success, returns process exit status, or the number
- *     of the signal that caused termination.
+ *   - on success, returns process exit status,
+ *   	or 128 + signum of the signal that caused termination.
  *   - on error (e.g. pid already terminated), returns -1.
  */
 int	my_waitpid(int pid)
@@ -38,5 +38,7 @@ int	my_waitpid(int pid)
 		return (-1);
 	if (WIFEXITED(wstatus))
 		return (WEXITSTATUS(wstatus));
-	return (WTERMSIG(wstatus));
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus) + 128);
+	return (-1);
 }

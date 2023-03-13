@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 16:07:45 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 16:33:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:10:12 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@
  */
 void	my_waitall(void)
 {
-	while (my_waitpid(-1) >= 0)
+	while (my_waitpid(-1) != -1)
 		continue ;
 }

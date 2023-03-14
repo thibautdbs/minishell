@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:51 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/13 23:44:19 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:15:20 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ static int	loc_run_builtin(t_cmdlst *cmd, t_envlst **penvlst, int res)
 {
 	int			new_res;
 	int const	saved_stdin = dup(STDIN_FILENO);
-	int const	saved_stdout = dup(STDERR_FILENO);
+	int const	saved_stdout = dup(STDOUT_FILENO);
 
 	new_res = my_redirect(cmd->redirs, *penvlst, res);
 	if (new_res == EXIT_SUCCESS)
 		new_res = my_builtin(cmd->words, penvlst, res);
 	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDERR_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
 	return (new_res);

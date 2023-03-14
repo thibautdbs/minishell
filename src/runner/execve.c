@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:13:04 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 09:58:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 17:00:40 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ static t_success	loc_convert_argv_and_envp(
 
 static void			loc_sigquit_handler(int signum);
 
+#define COMMAND_NOT_FOUND 127
+#define PERMISSION_DENIED 126
+
 int	my_execve(t_wordlst *wordlst, t_envlst *envlst)
 {
 	char	path_name[PATH_MAX];
@@ -42,7 +45,7 @@ int	my_execve(t_wordlst *wordlst, t_envlst *envlst)
 		ft_putendl_fd(": command not found", STDERR_FILENO);
 		my_wordlst_del(&wordlst);
 		my_envlst_del(&envlst);
-		exit(errno);
+		exit(COMMAND_NOT_FOUND);
 	}
 	if (loc_convert_argv_and_envp(wordlst, envlst, &argv, &envp) == FAILURE)
 		exit(errno);
@@ -51,11 +54,12 @@ int	my_execve(t_wordlst *wordlst, t_envlst *envlst)
 		my_signal(SIGQUIT, loc_sigquit_handler);
 		execve((const char *)path_name, argv, envp);
 	}
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(argv[0], STDERR_FILENO);
-	ft_putendl_fd(": command is not executable", STDERR_FILENO);
+	ft_putendl_fd(": Permission denied", STDERR_FILENO);
 	ft_strsdel(&argv);
 	ft_strsdel(&envp);
-	exit(errno);
+	exit(PERMISSION_DENIED);
 }
 
 static t_success	loc_convert_argv_and_envp(

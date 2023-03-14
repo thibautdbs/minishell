@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/14 12:10:23 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:52:40 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 	}
 	if (res == -(128 + SIGQUIT)
 		&& loc_is_parent_shell(cmd->pipeline, *pcmdtree))
-		ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
+		ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
 	return (res);
 }
 

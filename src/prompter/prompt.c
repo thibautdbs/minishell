@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/13 13:15:42 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 08:07:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,26 @@ int	my_prompt(t_envlst **penvlst)
 
 /** loc_readline_cwd: 
  *   calls readline with a prompt showing current working directory.
+ *   if cwd is subdirectory of $HOME, aliases $HOME with ~.
  */
 static char	*loc_readline_cwd(void)
 {
 	char const		suffix[] = " minishell> ";
 	char			prompt[PATH_MAX + sizeof(suffix)];
+	char			*home;
+	size_t			len;
 
 	if (getcwd(prompt, PATH_MAX) == NULL)
 		prompt[0] = '\0';
 	ft_strlcat(prompt, suffix, sizeof(prompt));
-	return (readline(prompt));
+	home = getenv("HOME");
+	if (home == NULL)
+		return (readline(prompt));
+	len = ft_strlen(home);
+	if (len == 0 || ft_strncmp(prompt, home, ft_strlen(home)) != 0)
+		return (readline(prompt));
+	prompt[len - 1] = '~';
+	return (readline(prompt + len - 1));
 }
 
 static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res)

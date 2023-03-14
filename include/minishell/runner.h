@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:12:02 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/11 16:44:23 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:03:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int		my_get_path(char *buf, char const *name, t_envlst *envlst);
 
 int		my_redirect(t_redirlst *redir, t_envlst *envlst, int res);
 
-int		my_redirect_one_heredoc(t_wordlst const *lines);
+int		my_redirect_one_heredoc(t_wordlst const *lines, t_redirlst_t type,
+			t_envlst *envlst, int res);
 
 int		my_redirect_one_infile(char const *file_name);
 int		my_redirect_one_outfile(char const *file_name);

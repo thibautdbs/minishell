@@ -6,10 +6,11 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:41:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/14 12:03:21 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:24:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell/envlst.h"
 #include "minishell/prompter.h"
 
 #include <readline/readline.h>//readline
@@ -26,6 +27,7 @@
 
 static int	loc_readline_as_word(t_wordlst **ret_word);
 static void	loc_puterr(char const *sep);
+static bool	loc_perform_quote_removal(char *word);
 
 extern t_globals	g_globals;
 
@@ -34,16 +36,17 @@ int	my_prompt_heredoc(t_redirlst *redir)
 	int			res;
 	t_wordlst	*sep;
 	t_wordlst	*new_line;
+	bool		performed_quote_removal;
 
 	sep = my_wordlst_pop_front(&redir->word);
+	performed_quote_removal = loc_perform_quote_removal(sep->content);
+	if (performed_quote_removal)
+		redir->type = QTD_HEREDOC;
 	while (1)
 	{
 		res = loc_readline_as_word(&new_line);
 		if (res != EXIT_SUCCESS)
-		{
-			my_wordlst_del(&sep);
-			return (res);
-		}
+			break ;
 		if (new_line == NULL)
 			loc_puterr(sep->content);
 		if (new_line == NULL || ft_strcmp(sep->content, new_line->content) == 0)
@@ -54,7 +57,7 @@ int	my_prompt_heredoc(t_redirlst *redir)
 		my_wordlst_add_back(&redir->word, new_line);
 	}
 	my_wordlst_del(&sep);
-	return (EXIT_SUCCESS);
+	return (res);
 }
 
 static int	loc_readline_as_word(t_wordlst **ret_word)
@@ -79,4 +82,29 @@ static void	loc_puterr(char const *sep)
 	ft_putstr_fd("delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd(sep, STDERR_FILENO);
 	ft_putstr_fd("')\n", STDERR_FILENO);
+}
+
+static bool	loc_perform_quote_removal(char *word)
+{
+	bool	performed_quote_removal;
+	int		len;
+	char	sep[2];
+
+	bzero(sep, sizeof(sep));
+	performed_quote_removal = false;
+	while (*word != '\0')
+	{
+		sep[0] = *word;
+		if (sep[0] == '\'' || sep[0] == '\"')
+		{
+			performed_quote_removal = true;
+			len = strcspn(word + 1, sep);
+			memmove(word, word + 1, len);
+			word += len;
+			memmove(word, word + 2, strlen(word + 2) + 1);
+		}
+		else
+			word += strcspn(word, "\'\"");
+	}
+	return (performed_quote_removal);
 }

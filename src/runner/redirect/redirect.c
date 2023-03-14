@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:47:54 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/10 02:29:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:05:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static int	loc_redirect_one(t_redirlst *redir, t_envlst *envlst, int res)
 {
 	char	*expanded_filename;
 
-	if (redir->type == HEREDOC)
-		return (my_redirect_one_heredoc(redir->word));
+	if (redir->type == HEREDOC || redir->type == QTD_HEREDOC)
+		return (my_redirect_one_heredoc(redir->word, redir->type, envlst, res));
 	res = loc_expand_filename(redir->word, &expanded_filename, envlst, res);
 	if (res != EXIT_SUCCESS)
 		return (res);

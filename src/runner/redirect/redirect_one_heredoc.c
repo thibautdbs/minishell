@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/10 01:21:27 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 16:29:48 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,21 @@
 
 #include "libft.h"//ft_memdel, ft_strlen, ft_strncmp, ft_count_digits
 #include "minishell/wordlst.h"
+#include "minishell/envlst.h"
+#include "minishell/redirlst.h"
 
 static t_success	loc_tmpfile(int fds[2]);
+
+static void			loc_expand_and_put_line(char *line, t_envlst *envlst,
+						int res, int fd);
+static int			loc_put_var(char *str, t_envlst *envlst, int fd);
 
 /** my_redirect_one_heredoc:
  *   write heredoc lines into a temporary unnamed file under /tmp
  *   and redirects stdin toward this file.
  */
-int	my_redirect_one_heredoc(t_wordlst const *lines)
+int	my_redirect_one_heredoc(t_wordlst const *lines, t_redirlst_t type,
+		t_envlst *envlst, int res)
 {
 	int	fds[2];
 
@@ -39,7 +46,10 @@ int	my_redirect_one_heredoc(t_wordlst const *lines)
 	}
 	while (lines != NULL)
 	{
-		ft_putendl_fd(lines->content, fds[1]);
+		if (type == QTD_HEREDOC)
+			ft_putendl_fd(lines->content, fds[1]);
+		else
+			loc_expand_and_put_line(lines->content, envlst, res, fds[1]);
 		lines = lines->next;
 	}
 	dup2(fds[0], STDIN_FILENO);
@@ -84,4 +94,50 @@ static t_success	loc_tmpfile(int fds[2])
 		return (FAILURE);
 	}
 	return (SUCCESS);
+}
+
+static void	loc_expand_and_put_line(char *line, t_envlst *envlst, int res,
+				int fd)
+{
+	while (*line != '\0')
+	{
+		if (*line != '$')
+		{
+			write(fd, line, ft_strcspn(line, "$"));
+			line += ft_strcspn(line, "$");
+			continue ;
+		}
+		line++;
+		if (*line == '?')
+		{
+			ft_putnbr_fd(res, fd);
+			line++;
+		}
+		else if (!ft_isalpha(*line) && *line != '_')
+			ft_putstr_fd("$", fd);
+		else
+			line += loc_put_var(line, envlst, fd);
+	}
+	ft_putendl_fd("", fd);
+}
+
+static int	loc_put_var(char *str, t_envlst *envlst, int fd)
+{
+	int		len;
+	char	*var;
+
+	len = 0;
+	while (ft_isdigit(str[len]) || ft_isalpha(str[len]) || str[len] == '_')
+		len++;
+	ft_memmove(str - 1, str, len);
+	str[len - 1] = '\0';
+	var = my_envlst_get_value(str - 1, envlst);
+	if (var != NULL)
+		ft_putstr_fd(var, fd);
+	else
+	{
+		ft_putstr_fd("$", fd);
+		ft_putstr_fd(str - 1, fd);
+	}
+	return (len);
 }

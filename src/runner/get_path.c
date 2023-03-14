@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:36:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 15:58:38 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 09:48:42 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,9 @@ int	my_get_path(char *buf, char const *name, t_envlst *envlst)
 	char	*saveptr;
 	char	*path;
 
-	if (name[0] == '/')
-		return (access(name, X_OK));
 	if (ft_strchr(name, '/') != NULL)
 	{
-		getcwd(buf, PATH_MAX);
-		ft_strlcat(buf, "/", PATH_MAX);
-		ft_strlcat(buf, name, PATH_MAX);
+		ft_strlcpy(buf, name, PATH_MAX);
 		return (access(buf, X_OK));
 	}
 	saveptr = NULL;

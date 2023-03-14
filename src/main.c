@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 01:51:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/11 18:02:10 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:11:58 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	loc_setup_signal_handling(void);
 static void	loc_sigint_handler(int sig);
 static int	loc_rl_event_hook(void);
 
-bool	g_sigint_received;
+t_globals	g_globals;
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -34,6 +34,7 @@ int	main(int argc, char *argv[], char *envp[])
 	t_envlst	*envlst;
 
 	(void) argv;
+	g_globals.did_exit = false;
 	if (argc != 1)
 	{
 		ft_putendl_fd("minishell: did not expect any argument", STDERR_FILENO);
@@ -53,7 +54,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 static void	loc_setup_signal_handling(void)
 {
-	g_sigint_received = false;
+	g_globals.did_receive_sigint = false;
 	rl_event_hook = loc_rl_event_hook;
 	my_signal(SIGINT, loc_sigint_handler);
 	my_signal(SIGQUIT, SIG_IGN);
@@ -62,12 +63,12 @@ static void	loc_setup_signal_handling(void)
 static void	loc_sigint_handler(int sig)
 {
 	(void) sig;
-	g_sigint_received = true;
+	g_globals.did_receive_sigint = true;
 }
 
 static int	loc_rl_event_hook(void)
 {
-	if (g_sigint_received == true)
+	if (g_globals.did_receive_sigint == true)
 		rl_done = 1;
 	return (0);
 }

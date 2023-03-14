@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/13 23:52:53 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:10:23 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "libft.h"
 #include "minishell/cmd.h"
 #include "minishell/envlst.h"
+#include "minishell/utils.h"
 
 static int	loc_run_or(t_cmdtree *cmd, t_envlst **penvlst, int res,
 				t_cmdtree **cmdtree);
@@ -30,7 +31,7 @@ static int	loc_run_and(t_cmdtree *cmd, t_envlst **penvlst, int res,
 
 static bool	loc_is_parent_shell(t_cmdlst *pipeline, t_cmdtree *cmdtree);
 
-extern bool	g_sigint_received;
+extern t_globals	g_globals;
 
 int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 {
@@ -44,6 +45,15 @@ int	my_run(t_cmdtree *cmd, t_envlst **penvlst, int res, t_cmdtree **pcmdtree)
 		res = my_run_cmd(cmd->pipeline, penvlst, res, pcmdtree);
 	else
 		res = my_run_pipeline(cmd->pipeline, penvlst, res, pcmdtree);
+	if (g_globals.did_exit == true)
+	{
+		if (loc_is_parent_shell(cmd->pipeline, *pcmdtree))
+			ft_putendl_fd("exit", STDOUT_FILENO);
+		my_cmdtree_del(pcmdtree);
+		my_envlst_del(penvlst);
+		my_close_all();
+		exit(res);
+	}
 	if (res == -(128 + SIGQUIT)
 		&& loc_is_parent_shell(cmd->pipeline, *pcmdtree))
 		ft_putendl_fd("Quit (core dumped)", STDERR_FILENO);
@@ -54,11 +64,11 @@ static int	loc_run_or(t_cmdtree *cmd, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
 	res = my_run(cmd->left, penvlst, res, pcmdtree);
-	if (g_sigint_received)
+	if (g_globals.did_receive_sigint == true)
 	{
 		if (res == -(128 + SIGINT))
 			return (res);
-		g_sigint_received = false;
+		g_globals.did_receive_sigint = false;
 	}
 	if (res == EXIT_SUCCESS)
 		return (res);

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:41:02 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/13 08:42:11 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:03:21 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@
 #include "libft.h"
 #include "minishell/redirlst.h"
 #include "minishell/wordlst.h"
+#include "minishell/utils.h"
 
 static int	loc_readline_as_word(t_wordlst **ret_word);
 static void	loc_puterr(char const *sep);
 
-extern bool	g_sigint_received;
+extern t_globals	g_globals;
 
 int	my_prompt_heredoc(t_redirlst *redir)
 {
@@ -62,7 +63,7 @@ static int	loc_readline_as_word(t_wordlst **ret_word)
 	if (*ret_word == NULL)
 		return (ENOMEM);
 	(*ret_word)->content = readline("> ");
-	if (g_sigint_received == true)
+	if (g_globals.did_receive_sigint == true)
 	{
 		my_wordlst_del(ret_word);
 		return (130);

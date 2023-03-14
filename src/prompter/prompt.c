@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 11:30:18 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 08:07:13 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 12:01:55 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 static char	*loc_readline_cwd(void);
 static int	loc_process_cmd(char const *cmd, t_envlst **penvlst, int res);
 
-extern bool	g_sigint_received;
+extern t_globals	g_globals;
 
 int	my_prompt(t_envlst **penvlst)
 {
@@ -41,9 +41,9 @@ int	my_prompt(t_envlst **penvlst)
 	res = 0;
 	while (1)
 	{
-		g_sigint_received = false;
+		g_globals.did_receive_sigint = false;
 		buf = loc_readline_cwd();
-		if (g_sigint_received == true)
+		if (g_globals.did_receive_sigint == true)
 		{
 			res = 130;
 			ft_memdel(&buf);

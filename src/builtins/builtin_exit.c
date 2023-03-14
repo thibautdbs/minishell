@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:58:26 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 12:14:27 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/14 13:22:44 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ extern t_globals	g_globals;
 
 int	my_builtin_exit(t_wordlst *words, int res)
 {
+	int		err;
 	char	*endptr;
 	char	*nptr;
 
@@ -31,9 +32,8 @@ int	my_builtin_exit(t_wordlst *words, int res)
 		return (res);
 	}
 	nptr = my_wordlst_at(words, 1)->content;
-	res = (unsigned char) ft_strtol(nptr, &endptr, &res);
-	endptr += ft_strspn(endptr, " ");
-	if (res == 0 || endptr[0] != '\0')
+	res = (unsigned char) ft_strtol(nptr, &endptr, &err);
+	if (err != 0 || endptr[ft_strspn(endptr, " ")] != '\0')
 	{
 		ft_puterr_endl("minishell: exit: numeric argument required");
 		return (2);

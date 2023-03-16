@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:07:26 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/09 16:49:20 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/09 01:23:25 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_cmdlst		t_cmdlst;
 typedef struct s_cmdtree	t_cmdtree;
 
 ////////////////////////////////////////////////////////////////////////////////
-/// DEFINITIONS
+/// CMDLST
 
 typedef enum e_cmdlst
 {
@@ -43,6 +43,18 @@ typedef struct s_cmdlst
 	t_cmdlst	*next;
 }	t_cmdlst;
 
+t_cmdlst	*my_cmdlst_new(t_cmdlst_t type);
+void		my_cmdlst_del(t_cmdlst **pcmdlst);
+void		my_cmdlst_del_one(t_cmdlst **pcmdlst);
+
+t_cmdlst	*my_cmdlst_last(t_cmdlst *cmdlst);
+t_cmdlst	*my_cmdlst_pop_front(t_cmdlst **pcmdlst);
+void		my_cmdlst_add_back(t_cmdlst **pcmdlst, t_cmdlst *new);
+int			my_cmdlst_size(t_cmdlst *lst);
+
+////////////////////////////////////////////////////////////////////////////////
+/// CMDTREE
+
 typedef enum e_cmdtree_t
 {
 	PIPELINE,
@@ -58,16 +70,7 @@ typedef struct s_cmdtree
 	t_cmdtree	*right;
 }	t_cmdtree;
 
-/// CMDTREE
 t_cmdtree	*my_cmdtree_new(t_cmdtree_t type);
 void		my_cmdtree_del(t_cmdtree **pcmdtree);
-
-/// CMDLST
-t_cmdlst	*my_cmdlst_new(t_cmdlst_t type);
-void		my_cmdlst_del(t_cmdlst **pcmdlst);
-void		my_cmdlst_del_one(t_cmdlst **pcmdlst);
-t_cmdlst	*my_cmdlst_last(t_cmdlst *cmdlst);
-t_cmdlst	*my_cmdlst_pop_front(t_cmdlst **pcmdlst);
-void		my_cmdlst_add_back(t_cmdlst **pcmdlst, t_cmdlst *new);
 
 #endif //CMD_H

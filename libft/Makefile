@@ -6,7 +6,7 @@
 #    By: tdubois <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/27 10:40:50 by tdubois           #+#    #+#              #
-#    Updated: 2023/02/12 10:20:00 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/10 01:11:39 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ BUILD		:=	.build
 ### FLAGS
 
 CC			:=	clang
-CFLAGS		:=	-Wall -Wextra -Werror -O3
+CFLAGS		:=	-Wall -Wextra -Werror -ggdb3
+#-O3
 CPPFLAGS	:=	-MP -MMD -I$(INCLUDE)
 
 ################################################################################
@@ -61,6 +62,7 @@ SRCS	+=	ft_bzero.c			\
 SRCS 	+=	ft_min.c			\
 			ft_min_arr.c		\
 			ft_max.c			\
+			ft_abs.c			\
 			ft_isneg.c			\
 			ft_count_digits.c	\
 			ft_mod.c			\
@@ -78,12 +80,15 @@ SRCS 	+=	ft_isalnum.c		\
 SRCS	+=	ft_atoi.c			\
 			ft_atol.c			\
 			ft_atoidup.c		\
+			ft_sitoa.c			\
 			ft_isint.c			\
 			ft_islong.c			\
 
 SRCS	+=	ft_itoa.c			\
+			ft_strtol.c			\
 			ft_strlcat.c		\
 			ft_strlcpy.c		\
+			ft_strrev.c			\
 			ft_strlen.c			\
 			ft_strcmp.c			\
 			ft_strncmp.c		\

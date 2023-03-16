@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 13:21:26 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:43:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 
 	if (my_wordlst_size(words) > 2)
 	{
-		ft_puterr("minishell: cd: too many arguments");
+		ft_putendl_fd("minishell: cd: too many arguments", STDERR_FILENO);
 		return (1);
 	}
 	if (my_wordlst_size(words) == 1)
@@ -40,12 +40,12 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 	errno = 0;
 	if (getcwd(old_pwd, PATH_MAX) == NULL)
 	{
-		perror("minishell: cd:");
+		perror("minishell: cd");
 		return (errno);
 	}
 	if (chdir(pwd) == -1)
 	{
-		perror("minishell: cd:");
+		perror("minishell: cd");
 		return (errno);
 	}
 	return (loc_update_env(old_pwd, penvlst));

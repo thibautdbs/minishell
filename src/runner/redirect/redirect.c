@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:47:54 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 16:05:13 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:36:36 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	loc_expand_filename(t_wordlst *word, char **ret_file_name,
 	words = my_expand(word->content, envlst, res);
 	if (errno != 0)
 	{
-		perror("minishell:");
+		perror("minishell");
 		my_wordlst_del(&words);
 		return (errno);
 	}

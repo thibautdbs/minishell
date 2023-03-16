@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 01:51:47 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/14 12:11:58 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 10:00:16 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char *argv[], char *envp[])
 	envlst = my_envlst_init(envp);
 	if (envlst == NULL)
 	{
-		perror("minishell:");
+		perror("minishell");
 		return (EXIT_FAILURE);
 	}
 	res = my_prompt(&envlst);

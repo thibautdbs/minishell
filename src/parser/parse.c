@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:48:17 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/09 01:12:13 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:42:55 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	my_parse(char const *str, t_cmdtree **ret_cmdtree)
 	res = my_parse_cmdtree(&str, ret_cmdtree);
 	if (res != 0 && res != LEX_ERR)
 	{
-		perror("minishell:");
+		perror("minishell");
 		my_cmdtree_del(ret_cmdtree);
 		return (res);
 	}

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 16:29:48 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:39:13 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	my_redirect_one_heredoc(t_wordlst const *lines, t_redirlst_t type,
 
 	if (loc_tmpfile(fds) == FAILURE)
 	{
-		perror("minishell:");
+		perror("minishell");
 		return (errno);
 	}
 	while (lines != NULL)

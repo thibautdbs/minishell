@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_open_output.c                                  :+:      :+:    :+:   */
+/*   redirect_one_outfile.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/10 02:18:00 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:38:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	my_redirect_one_outfile(char const *file_name)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(file_name, STDERR_FILENO);
-		perror(":");
+		perror("");
 		return (errno);
 	}
 	dup2(fd, STDOUT_FILENO);

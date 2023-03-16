@@ -6,14 +6,13 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:08:28 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/20 16:47:03 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:42:15 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/expand.h"
 
 #include <stddef.h>//NULL
-#include <stdio.h>//perror
 
 #include "libft.h"
 #include "minishell/envlst.h"

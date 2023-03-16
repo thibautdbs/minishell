@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 11:04:18 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/14 12:25:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 08:51:35 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,4 @@ void	my_close_all(void)
 		file = readdir(dir);
 	}
 	closedir(dir);
-	close(0);
-	close(1);
-	close(2);
 }

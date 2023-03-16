@@ -6,13 +6,14 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/16 12:34:48 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 10:01:53 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
-#include <stddef.h> //NULL
+#include <stddef.h>//NULL
+#include <stdlib.h>//EXIT_SUCCESS
 #include <unistd.h>//getcwd
 #include <limits.h>//PATH_MAX
 #include <errno.h>//errno
@@ -26,9 +27,9 @@ int	my_builtin_pwd(void)
 
 	if (getcwd(pwd, PATH_MAX) == NULL)
 	{
-		perror("minishell: pwd:");
+		perror("minishell: pwd");
 		return (errno);
 	}
-	ft_putendl_fd(pwd, STDOUT);
-	return (0);
+	ft_putendl_fd(pwd, STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }

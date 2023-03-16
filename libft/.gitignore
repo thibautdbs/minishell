@@ -1,0 +1,5 @@
+/build/
+/.cache/
+/tests/run_tests
+/compile_commands.json
+/libft.a

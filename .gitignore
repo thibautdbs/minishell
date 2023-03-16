@@ -1,0 +1,31 @@
+################################################################################
+### BUILD FILES
+
+/.build
+/minishell
+
+/libft/.build/
+
+/tests/.build/
+/tests/minishell.a
+
+/tests/unit/run_tests
+
+/tests/builtins/build/
+/tests/builtins/run_bltn
+
+################################################################################
+### DEV FILES
+
+/compile_commands.json
+*.out
+/.cache
+
+################################################################################
+### VIM FILES
+
+*.swp
+.gdbinit
+/tests/main.gen.c
+/.build-unit
+/test

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:30:50 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 01:49:55 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 13:44:24 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int		my_parse_redir(char const **pstr, t_redirlst **ret_redirlst);
 
 void	my_skip_blanks(char const **pstr);
 
-int		my_parse_heredoc(t_cmdtree *cmd);//TODO
+int		my_parse_heredoc(t_cmdtree *cmd);
 
 #endif //PARSER_H

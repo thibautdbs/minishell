@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:41:22 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/10 00:17:47 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 11:36:12 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	ft_isint(char const *nptr)
 {
 	int		n;
 	int		digit;
-	t_bool	is_neg;
+	bool	is_neg;
 
 	if (nptr == NULL)
 		return (false);

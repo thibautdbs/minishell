@@ -6,55 +6,26 @@
 /*   By: tdubois <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 16:32:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/10 00:18:00 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 10:33:47 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stddef.h> // size_t
-# include <sys/types.h> // ssize_t
+# include <stddef.h>//size_t
+# include <sys/types.h>//ssize_t
 # include <stdbool.h>
 
 // #############################################################################
 // ## Types                                                                    #
 // #############################################################################
 
-# define STDIN 0
-# define STDOUT 1
-# define STDERR 2
-
-typedef enum e_bool
-{
-	FALSE,
-	TRUE
-}	t_bool;
-
 typedef enum e_success
 {
 	FAILURE,
 	SUCCESS
 }	t_success;
-
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list;
-
-typedef struct s_strlst
-{
-	char			*content;
-	struct s_strlst	*next;
-}	t_strlst;
-
-typedef struct s_buf
-{
-	void	*buf;
-	size_t	nmemb;
-	size_t	size;
-}	t_buf;
 
 // #############################################################################
 // ## Memory                                                                   #
@@ -122,7 +93,7 @@ char	*ft_search_str(char const *str, char **strs, size_t size);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 
-t_bool	ft_strendswith(char const *str, char const *end);
+bool	ft_strendswith(char const *str, char const *end);
 
 // #############################################################################
 // ## IO                                                                       #
@@ -137,36 +108,6 @@ void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_puterr(char const *str);
 void	ft_puterr_endl(char const *str);
-
-// #############################################################################
-// ## Linked lists                                                             #
-// #############################################################################
-
-t_list	*ft_lstnew(void *content);
-t_list	*ft_lstnew_int(int n);
-t_list	*ft_lstpush(void const *arr, size_t nmemb, size_t size);
-t_list	*ft_lstload(void *arr, size_t nmemb);
-void	*ft_lstflat(t_list *lst, size_t size);
-
-void	ft_lstadd_front(t_list **lst, t_list *new);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstpop(t_list **lst, int n);
-
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
-void	ft_lstclear(t_list **lst, void (*del)(void *));
-
-int		ft_lstsize(t_list *lst);
-t_list	*ft_lstlast(t_list *lst);
-t_list	*ft_lstat(t_list *lst, int n);
-ssize_t	ft_lstindex(t_list *lst, void *content, size_t size);
-t_bool	ft_lstuniq(t_list *lst, size_t size);
-
-void	ft_lstiter(t_list *lst, void (*f)(void *));
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
-int		ft_lstget_int(t_list *node);
-
-t_list	*ft_lstreadlines(int fd);
 
 // #############################################################################
 // ## Arrays                                                                   #
@@ -190,7 +131,6 @@ void	*ft_atoidup(void *nptr);
 int		ft_max(int a, int b);
 int		ft_min(int a, int b);
 int		ft_min_arr(int const *nbrs, size_t size);
-t_bool	ft_isneg(int n);
 int		ft_abs(int n);
 int		ft_count_digits(int n);
 int		ft_mod(int n, int mod);

@@ -6,13 +6,14 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/20 11:59:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/16 11:52:38 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell/builtin.h"
 
 #include <stddef.h> //NULL
+#include <unistd.h>
 #include <stdbool.h>
 
 #include "libft.h" //ft_putstr_fd, ft_putendl_fd
@@ -32,13 +33,13 @@ int	my_builtin_echo(t_wordlst *words)
 		words = words->next;
 	while (words != NULL)
 	{
-		ft_putstr_fd(words->content, STDOUT);
+		ft_putstr_fd(words->content, STDOUT_FILENO);
 		words = words->next;
 		if (words != NULL)
-			ft_putstr_fd(" ", STDOUT);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 	if (!n_opt)
-		ft_putendl_fd("", STDOUT);
+		ft_putendl_fd("", STDOUT_FILENO);
 	return (0);
 }
 

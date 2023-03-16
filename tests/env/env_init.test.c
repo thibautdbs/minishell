@@ -1,59 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_envp.test.c                                    :+:      :+:    :+:   */
+/*   env_init.test.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/13 13:01:28 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/03/16 16:06:50 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "greatest.h"
+#include "greatest/greatest.h"
 
 #include "libft.h"
 #include <stdio.h>
 
-#include "env/get_envp.c"
-#include "minishell/env.h"
+#include "types/envlst/envlst_init.c"
+#include "types/envlst/envlst_del.c"
+#include "minishell/envlst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// HELPERS
 
-char	**envp;
+t_envlst	*env;
 
 static void	teardown(void *data)
 {
 	(void) data;
-	int	i;
 
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		ft_memdel(&envp[i]);
-		i++;
-	}
-	ft_memdel(&envp);
+	my_envlst_del(&env);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// ASSERTIONS
 
-TEST	ASSERT_ENV_MATCH(char **envp, t_env *ref_env)
+TEST	ASSERT_ENV_MATCH(t_envlst *env, char **ref_envp)
 {
 	int		i;
-	t_env	*curr;
+	t_envlst	*curr;
 
-	curr = ref_env;
+	curr = env;
 	i = 0;
-	while (envp[i] != NULL)
+	while (ref_envp[i] != NULL)
 	{
-		ASSERT_STR_EQ(curr->content, envp[i]);
+		ASSERT_STR_EQ(ref_envp[i], curr->content);
 		i++;
 		curr = curr->next;
 	}
-	ASSERT_EQ(NULL, envp[i]);
+	ASSERT_EQ(NULL, curr);
 	PASS();
 }
 
@@ -62,16 +56,14 @@ TEST	ASSERT_ENV_MATCH(char **envp, t_env *ref_env)
 
 TEST	basic1()
 {
-	t_env	ref_env3 = {"LOL=PROUT", NULL};
-	t_env	ref_env2 = {"YO=yoooooooooo", &ref_env3};
-	t_env	ref_env1 = {"BZZZZ=bz", &ref_env2};
+	char	*ref_envp[] = {"YO=crcrcr", "BZ=bzzz", "PROUT=proutprout", NULL};
 
-	envp = my_get_envp(&ref_env1);
-	CHECK_CALL(ASSERT_ENV_MATCH(envp, &ref_env1));
+	env = my_envlst_init(ref_envp);
+	CHECK_CALL(ASSERT_ENV_MATCH(env, ref_envp));
 	PASS();
 }
 
-SUITE (get_envp)
+SUITE (env_init)
 {
 	SET_TEARDOWN(teardown, NULL);
 	RUN_TEST(basic1);

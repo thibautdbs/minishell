@@ -9,39 +9,37 @@ MAKEFLAGS   	+=	--no-builtin-rules --no-print-directory --output-sync
 #******************************************************************************#
 #** GOALS *********************************************************************#
 
-NAME		:=	minishell
+NAME		:=	test
 LIBFT		:=	libft/libft.a
 
 ################################################################################
 ### DIRECTORIES
 
-SRC			:=	src
-INCLUDE		:=	include
-BUILD		:=	.build
+SRC			:=	src tests
+INCLUDE		:=	$(SRC) include
+BUILD		:=	.build-unit
 
 ################################################################################
 ### COMPILATION FLAGS
 
 CC			=	clang
-CFLAGS		=	-Wall -Werror -Wextra
-CPPFLAGS	=	-MP -MMD -I$(INCLUDE) -I$(dir $(LIBFT))/include
+CFLAGS		=	-Wall -Werror -Wextra -ggdb3 			\
+				-Wno-unused-command-line-argument		\
+				-Xlinker --allow-multiple-definition
+CPPFLAGS	=	-MP -MMD $(addprefix -I,$(INCLUDE)) -I$(dir $(LIBFT))/include
 LDFLAGS     =	-L$(dir $(LIBFT)) -lft -lreadline
-
-ifdef DEBUG
-CFLAGS	+=	-ggdb3
-else
-CFLAGS	+=	-Ofast
-endif
 
 ################################################################################
 ### SOURCE FILES
 
-SRCS		:=	$(shell fd -g '*.c' src)
+MAIN		=	tests/main.gen.c
+
+SRCS		:=	$(MAIN) $(shell fd -g '*.c' $(SRC))
 
 ################################################################################
 ### GENERATED FILES
 
-OBJS		=	$(SRCS:%.c=$(BUILD)/%.o)
+OBJS		=	$(SRCS:%.c=$(BUILD)/%.o) 
 DEPS		=	$(SRCS:%.c=$(BUILD)/%.d)
 DIRS		=	$(shell dirname $(OBJS) | sort -u)
 
@@ -52,20 +50,13 @@ DIRS		=	$(shell dirname $(OBJS) | sort -u)
 
 all: libft $(NAME)
 
-bonus: all
-
 libft:
 	@$(MAKE) -C $(dir $(LIBFT))
 
-clean::
-	$(MAKE) -C $(dir $(LIBFT)) clean
-	rm -rf $(BUILD)
-
-fclean:: clean
+fclean::
 	$(MAKE) -C $(dir $(LIBFT)) fclean
+	rm -rf $(BUILD)
 	rm -rf $(NAME)
-
-re: fclean all
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #>> BUILD RULES
@@ -73,6 +64,9 @@ re: fclean all
 $(NAME): $(OBJS)
 	$(INFO)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
+
+$(MAIN): $(filter-out $(MAIN), $(SRCS))
+	./scripts/greatest_mkrunner $(SRCS) > $@
 
 $(DIRS):
 	$(INFO)

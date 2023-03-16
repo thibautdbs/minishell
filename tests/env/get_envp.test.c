@@ -1,67 +1,78 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_get_path.test.c                                :+:      :+:    :+:   */
+/*   get_envp.test.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 16:21:53 by tdubois           #+#    #+#             */
-/*   Updated: 2023/01/10 16:38:15 by ffeaugas         ###   ########.fr       */
+/*   Updated: 2023/03/16 16:08:34 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "greatest.h"
+#include "greatest/greatest.h"
 
 #include "libft.h"
+#include <stdio.h>
 
-#include "runner/run_get_path.c"
+#include "types/envlst/envlst_to_envp.c"
+#include "minishell/envlst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// HELPERS
 
-char	*result;
+char	**envp;
 
 static void	teardown(void *data)
 {
 	(void) data;
-	ft_memdel(&result);
+	int	i;
+
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		ft_memdel(&envp[i]);
+		i++;
+	}
+	ft_memdel(&envp);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// ASSERTIONS
+
+TEST	ASSERT_ENV_MATCH(char **envp, t_envlst *ref_env)
+{
+	int		i;
+	t_envlst	*curr;
+
+	curr = ref_env;
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		ASSERT_STR_EQ(curr->content, envp[i]);
+		i++;
+		curr = curr->next;
+	}
+	ASSERT_EQ(NULL, envp[i]);
+	PASS();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// TESTS
 
-TEST	test_cmd_and_path_exist()
+TEST	basic1()
 {
-	char *args[] = {"wc", "-l", NULL}; 
-	char *my_env[] = {"PATH=/usr/bin", "PROUT=wqfwq", NULL}; 
-	result = my_get_path(args, my_env);
-//	ASSERT_NEQ(NULL, result);
-	ASSERT_STR_EQ("/usr/bin/wc", result);
+	t_envlst	ref_env3 = {"LOL=PROUT", NULL};
+	t_envlst	ref_env2 = {"YO=yoooooooooo", &ref_env3};
+	t_envlst	ref_env1 = {"BZZZZ=bz", &ref_env2};
+
+	envp = my_envlst_to_envp(&ref_env1);
+	CHECK_CALL(ASSERT_ENV_MATCH(envp, &ref_env1));
 	PASS();
 }
 
-TEST	test_wrong_path()
-{
-	char *args[] = {"wc", "-l", NULL}; 
-	char *my_env[] = {"PATH=/usr/binrw3", "PROUT=wqfwq", NULL}; 
-	result = my_get_path(args, my_env);
-	ASSERT_EQ(NULL, result);
-	PASS();
-}
-
-TEST	test_wrong_cmd()
-{
-	char *args[] = {"wceqqr", "-l", NULL}; 
-	char *my_env[] = {"PATH=/usr/bin", "PROUT=wqfwq", NULL}; 
-	result = my_get_path(args, my_env);
-	ASSERT_EQ(NULL, result);
-	PASS();
-}
-
-SUITE (run_get_path)
+SUITE (get_envp)
 {
 	SET_TEARDOWN(teardown, NULL);
-	RUN_TEST(test_cmd_and_path_exist);
-	RUN_TEST(test_wrong_path);
-	RUN_TEST(test_wrong_cmd);
+	RUN_TEST(basic1);
 }

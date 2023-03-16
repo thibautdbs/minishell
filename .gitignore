@@ -26,3 +26,6 @@
 
 *.swp
 .gdbinit
+/tests/main.gen.c
+/.build-unit
+/test

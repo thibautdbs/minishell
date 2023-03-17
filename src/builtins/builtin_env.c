@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/16 11:53:49 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:27:37 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	my_builtin_env(t_wordlst *words, t_envlst *envlst)
 {
 	if (my_wordlst_size(words) > 1)
 	{
-		ft_puterr("minishell: env: too many arguments");
+		ft_puterr_endl("minishell: env: too many arguments");
 		return (1);
 	}
 	while (envlst != NULL)

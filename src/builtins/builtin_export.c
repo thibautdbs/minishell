@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 11:24:57 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 12:59:34 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ int	my_builtin_export(t_wordlst *words, t_envlst **penvlst)
 	{
 		if (my_is_valid_identifier(words->content, '=') == FAILURE)
 		{
-			ft_puterr_endl("minishell: export: not a valid identifier");
+			ft_puterr("minishell: export: `");
+			ft_puterr(words->content);
+			ft_puterr_endl("': not a valid identifier");
 			res = 1;
 		}
-		if (my_envlst_apply(words->content, penvlst) != 0)
+		else if (my_envlst_apply (words->content, penvlst) != 0)
 			return (errno);
 		words = words->next;
 	}

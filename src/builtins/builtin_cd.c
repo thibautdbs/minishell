@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/16 09:43:47 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:49:25 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 	if (chdir(pwd) == -1)
 	{
 		perror("minishell: cd");
-		return (errno);
+		return (1);
 	}
 	return (loc_update_env(old_pwd, penvlst));
 }

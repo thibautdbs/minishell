@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 10:58:26 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 13:22:44 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:23:23 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	my_builtin_exit(t_wordlst *words, int res)
 	res = (unsigned char) ft_strtol(nptr, &endptr, &err);
 	if (err != 0 || endptr[ft_strspn(endptr, " ")] != '\0')
 	{
-		ft_puterr_endl("minishell: exit: numeric argument required");
-		return (2);
+		ft_puterr("minishell: exit: ");
+		ft_puterr(nptr);
+		ft_puterr_endl(": numeric argument required");
+		res = 2;
 	}
-	if (my_wordlst_size(words) > 2)
+	if (my_wordlst_size(words) > 2 && res != 2)
 	{
 		ft_puterr_endl("minishell: exit : too many arguments");
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:47:54 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/16 09:36:36 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:38:50 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ static int	loc_expand_filename(t_wordlst *word, char **ret_file_name,
 	}
 	if (my_wordlst_size(words) != 1)
 	{
-		ft_putendl_fd("minishell: ambiguous redirect.", STDERR_FILENO);
+		ft_puterr("minishell: ");
+		ft_puterr(word->content);
+		ft_puterr_endl(": ambiguous redirect");
 		my_wordlst_del(&words);
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:52:30 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/13 23:42:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/20 17:57:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,60 +17,68 @@
 #include <errno.h>
 #include <stdlib.h>//exit
 #include <unistd.h>//fork
+#include <stdio.h>
 
+#include "libft.h"
 #include "minishell/cmd.h"
 #include "minishell/utils.h"
 #include "minishell/envlst.h"
 
-static int	loc_redirect_piped_cmd(t_pipelst *pipes, int idx);
-static int	loc_wait_pipeline(int pid);
+static void	loc_apply_pipes_or_exit(int fds[2]);
 static void	loc_run_piped_cmd_and_exit(t_cmdlst *cmd, t_envlst **penvlst,
 				int res, t_cmdtree **pcmdtree);
+static int	loc_wait_pipeline(int pid);
 
 int	my_run_pipeline(t_cmdlst *pipeline, t_envlst **penvlst, int res,
 	t_cmdtree **pcmdtree)
 {
-	int			pid;
-	t_pipelst	*pipes;
-	int			i;
+	int	fds_tmp[2];
+	int	fds[2];
+	int	pid;
 
-	errno = 0;
-	pipes = my_pipelst_init(my_cmdlst_size(pipeline) - 1);
-	if (pipes == NULL)
-		return (errno);
-	i = 0;
+	fds[0] = STDIN_FILENO;
+	fds[1] = STDOUT_FILENO;
 	while (pipeline != NULL)
 	{
+		fds_tmp[1] = STDOUT_FILENO;
+		if (pipeline->next != NULL)
+			pipe(fds_tmp);
+		if (fds[1] != STDOUT_FILENO)
+			close(fds[1]);
+		fds[1] = fds_tmp[1];
 		pid = fork();
 		if (pid == 0)
-		{
-			loc_redirect_piped_cmd(pipes, i);
-			my_pipelst_del(&pipes);
-			if (errno != 0)
-				exit(errno);
+			loc_apply_pipes_or_exit(fds);
+		if (pid == 0)
 			loc_run_piped_cmd_and_exit(pipeline, penvlst, res, pcmdtree);
-		}
-		i++;
 		pipeline = pipeline->next;
+		if (fds[0] != STDIN_FILENO)
+			close(fds[0]);
+		fds[0] = fds_tmp[0];
 	}
-	my_pipelst_del(&pipes);
 	return (loc_wait_pipeline(pid));
 }
 
-static int	loc_redirect_piped_cmd(t_pipelst *pipes, int idx)
+static void	loc_apply_pipes_or_exit(int fds[2])
 {
-	t_pipelst	*left;
-	t_pipelst	*right;
-	int			res;
-
-	left = my_pipelst_at(pipes, idx - 1);
-	right = my_pipelst_at(pipes, idx);
-	res = 0;
-	if (left != NULL)
-		res = dup2(left->fd[0], 0);
-	if (right != NULL && res != -1)
-		res = dup2(right->fd[1], 1);
-	return (res);
+	if (dup2(fds[0], STDIN_FILENO) == -1)
+	{
+		perror("minishell: Couldn't redirect stdin");
+		close(fds[0]);
+		close(fds[1]);
+		exit(1);
+	}
+	if (dup2(fds[1], STDOUT_FILENO) == -1)
+	{
+		perror("minishell: Couldn't redirect stdout");
+		close(fds[0]);
+		close(fds[1]);
+		exit(1);
+	}
+	if (fds[0] != STDIN_FILENO)
+		close(fds[0]);
+	if (fds[1] != STDOUT_FILENO)
+		close(fds[1]);
 }
 
 static int	loc_wait_pipeline(int pid)

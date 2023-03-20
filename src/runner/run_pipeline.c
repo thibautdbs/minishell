@@ -64,21 +64,16 @@ static void	loc_apply_pipes_or_exit(int fds[2])
 	if (dup2(fds[0], STDIN_FILENO) == -1)
 	{
 		perror("minishell: Couldn't redirect stdin");
-		close(fds[0]);
-		close(fds[1]);
+		my_close_all();
 		exit(1);
 	}
 	if (dup2(fds[1], STDOUT_FILENO) == -1)
 	{
 		perror("minishell: Couldn't redirect stdout");
-		close(fds[0]);
-		close(fds[1]);
+		my_close_all();
 		exit(1);
 	}
-	if (fds[0] != STDIN_FILENO)
-		close(fds[0]);
-	if (fds[1] != STDOUT_FILENO)
-		close(fds[1]);
+	my_close_all();
 }
 
 static int	loc_wait_pipeline(int pid)

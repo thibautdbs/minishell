@@ -6,7 +6,7 @@
 #** BUILD *********************************************************************#
 
 @build:
-	make -j$(nproc)
+	make -j$(nproc) DEBUG=1
 
 @re:
 	make fclean

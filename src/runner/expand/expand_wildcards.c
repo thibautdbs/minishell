@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:52:09 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/21 17:28:32 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/20 11:10:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 static t_wtoklst	*loc_pop_one_word(t_wtoklst **ptoks);
 static bool			loc_has_wildcards(t_wtoklst *toks);
 static t_wtoklst	*loc_get_matched_filenames(t_wtoklst *toks);
-static bool			loc_pattern_matches(t_wtoklst *toks, char const *str);
+// static t_wtoklst	*loc_sort_wtoks(t_wtoklst *wtoklst);
+static void			loc_insert_sorted(t_wtoklst *new, t_wtoklst **pfiles);
 
 void	my_expand_wildcards(t_wtoklst **ptoks)
 {
@@ -83,13 +84,12 @@ static t_wtoklst	*loc_get_matched_filenames(t_wtoklst *toks)
 	file = readdir(dir);
 	while (file != NULL)
 	{
-		if (loc_pattern_matches(toks, file->d_name))
+		if (my_pattern_match(toks, file->d_name))
 		{
 			tmp = my_wtoklst_new(CHARS, file->d_name, ft_strlen(file->d_name));
 			if (tmp == NULL)
 				break ;
-			my_wtoklst_add_back(&files, tmp);
-			my_wtoklst_add_back(&files, my_wtoklst_new(BLANKS, NULL, 0));
+			loc_insert_sorted(tmp, &files);
 		}
 		file = readdir(dir);
 	}
@@ -97,29 +97,17 @@ static t_wtoklst	*loc_get_matched_filenames(t_wtoklst *toks)
 	return (files);
 }
 
-static bool	loc_pattern_matches(t_wtoklst *toks, char const *str)
+static void	loc_insert_sorted(t_wtoklst *new, t_wtoklst **pfiles)
 {
-	int	len;
-
-	if (*str == '.' && toks->type == WILDCARD)
-		return (false);
-	while (toks != NULL)
+	while (*pfiles != NULL)
 	{
-		if (toks->type == WILDCARD)
-		{
-			toks = toks->next;
-			continue ;
-		}
-		if (*str == '\0')
-			return (false);
-		len = ft_strlen(toks->content);
-		if (ft_strncmp(toks->content, str, len) == 0)
-		{
-			toks = toks->next;
-			str += len;
-			continue ;
-		}
-		str++;
+		if ((*pfiles)->type == BLANKS)
+			pfiles = &(*pfiles)->next;
+		else if (ft_strcmp((*pfiles)->content, new->content) < 0)
+			pfiles = &(*pfiles)->next;
+		else
+			break ;
 	}
-	return (true);
+	my_wtoklst_add_front(pfiles, my_wtoklst_new(BLANKS, NULL, 0));
+	my_wtoklst_add_front(pfiles, new);
 }

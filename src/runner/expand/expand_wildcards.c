@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 08:52:09 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/20 11:10:00 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/20 15:50:37 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 static t_wtoklst	*loc_pop_one_word(t_wtoklst **ptoks);
 static bool			loc_has_wildcards(t_wtoklst *toks);
 static t_wtoklst	*loc_get_matched_filenames(t_wtoklst *toks);
-// static t_wtoklst	*loc_sort_wtoks(t_wtoklst *wtoklst);
 static void			loc_insert_sorted(t_wtoklst *new, t_wtoklst **pfiles);
 
 void	my_expand_wildcards(t_wtoklst **ptoks)

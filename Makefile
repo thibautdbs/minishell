@@ -30,7 +30,7 @@ LDFLAGS     =	-L$(dir $(LIBFT)) -lft -lreadline
 ifdef DEBUG
 CFLAGS	+=	-ggdb3
 else
-CFLAGS	+=	-Ofast
+CFLAGS	+=	-O1
 endif
 
 ################################################################################

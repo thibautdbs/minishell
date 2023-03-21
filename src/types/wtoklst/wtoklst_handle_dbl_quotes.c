@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 17:00:04 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/21 14:03:54 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 13:54:16 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_wtoklst	*loc_handle_qtd_var(char const **pstr)
 	t_wtoklst	*tok;
 
 	tok = my_wtoklst_handle_dollar(pstr);
-	if (tok != NULL)
+	if (tok != NULL && tok->type == VAR)
 		tok->type = QTD_VAR;
 	return (tok);
 }

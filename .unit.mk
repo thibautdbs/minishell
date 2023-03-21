@@ -34,7 +34,7 @@ LDFLAGS     =	-L$(dir $(LIBFT)) -lft -lreadline
 
 MAIN		=	tests/main.gen.c
 
-SRCS		:=	$(MAIN) $(shell fd -g '*.c' $(SRC))
+SRCS		:=	$(MAIN) $(shell fd -g '*.c' -E 'main.gen.c' $(SRC))
 
 ################################################################################
 ### GENERATED FILES

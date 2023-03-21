@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:12:02 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 16:03:36 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 14:29:19 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "cmd.h"
 # include "envlst.h"
 # include "redirlst.h"
-# include "pipelst.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// RUNNER

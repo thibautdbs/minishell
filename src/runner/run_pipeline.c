@@ -6,11 +6,10 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:52:30 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/20 17:57:09 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 14:29:28 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell/pipelst.h"
 #include "minishell/runner.h"
 
 #include <wait.h>//wait, waitpid

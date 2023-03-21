@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 10:28:56 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/16 09:41:06 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 10:54:01 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	my_redirect_one_infile(char const *file_name)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(file_name, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 		perror("");
-		return (errno);
+		return (1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);

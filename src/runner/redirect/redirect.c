@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:47:54 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/16 09:36:36 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 16:36:53 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static int	loc_redirect_one(t_redirlst *redir, t_envlst *envlst, int res)
 		return (my_redirect_one_heredoc(redir->word, redir->type, envlst, res));
 	res = loc_expand_filename(redir->word, &expanded_filename, envlst, res);
 	if (res != EXIT_SUCCESS)
+	{
+		ft_memdel(&expanded_filename);
 		return (res);
+	}
 	if (redir->type == APPND)
 		res = my_redirect_one_appnd(expanded_filename);
 	else if (redir->type == INFILE)
@@ -66,6 +69,7 @@ static int	loc_expand_filename(t_wordlst *word, char **ret_file_name,
 	t_wordlst	*words;
 
 	errno = 0;
+	*ret_file_name = ft_strdup(word->content);
 	words = my_expand(word->content, envlst, res);
 	if (errno != 0)
 	{
@@ -75,10 +79,13 @@ static int	loc_expand_filename(t_wordlst *word, char **ret_file_name,
 	}
 	if (my_wordlst_size(words) != 1)
 	{
-		ft_putendl_fd("minishell: ambiguous redirect.", STDERR_FILENO);
+		ft_puterr("minishell: ");
+		ft_puterr(*ret_file_name);
+		ft_puterr_endl(": ambiguous redirect");
 		my_wordlst_del(&words);
 		return (1);
 	}
+	ft_memdel(ret_file_name);
 	*ret_file_name = words->content;
 	words->content = NULL;
 	my_wordlst_del(&words);

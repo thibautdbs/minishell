@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 15:48:25 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/02/21 12:35:06 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 13:53:19 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static t_var_operation_t	loc_get_operation_type(char const *var,
 		return (VAR_NO_ACTION);
 	if (ft_strchr(var, '=') == NULL || var_location == NULL)
 		return (VAR_DEFINE);
-	if (ft_strcspn(var, "+") < ft_strcspn(var, "="))
+	if (ft_strcspn(var, "+") < ft_strcspn(var, "=") && var_location != NULL
+		&& ft_strchr(var_location->content, '=') != NULL)
 		return (VAR_APPND);
 	return (VAR_REPLACE);
 }

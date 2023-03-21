@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:23:38 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/16 09:43:47 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 11:14:10 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,13 @@ int	my_builtin_cd(t_wordlst *words, t_envlst **penvlst)
 	else
 		ft_strlcpy(pwd, my_wordlst_at(words, 1)->content, PATH_MAX);
 	errno = 0;
-	if (getcwd(old_pwd, PATH_MAX) == NULL)
+	if (getcwd(old_pwd, PATH_MAX) == NULL || chdir(pwd) == -1)
 	{
-		perror("minishell: cd");
-		return (errno);
-	}
-	if (chdir(pwd) == -1)
-	{
-		perror("minishell: cd");
-		return (errno);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(my_wordlst_at(words, 1)->content, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror("");
+		return (1);
 	}
 	return (loc_update_env(old_pwd, penvlst));
 }

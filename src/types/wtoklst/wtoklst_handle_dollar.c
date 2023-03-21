@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 15:45:19 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/06 16:01:19 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 14:49:24 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ t_wtoklst	*my_wtoklst_handle_dollar(char const **pstr)
 	else if (!ft_isalpha(**pstr) && **pstr != '_')
 	{
 		len = 0;
-		tok = my_wtoklst_new(CHARS, "$", 1);
+		if (**pstr == '\'' || **pstr == '\"')
+			tok = my_wtoklst_new(CHARS, "", 0);
+		else
+			tok = my_wtoklst_new(CHARS, "$", 1);
 	}
 	else
 	{

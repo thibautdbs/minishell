@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 07:47:55 by tdubois           #+#    #+#             */
-/*   Updated: 2023/02/20 17:03:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/21 13:40:48 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ void	my_expand_qtd_vars(t_wtoklst *toks, t_envlst *envlst, int res)
 			if (ft_strcmp(toks->content, "?") == 0)
 				value = ft_itoa(res);
 			else
-				value = ft_strdup(my_envlst_get_value(toks->content, envlst));
+			{
+				value = my_envlst_get_value(toks->content, envlst);
+				if (value == NULL)
+					value = "";
+				value = ft_strdup(value);
+			}
 			if (value != NULL)
 			{
 				ft_memdel(&toks->content);

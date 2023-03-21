@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 11:36:57 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/14 17:02:28 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/17 17:54:19 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	my_get_path(char *buf, char const *name, t_envlst *envlst)
 	saveptr = NULL;
 	path = my_envlst_get_value("PATH", envlst);
 	path = ft_strtok_r(path, ":", &saveptr);
-	while (path != NULL)
+	while (path != NULL && *name != '\0')
 	{
 		ft_strlcpy(buf, path, PATH_MAX);
 		ft_strlcat(buf, "/", PATH_MAX);

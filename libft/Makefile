@@ -28,7 +28,7 @@ CPPFLAGS	:=	-MP -MMD -I$(INCLUDE)
 ifdef DEBUG
 CFLAGS	+=	-ggdb3
 else
-CFLAGS	+=	-O1
+CFLAGS	+=	-O3
 endif
 
 ################################################################################

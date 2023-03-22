@@ -6,7 +6,7 @@
 /*   By: ffeaugas <ffeaugas@student.42angouleme.fr  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:31:46 by ffeaugas          #+#    #+#             */
-/*   Updated: 2023/03/09 01:39:51 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/22 12:10:19 by ffeaugas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,21 @@ int	my_parse_word(char const **pstr, t_wordlst **ret_wordlst)
 static int	loc_get_wordcontent_len(char const *str)
 {
 	int		len;
-	char	quote;
+	char	quote[2];
 
 	len = 0;
+	quote[1] = '\0';
 	while (!my_tok_is_blank(str + len) && my_tok_type(str + len) == WORD)
 	{
 		if (str[len] == '\"' || str[len] == '\'')
 		{
-			quote = str[len];
-			len += 1 + ft_strcspn(str + len + 1, &quote);
+			quote[0] = str[len];
+			len += 1 + ft_strcspn(str + len + 1, quote);
 			if (str[len] == '\0')
 			{
 				ft_puterr("minishell: unexpected EOF while looking ");
 				ft_puterr("for matching `");
-				ft_putchar_fd(quote, STDERR_FILENO);
+				ft_putchar_fd(quote[0], STDERR_FILENO);
 				ft_puterr_endl("'");
 				return (UNMATCHED_QUOTE);
 			}
